@@ -1,0 +1,6 @@
+---
+title: "Data"
+output: html_document
+---
+
+[Gender Index 2020 data tables](www/Gender-Index-2020-Tables.xlsx) (Excel spreadsheet about 20KB)

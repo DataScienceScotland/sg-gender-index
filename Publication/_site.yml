@@ -1,0 +1,33 @@
+name: "Scotland's Gender Equality Index"
+
+include: ["www*", "css*", "js*", "index.html"]
+exclude: "*"
+
+output:
+  html_document:
+    css: css/styles.css
+    fig_caption: no
+    self_contained: no
+    includes:
+      in_header: in_header.html
+      before_body: before_body.html
+   
+
+navbar:
+  title: "Scotland's Gender Equality Index"
+  left: 
+  - text: "Publications"
+    menu:
+    - text: "Published 2020"
+    - text: "Gender Index 2020"
+      href: gender-equality-index-2020.html
+    - text: "---------------"
+    - text: "Published 2017"
+    - text: "Gender Index Working Paper"
+      href: https://www.gov.scot/publications/gender-index-working-paper/
+  - text: "Data"
+    href: data.html
+  - text: "About"
+    href: about.html
+
+    

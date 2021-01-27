@@ -1,0 +1,225 @@
+div#power-domain-1 h1, div#power-domain h1 {
+  background-color:#E31A1C;
+  color:white;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#power-domain-1 h2, div#power-domain h2 {
+  background-color:#FB9A99;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#knowledge-domain-1 h1, div#knowledge-domain h1 {
+  background-color:#33A02C;
+  color:white;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#knowledge-domain-1 h2, div#knowledge-domain h2 {
+  background-color:#B2DF8A;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#work-domain-1 h1, div#work-domain h1 {
+  background-color:#1F78B4;
+  color:white;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#work-domain-1 h2, div#work-domain h2 {
+  background-color:#A6CEE3;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#violence-against-women-domain h1 {
+  background-color:#77b300;
+  color:white;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#violence-against-women-domain h2 {
+  background-color:#e6ffb3;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#money-domain-1 h1, div#money-domain h1 {
+  background-color:#993366;
+  color:white;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#money-domain-1 h2, div#money-domain h2 {
+  background-color:#ecc6d9;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#health-domain-1 h1, div#health-domain h1 {
+  background-color:#6A3D9A;
+  color:white;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#health-domain-1 h2, div#health-domain h2 {
+  background-color:#CAB2D6;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#time-domain-1 h1, div#time-domain h1 {
+  background-color:#FF7F00;
+  color:white;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#time-domain-1 h2, div#time-domain h2 {
+  background-color:#FDBF6F;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#women-specific-healthcare-domain-1 h1, div#women-specific-healthcare-domain h1 {
+  background-color:#008080;
+  color:white;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div#women-specific-healthcare-domain-1 h2, div#women-specific-healthcare-domain h2 {
+  background-color:#ccffff;
+  padding-top: 5px;
+  margin-top: 35px;
+  border-top-width: 55px;
+  border-top-style: solid;
+  border-top-color: white;
+}
+
+div.section h3 {
+  margin-top: -25px !important;
+}
+
+div.section h4 {
+  margin-top: -25px !important;
+}
+
+/*Copied from gov.scot CSS*/
+a:link, .link:link {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+a, .link {
+    color: #0065bd;
+    text-decoration: underline;
+    word-wrap: break-word;
+    transition: background-color 1s,color 1s;
+}
+a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+}
+
+@media (min-width: 992px) {
+  body {
+      font-size: 18px;
+      line-height: 28px;
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+      font-size: 18px;
+      line-height: 28px;
+  }
+}
+
+  
+#navbar a {
+  color: #333333 !important; /*Greater contrast for accessibility*/
+}
+
+.navbar-header a {
+  color: #333333 !important;
+}
+
+p,
+.container-fluid > ul,
+.section > ul,
+.dropdown-menu,
+#TOC,
+#navbar,
+.panel-title {
+  font-size: large; /*Larger font for accessibility*/
+  line-height: 1.8;
+}
+
+body {
+  font-size: large; /*Larger font for accessibility*/
+  line-height: 1.8;
+  
+    background: #fff;
+    color: #333;
+    font-weight: 400;
+    margin: 0;
+    font-family: Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+
+}
+

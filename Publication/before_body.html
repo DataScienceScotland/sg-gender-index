@@ -1,0 +1,12 @@
+<script src="js/bootstrap-tooltips.js"></script>
+<script language = "javascript">
+  $(document).ready(function(){
+    $head = $('#header');
+    $head.prepend('<a href=\"https://www.gov.scot\"><img src=\"www/scotgovlogo.svg\" style=\"float: right; height: 44px;\"  alt=\"Scottish Government\"/></a>')
+    $(document.links).filter(function() {
+      return this.hostname != window.location.hostname;
+    }).attr('target', '_blank');
+    $('[data-toggle="tooltip"]').tooltip({
+    });
+  });
+</script>

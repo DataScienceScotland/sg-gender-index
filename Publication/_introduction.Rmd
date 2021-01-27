@@ -1,0 +1,71 @@
+```{r, include = FALSE}
+for (script in list.files("scripts", full.names = TRUE)) {
+  source(script)
+}
+```
+
+# Key Findings
+```{r}
+domain_score <- data[["Scotland"]] %>% select(domain, score) %>% mutate(score = number(score)) %>% spread(domain, score)
+metadata <- data[["Scotland"]] %>% filter(row_number() == 1)
+```
+
+Scotland's Gender Equality Index 2020 sets a baseline against which Scotland will be able to measure its future progress towards gender equality. Scotland's Gender Equality Index is designed to represent gender equality numerically, with a score of one indicating no gender equality and a score of 100 indicating full gender equality.  Scotland's baseline score for 2020 is `r domain_score[["Scotland"]]`, which indicates there is some way to go before full gender equality is reached.  
+
+```{r, out.width='100%'}
+plots[["Scotland1"]]
+```
+
+However, since this is the first release of the index there is not yet any other data to compare this top level figure to. The next release of the index will show how Scotland has progressed with regards to gender equality over time - this is the main purpose of the index.  
+
+Scotland's index is not comprehensive and is based on a relatively small but important set of statistical indicators.  Although there are many similarities with the Gender Equality Index published by the [European Institute for Gender Equality (EIGE)](https://eige.europa.eu/gender-equality-index/2020), the two should not be compared as they use a different set of indicators.   
+
+This first release of Scotland's index provides an indication of how close Scotland is to full gender equality across a number of key areas of life for women and men in Scotland.  Within the gender equality index these areas are described as 'domains' and can be compared to each other to provide an indication of where Scotland has furthest to travel towards full gender equality.    
+
+```{r, out.width='100%'}
+plots[["Scotland2"]]
+```
+
+The graphic above indicates how far away Scotland is from full gender equality across the domains chosen for inclusion in the index.  Under this set of measures, **Health** (score `r domain_score[["Health"]]`) was found to be the most equal and **Power** (score `r domain_score[["Power"]]`) the least. The low score for Power was driven by women's underrepresentation on the boards of private and public sector organisations, and in senior positions across police, the judiciary, the media and sport.     
+
+The domain of **Work** measures the extent to which women and men have equal access to employment and good working conditions. Within the work domain (score `r domain_score[["Work"]]`), there was most inequality in 'labour market inactivity due to caring', with caring roles impacting far more women than men. Occupational segregation also contributed to inequality, with more women than men concentrated in the care industries.
+
+Within the **Knowledge** domain (score `r domain_score[["Knowledge"]]`), educational attainment was relatively even, however the main driver of inequality was subject segregation, particularly for Modern Apprentices, where men were much more likely than women to partake in STEM subjects.  
+
+The main driver of inequality within the **Money** domain (score `r domain_score[["Money"]]`) was wealth, which considers pension wealth and savings. Within the **Time** domain (score `r domain_score[["Time"]]`), the biggest drivers of inequality were 'housework and cooking' and 'non-developmental childcare'.
+
+Scotland's new Gender Equality Index highlights key areas where policy makers could target and develop programmes to make the largest impact on improving gender equality.  Most of these data trends move very slowly, with some data only available every two to three years. Scotland's progress towards gender equality under these measures will be revealed in the next update of this index, which is scheduled for 2023.   
+
+# Introduction
+
+The Scottish Government believes that no one should be denied rights or opportunities because of their sex or gender. Everyone in Scotland has a role in reducing and removing the social and economic barriers that result from different expectations and treatment of men and women. 
+
+To help measure and understand barriers to sex and gender equality, the Scottish Government committed in 2016 to develop a Gender Equality Index.  Over the three years that followed, it drew upon an expert working group which comprised of gender stakeholders and data analysts. The group worked to agree an approach, and to identify, procure, collect and report on indicators that help understand how gender equality changes over time. This publication presents baseline data for the agreed set of indicators. 
+
+Over time there may be a need for the indicator set to evolve, but this will be kept to a minimum so that the time series remains robust. The intended audience for this index is broad and includes the public, the media and policy makers who aren't data experts but have an interest or a role in advancing sex and gender equality. 
+
+# Development of the Indicators
+
+A set of general principles was developed by the working group and it was agreed that the indicators selected to comprise the Gender Index for Scotland should: 
+
+* Measure a relevant aspect of gender equality
+
+* Be in an area where full equality, rather than universal elimination, is the desirable outcome
+
+* Minimise any conceptual overlap
+
+* Demonstrate differences between men and women
+
+* Be based on robust and reliable data;
+
+It was felt that six to eight indicators per domain would achieve the right balance, providing a sufficient level of detail but keeping the overall set manageable and digestible.  
+
+The intention from the beginning was that the index would generally be constructed from existing official data sources, however if there was a strong case for new data to be collected and funding was available then this could be an option. Straightforward methodology was used, allowing the user to easily see the relationship between the source data and the index scores. It should be noted that most of the data was gathered before the COVID-19 pandemic in 2020 (with the exception of the data for the time domain which was collected during the lockdown and subsequent restrictions).  
+
+Scottish Government analysts worked collaboratively with gender stakeholders, taking their views and expertise on board at all stages, helping to identify long lists and short lists of indicators working with subject specific analysts. The final content of the index reflects professional decisions made by Scottish Government. 
+
+In the majority of the data sources used in the Gender Equality Index the respondent has been asked to self-identify either their gender identity or sex by selecting from a choice of binary options of man/male or woman/female, therefore the terms 'men' and 'women' have been used throughout this report. Some people do not identify as man/male or woman/female, but official data collections still by and large use binary questions.  
+
+We have considered equality breakdowns throughout this index and, where applicable, have highlighted which other protected characteristics are gathered in the source publication. In some instances the source publication may include intersectional breakdowns, while in others breakdowns may be provided by other protected characteristics separately from gender. Our notes are designed to act as a signpost for users and further information, if not published on the source website, may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers, and this applies in particular to the 'Power' domain where there is currently a lack of intersectional data.  
+
+The indicator scores calculated from the source data (often 2018 data) are considered to be '2020' gender index scores. The indicators use 'official statistics' unless otherwise specified in the methodology.  

@@ -1,0 +1,36 @@
+```{r, include = FALSE}
+for (script in list.files("scripts", full.names = TRUE)) {
+  source(script)
+}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Example code to insert values
+
+### insert score
+
+`r filter(scores_2020, variable == "msps")$score %>%round()`
+
+### insert value for women
+
+`r filter(scores_2020, variable == "msps")$women`
+
+### insert value for men
+
+`r filter(scores_2020, variable == "msps")$men`
+
+### insert year data is based on
+
+`r filter(scores_2020, variable == "msps")$ref_period`
+
+### insert score for subdomain
+
+`r filter(scores_2020, indicator == "Total", subdomain == "Political", domain == "Power")$score %>%round()` 
+
+### insert score for domain
+
+`r filter(scores_2020, subdomain == "Total", domain == "Power")$score %>%round()` 
+
+### insert composite gender equality score
+
+`r filter(scores_2020, domain == "Total")$score %>%round()` 

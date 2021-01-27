@@ -1,0 +1,495 @@
+```{r, include = FALSE}
+for (script in list.files("scripts", full.names = TRUE)) {
+  source(script, encoding = "UTF-8")
+}
+```
+
+# **Money Domain**  
+```{r}
+domain_score <- domain_data %>% filter(domain=="Money") %>% select(variable, score) %>% mutate(score = number(score)) %>% spread(variable, score)
+metadata <- data[["money"]] %>% filter(row_number() == 1)
+```
+
+### {.tabset .tabset-fade -}
+
+#### Key Findings {-}
+
+The domain of **Money** measures gender inequalities in access to financial resources and in women's and men's economic situations.  
+
+"Assessing the domain of money is important from a gender equality perspective, as ensuring women's and men's equal rights and access to financial resources is a prerequisite for reaching equal economic independence and for addressing the increasing feminisation of poverty specifically and growing income inequalities more generally" [(European Institute for Gender Equality)](https://eige.europa.eu/).
+
+The money domain within Scotland's Gender Equality Index has three sub-domains - **income**, **limited independent resources** and **wealth**.  Within these, statistical indicators show gender inequality with regards to financial resources for women and men in Scotland. 
+
+A gender equality score of 100 represents full gender equality and a score of one represents no gender equality. The higher the score, the more gender equality there is. In `r metadata[["ref_period"]]`, Scotland's gender equality score for the money domain is `r domain_score[["money"]]`, however there is some variation in the gender equality scores for the three sub-domains, with wealth being the most unequal: 
+
+* The **income** sub-domain has a score of `r domain_score[["money_income"]]`
+
+* The **limited independent resources** sub-domain has a score of `r domain_score[["money_limited_independent_resources"]]`
+
+* The **wealth** sub-domain has a score of `r domain_score[["money_wealth"]]`
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["money"]]
+```
+
+#### About the Money Domain {-} 
+
+The domain of money in Scotland's Gender Equality Index measures gender inequalities in access to financial resources and in women's and men's economic situation. Equality for women is at the heart of the Scottish Government's vision for a fairer Scotland but financial gender inequality still exists, as underlined by the size of the gender pay gap and high poverty rates, especially for single women with children.
+
+The working group recommended that **income**, **limited independent resources** and **wealth** were the key areas of financial inequality which impact on life chances. These were, therefore, selected as the sub-domains for the money domain of Scotland's gender equality index.  
+
+
+## **Income Sub-domain** {.section1}
+```{r}
+ind_score <- data[["money_income"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["money_income"]] %>% filter(row_number() == 1)
+```
+
+Income is key to a person's access to financial resources and their economic situation - it is, therefore, an important sub-domain within the **Money** domain of Scotland's Gender Equality Index. The [IMF](https://www.imf.org/external/index.htm) report that gender inequality is strongly associated with income inequality.  
+
+Income is wider than earnings and includes a range of other sources, such as social security payments, tax credits, pension income and investments. However, it is generally measured at a household level in Scotland, which makes it difficult to measure for individual adults living with a partner.
+
+In Scotland's Gender Equality Index, the indicators included in the money sub-domain of income are: **earnings** **income pooling** and **the Living Wage**.
+
+Using the measures available, in `r metadata[["ref_period"]]`, Scotland's gender equality score for the **income** sub-domain is `r domain_score[["money_income"]]`.
+
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["money_income"]]
+```
+
+### Earnings {.tabset .tabset-fade -}
+```{r}
+var <- "earnings_median_all"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(0.01, prefix = "£") %>% utf_encoding()
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(0.01, prefix = "£") %>% utf_encoding()
+var2 <- "earnings_median_ft"
+women_ft <- all_data[[var2]] %>% filter(ref_period == metadata[["ref_period"]], gender == "women") %>% pull(value) %>% comma(0.01, prefix = "£") %>% utf_encoding()
+men_ft <- all_data[[var2]] %>% filter(ref_period == metadata[["ref_period"]], gender == "men") %>% pull(value) %>% comma(0.01, prefix = "£") %>% utf_encoding()
+```
+
+The Scottish Government sets out in its [Gender Pay Gap Action Plan](https://www.gov.scot/publications/fairer-scotland-women-gender-pay-gap-action-plan/) a commitment  to reduce the gender pay gap and to tackle the labour market inequalities faced by women, particularly disabled women, minority ethnic women, women from poorer socio-economic backgrounds and women with caring responsibilities.
+
+The gender pay gap is caused by a range of complex, inter-related factors including occupational segregation (where men and women do different types and levels of work), lack of flexible working opportunities and discrimination in pay and grading structures.  This was, therefore, an important indicator to include within Scotland's Gender Equality Index and the indicator chosen measures the gap in median hourly earnings (excluding overtime) between men and women working in Scotland.
+
+It was agreed by the working group that the measure that took into account the earnings of all employees (including part-time workers) made for a better and more representative indicator than the full-time gender pay gap. The overall gender pay gap reflects wider drivers that channel more women towards lower paid part-time work, and can be presented alongside the full-time gender pay gap for a fuller discussion of the pay gap. 
+
+#### Median Earnings{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+In `r metadata[["ref_period"]]`, the median hourly earnings (excluding overtime) for women was `r women_n` per hour compared to `r men_n` per hour for men. Although this is the indicator chosen for the Gender index it should be noted that the indicator within [Scotland's National Performance Framework](https://nationalperformance.gov.scot/) measures full-time workers only.  Scotland's score on this indicator is `r domain_score[["earnings_median_all"]]`.
+
+#### Median Earnings (Full-time){-}
+
+```{r, out.width='100%'}
+all_data[[var2]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var2]]
+all_data[[var2]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+In `r metadata[["ref_period"]]`, the median full-time hourly earnings (excluding overtime) for women was `r women_ft` per hour compared to `r men_ft` per hour for men. It should be noted that the indicator within [Scotland's National Performance Framework](https://nationalperformance.gov.scot/) also measures full-time workers only. 
+
+#### Intersectionality{-}
+
+The Scottish Government sets out in its [Gender Pay Gap Action Plan](https://www.gov.scot/publications/fairer-scotland-women-gender-pay-gap-action-plan/) a commitment  to reduce the gender pay gap and to tackle the labour market inequalities faced by women, particularly disabled women, minority ethnic women, women from poorer socio economic backgrounds and women with caring responsibilities.
+
+The data for this indicator is gathered through the [Annual Survey of Hours and Earnings (ASHE)](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/previousReleases), by Office for National Statistics (ONS), and can be broken down by age. This breakdown is available on the [Equality Evidence Finder](http://www.equalityevidence.scot/).
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]] %>% sub(" \\(£\\)", "", .)`
+
+It should be noted that the official gender pay gap measure compares the percentage difference between men's and women's hourly earnings with men's earnings, whereas the Gender Equality Index earnings equality score compares women with the mid-point between women and men. This allows for greater comparability with other gender equality scores in the Gender Equality Index.
+
+The data for this indicator is taken from the Scottish Government analysis of the [`r metadata[["source"]]`](`r metadata[["link"]]`).
+
+ASHE is the most detailed and comprehensive source of earnings across the UK produced by the ONS. The survey, carried out by [ONS](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/previousReleases) annually, is based on a 1% sample of employee jobs taken from HM Revenue and Customs Pay As You Earn (PAYE) records. Data on hours and earnings is gathered from employers and is treated confidentially. ASHE does not cover self-employed people or employees not paid during the reference period.
+See the latest [ONS ASHE publication](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/2019) for further details.  
+
+The median is a measure of the average and is calculated by identifying the exact middle point in a set of observations. When the observations are ranked from lowest to highest, the median is the value in the exact middle of the observed values. Although no single measure best measures the differences between men’s and women’s pay, the median is the Office for National Statistics' (ONS) preferred measure of average earnings as it is less affected by a relatively small number of very high earners than the mean.
+
+Including overtime would skew results as men typically work more overtime than women.
+
+### Income Pooling {.tabset .tabset-fade -}
+```{r}
+var <- "inc_pool"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Information on how couples in Scotland managed their household finances was gathered in the [Scottish Social Attitudes Survey (SSA) Intra-household distribution of resources module 2019](https://www.gov.scot/publications/scottish-social-attitudes-survey-2019-intra-household-distribution-resources/pages/2/).  Statistics on income pooling can provide an insight into the distribution of, and an indication of access to, finances within households.  
+
+Couples were asked what proportion of their and their partner's income was pooled and what proportion was kept to themselves. In `r metadata[["ref_period"]]`, `r women_pct` of women who lived with a partner kept all/most of their own income and `r men_pct` of men who lived with a partner kept all/most of their own income. It should be noted that the amounts are unknown and it is possible that a person with low or negligible income is less likely to income pool, however further research in this area is required.
+
+Scotland's score on this indicator is `r domain_score[["inc_pool"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in the [Scottish Social Attitudes Survey (SSA) Intra-household distribution of resources module 2019](https://www.gov.scot/publications/scottish-social-attitudes-survey-2019-intra-household-distribution-resources/pages/2/) by age, disability and `r simd_tooltip`. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+[The Scottish Social Attitudes Survey (SSA) Intra-household distribution of resources module 2019](https://www.gov.scot/publications/scottish-social-attitudes-survey-2019-intra-household-distribution-resources/pages/2/) asked people living in couples:  
+
+"People organise their income in different ways. Which of the following statements comes closest to what you do with your own personal income? 
+
+1. I keep all (or almost all) of my own income 
+
+2. I keep most of my own income and put the rest into a joint bank account or pool with my partner 
+
+3. I keep about half of my own income and put the other half into a joint bank account or pool with my partner 
+
+4. I keep some of my own income and put the rest into a joint bank account or pool with my partner
+
+5. I keep none (or almost none) of my own income and put all (or almost all) of it into a joint bank account or pool with my partner
+
+[SSAS 2019 technical paper](https://www.gov.scot/publications/scottish-social-attitudes-2019-technical-report/)
+
+
+### Living Wage {.tabset .tabset-fade -}
+```{r}
+var <- "living_wage"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+The [Living Wage](https://scottishlivingwage.org/about-us/) is calculated to represent the minimum pay rate required for a worker to meaningfully participate in society. It is based on detailed research into the types of goods or services members of the public think are needed to reach a socially acceptable standard of living. There is no legal requirement on employers to pay the Living Wage, unlike the statutory [National Minimum Wage ](https://www.gov.uk/national-minimum-wage-rates) (NMW), and it is not possible to make payment of the real Living Wage a compulsory condition of [publicly procured contracts](https://www.gov.scot/policies/public-sector-procurement/fair-work-in-procurement/).
+
+The Scottish Government supports the Scottish Living Wage Campaign as one of the measures to address poverty in Scotland, and it has published guidance on how procurement processes can encourage payment of the Living Wage, as part of a wider package of workforce matters. 
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women earned the living wage or more compared to `r men_pct` of men. Scotland's score on this indicator is `r domain_score[["living_wage"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Living Wage analysis from the [`r metadata[["source"]]`](`r metadata[["link"]]`) covers those aged 18 and over on the PAYE system and whose pay was not affected by absence. Data can be broken down by age.  
+
+Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-} 
+`r metadata[["calculation_notes"]]`
+
+The Real Living Wage rates have been independently calculated by the Resolution Foundation according to the cost of living based on household goods and services. Current and historical Real Living Wage rates is published by the  [Living Wage Foundation](https://livingwage.org.uk/calculation) 
+
+Data is  taken from the Scottish Government analysis of the [`r metadata[["source"]]`](`r metadata[["link"]]`), which covers those aged 18 and over on the PAYE system and whose pay was not affected by absence.
+
+The survey, carried out by [ONS]((https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/annualsurveyofhoursandearnings/previousReleases)) annually, is based on a 1 per cent sample of employee jobs taken from HM Revenue and Customs PAYE records. Data on hours and earnings is gathered from employers and is treated confidentially. ASHE does not cover those who are self-employed or employees who were not paid during the survey reference period.
+
+## **Limited Independent Resources Sub-domain** {.section2}
+```{r}
+ind_score <- data[["money_limited_independent_resources"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["money_limited_independent_resources"]] %>% filter(row_number() == 1)
+```
+
+Women are more likely to have caring roles, more likely to work part-time, and earn less on average.  Whilst at a household level, income pooling between higher-earners and lower-earners may be sufficient to keep a household above the poverty line, this may mask disparities in access to resources and decision-making over household spending.
+
+This sub-domain focuses on adults with limited independent resources, across **material deprivation**, **income independence**, and decision-making over **spending**. Scotland's gender equality score for this sub-domain is a relatively high `r domain_score[["money_limited_independent_resources"]]`. However, data is limited on how household expenses and individual income are shared within a household, and we recognise that this isn't the full picture. We intend to develop further gendered income data for the next release.   
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["money_limited_independent_resources"]]
+```
+
+### Material Deprivation {.tabset .tabset-fade -}
+```{r}
+var <- "mat_dep"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Material deprivation is a way of measuring living standards and refers to the self-reported inability of individuals or households to afford particular goods and activities that are typical in society at a given point in time, irrespective of whether they would choose to have these items, even if they could afford them.
+
+The [Living Costs and Food Survey 2018/19, Office for National Statistics](https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/methodologies/livingcostsandfoodsurvey) collected information on spending patterns and the cost of living that reflect household budgets. It is conducted throughout the year, across the whole of the UK, and is the most significant survey on household spending in the UK.
+
+The Living Costs and Food Survey provides the data for this indicator, which focuses on the proportion of adults who are unable to afford two or more of six items/activities.  In `r metadata[["ref_period"]]`, `r women_pct` of women experienced material deprivation, as did `r men_pct` of men. Scotland's score on this indicator is `r domain_score[["mat_dep"]]`.  
+
+The items/activities are detailed in the 'methodology' tab in this section.  
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+The [Living Costs and Food Survey 2018/19, Office for National Statistics](https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8686#!/documentation) collects and publishes data by age, disability, ethnicity and religion.
+
+Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+The [Living Costs and Food Survey](https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/methodologies/livingcostsandfoodsurvey#latest-publications) collects information on spending patterns and the cost of living that reflect household budgets. It is conducted throughout the year, across the whole of the UK, and is the most significant survey on household spending in the UK.
+
+The six items or activities are:
+
+* Do you have a small amount of money to spend each week on yourself?
+
+* Do you replace worn out clothes with new ones?
+
+* Do you regularly participate in a hobby or leisure activity?
+
+* Do you have friends or family round for a drink or a meal at least once a month?
+
+* Do you have two pairs of properly fitting shoes, including a pair of all weather shoes?
+
+* Do you have internet access for personal use at home?
+
+
+### Income Independence {.tabset .tabset-fade -}
+```{r}
+var <- "poverty"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%") 
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%") 
+```
+
+Women earn less on average than men ([Earnings indicator](#earnings)), are less likely to be paid the Living Wage ([Living Wage indicator](#living-wage)) and are more likely to not be working due to looking after children or home ([Labour market 'inactivity' due to caring indicator](#labour-market-inactivity-due-to-caring)). This may lead to women having a lower independent income. Whilst there may be income pooling within a couple with a high-income and low-income earner, there will be an unequal reliance on the sharing of income to maintain their standard of living.
+
+The income independence indicator measures the proportion of adults with an income below 60% of the UK median income, after equivalising for dependent children living with them. Due to limitations of the available data, we have assumed that costs related to dependent children are shared proportionate to individual income within a family. This indicator uses income before housing costs to avoid needing to make assumptions about how housing costs are split within a couple.
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women had a low independent equivalised income compared to `r men_pct` of men. This gives a gender equality score of `r domain_score[[var]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+The [FRS](https://www.gov.scot/publications/poverty-income-inequality-scotland-2016-19/pages/16/) collects and publishes data by age, disability, ethnicity and religion.
+
+Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-}
+Estimates have been derived using data from the Family Resources Survey (FRS) and the Households Below Average Income (HBAI). Individual income data was taken from the [FRS](https://www.gov.scot/publications/poverty-income-inequality-scotland-2016-19/), and household data from [HBAI](https://www.gov.uk/government/collections/households-below-average-income-hbai--2). Where household income couldn't be attributed to an individual this was split proportionately to individual incomes in each family within a household.
+
+Individual income data was equivalised so that it was equivalent to a couple with no children, and then compared to 60% of UK median income. Equivalisation adjusts income to take into account variations in the size and composition of the households in which individuals live. This reflects the common sense notion that, in order to enjoy a comparable standard of living, a household of, for example, an adult with two children need a higher income than a single person living alone. For couples with children, each adult's individual income was equivalised based on half of the dependent children.
+
+The equivalence scales used here are the modified Organisation for Economic Cooperation and Development (OECD) scales:
+<div style = "max-width:300px">
+`r tibble(" " = c("Base (household)", "Adult", "Child aged under 14", "Child aged 14 and over"), "Scale Value" = c(0.33, 0.33, 0.20, 0.33)) %>% kable()`
+</div>
+
+It is possible that this data can be further developed in future to better account for pooling of incomes and living costs.
+
+### Spending - Decision Making {.tabset .tabset-fade -}
+```{r}
+var <- "spend_lrg"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% percent(1)
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% percent(1)
+```
+
+Information on how couples in Scotland spend their money and make financial decisions was gathered in the [Scottish Social Attitudes Survey (SSA) Intra-household distribution of resources module 2019](https://www.gov.scot/publications/scottish-social-attitudes-survey-2019-intra-household-distribution-resources/pages/2/), which provided an insight into spending and spending restrictions within households in Scotland. 
+
+In this survey, respondents living in couples were asked a series of questions on spending decisions made within households. One such question, designed to gain an insight into control of household spending by gender, asked:  "Thinking about you and your partner, who usually makes the decisions for the two of you about how much to spend on large household items such as a TV or a fridge?". This was thought to be a better indicator of financial control within households than the question in the same module on grocery shopping, which could be influenced more by practical reasons around who does the shopping.  
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women made these decisions compared to `r men_pct` of men.  The remainder can be attributed to couples where both parties make these decisions. Scotland's score on this indicator is  `r domain_score[["spend_lrg"]]`. 
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+The [Scottish Social Attitudes Survey (SSA) Intra-household distribution of resources module 2019](https://www.gov.scot/publications/scottish-social-attitudes-survey-2019-intra-household-distribution-resources/pages/2/) collected data by age, disability and `r simd_tooltip`.
+
+Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-} 
+`r metadata[["calculation_notes"]]`
+
+[Scottish Social Attitudes Survey (SSA) Intra-household distribution of resources module 2019](https://www.gov.scot/publications/scottish-social-attitudes-survey-2019-intra-household-distribution-resources/pages/2/) asked people living in couples:  
+
+"Thinking about you and your partner, who usually makes the decisions for the two of you about how much to spend on large household items such as a TV or a fridge?"
+
+[(SSAS 2019 technical paper)](https://www.gov.scot/publications/scottish-social-attitudes-2019-technical-report/)
+
+### Spending - Restrictions {.tabset .tabset-fade -}
+```{r}
+var <- "spend"
+metadata <- all_data[[var]] %>% filter(row_number() == 1)
+women_pct <- all_data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- all_data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Information on how couples in Scotland spend their money and make financial decisions was gathered in the [Scottish Social Attitudes Survey (SSA) Intra-household distribution of resources module 2019](https://www.gov.scot/publications/scottish-social-attitudes-survey-2019-intra-household-distribution-resources/pages/2/), which provided an insight into spending and spending restrictions within households in Scotland. 
+
+In this survey, respondents living in couples were asked a series of questions on spending restrictions within households. One such question, designed to gain an insight into household spending restrictions by gender, asked:  How often do you stay in and not go out because you can't afford it?
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women stayed home sometimes because they couldn't afford to go out compared to `r men_pct` of men. Scotland's score on this indicator is `r domain_score[["spend"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+The [Scottish Social Attitudes Survey (SSA) Intra-household distribution of resources module 2019](https://www.gov.scot/publications/scottish-social-attitudes-survey-2019-intra-household-distribution-resources/pages/2/) collected data by age, disability and `r simd_tooltip`. 
+
+Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+#### Methodology{-} 
+`r metadata[["calculation_notes"]]`
+
+[Scottish Social Attitudes Survey (SSA) Intra-household distribution of resources module 2019](https://www.gov.scot/publications/scottish-social-attitudes-survey-2019-intra-household-distribution-resources/pages/2/) asked people living in couples:  
+
+"How often do you stay in and not go out because you can't afford it?""
+
+[SSAS 2019 technical paper](https://www.gov.scot/publications/scottish-social-attitudes-2019-technical-report/)
+
+## **Wealth Sub-domain** {.section3}
+```{r}
+ind_score <- data[["money_wealth"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["money_wealth"]] %>% filter(row_number() == 1)
+```
+
+Personal wealth is one of the key components of women's and men's standard of living. Wealth can be used as a source of finance to improve current or future living standards, to invest in opportunities such as education or entrepreneurial activities, and to provide financial resilience, reducing vulnerability to shocks such as unemployment or illness. Many people will try to grow their wealth throughout their working lives, in preparation for retirement, but households with low income and low starting wealth will find this more difficult.  People's personal wealth is made up of their physical, financial, property and pension wealth, with pension wealth the biggest component of them all.
+
+[The 2016-18 Wealth and Assets Survey](https://www.gov.scot/publications/wealth-and-assets-in-scotland-2006-2018/) reports that wealth inequality was more severe than income inequality and that the least wealthy households rarely own property or have any private pension savings. Their wealth is mainly made up of the value of their possessions such as clothing or furniture.
+
+Pensioner couples, married couples, home owners and households with higher formal qualifications tend to be wealthier than other types of households. On the other hand, lone parent households (women account for the vast majority of lone parents), those in social rented housing, or where the head of the household is unemployed or economically inactive but not retired often have below-average wealth.
+
+In Scotland’s Gender Equality Index, the indicators included in the money sub-domain of wealth are **pensions** and **savings**.
+
+In `r metadata[["ref_period"]]`, Scotland's gender equality score for the wealth sub-domain is `r domain_score[["money_wealth"]]`. 
+
+Wealth inequality in Scotland is monitored within [Scotland's National Performance Framework](https://nationalperformance.gov.scot/)
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["money_wealth"]]
+```
+
+### Pensions {.tabset .tabset-fade -}
+```{r}
+var <- "wealth_pension"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, prefix = "£") %>% utf_encoding()
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, prefix = "£") %>% utf_encoding()
+```
+
+Pension Wealth is an estimate of the value of wealth held in private (non-state) pension schemes, expressed as an equivalent 'pot of money'. It comprises occupational and personal pensions and includes the pensions of public sector workers. The estimate is based only on the pension rights accumulated to date and does not include rights which may be built up in future.
+
+[The 2016-18 Wealth and Assets Survey](https://www.gov.scot/publications/wealth-and-assets-in-scotland-2006-2018/) shows that over time, the proportion of adults with pension wealth (not yet in payment) has been increasing as more and more people are automatically enrolled into workplace pension schemes. The gender gap has been closing.
+
+However in `r metadata[["ref_period"]]`, the median pension wealth (not yet in payment as well as in payment) of women was `r women_n` compared to `r men_n` for men. Scotland's score on this indicator is `r domain_score[["wealth_pension"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+[Scotland's Wealth and Assets Survey report](https://data.gov.scot/wealth/2020report.html#1_total_wealth) shows data by age, disability and marital status.  
+
+Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]] %>% sub(" \\(£\\)", "", .)`
+
+The methodology used for [`r metadata[["source"]]`](`r metadata[["link"]]`) is based on the Office for National Statistics' methodology for the Wealth in Great Britain National Statistics publication series. Further detail on methodology can be found on ONS's webpages.
+
+The analysis in the Wealth and Assets Survey report is based on data from the Wealth and Assets Survey (WAS), which is a valuable source of information on the economic well-being of households in Great Britain. WAS is managed by the Office for National Statistics.
+
+The survey has a large sample size and almost complete coverage of Great Britain. The sample of private households in Scotland, however, excludes households north of the Caledonian Canal and the Scottish islands. While there are some estimated numbers of households in Scotland included, it should be noted that these numbers are for illustrative purposes only, and may not necessarily be representative of households north of the Caledonian Canal and on the Scottish islands.
+
+WAS is a sample survey and any numbers shown here are estimates only and could be slightly higher or lower if we interviewed a different sample of the population.
+
+**Pension Wealth** is an estimate of the value of wealth held in private (non-state) pension schemes, expressed as an equivalent 'pot of money'. It comprises occupational and personal pensions and includes the pensions of public sector workers. The estimate is based only on the pension rights accumulated to date and does not include rights which may be built up in future.
+
+Pension wealth analysis exclude adults with no pension wealth.
+
+It should be noted that this indicator is based on 'experimental official statistics'.
+
+### Savings {.tabset .tabset-fade -}
+```{r}
+var <- "wealth_net"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, prefix = "£") %>% utf_encoding()
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, prefix = "£") %>% utf_encoding()
+```
+
+Net savings are calculated as the sum of all financial assets (such as bank accounts, savings accounts, stocks and shares) minus all liabilities (such as overdrafts, loans, credit card debt, and arrears on household bills). These can be formal assets, such as savings accounts or loans from banks, or informal assets, such as money held at home, or borrowing from friends and family.
+  
+Scotland's Gender Index uses median net individualised savings and in `r metadata[["ref_period"]]`, the median net savings of women was `r women_n` compared to `r men_n` for men.   Although the median for women was higher, men (based on unpublished analysis) had a larger share of aggregated total net savings - this suggests that men's financial wealth is more skewed, i.e. more unequally distributed, than women's.
+
+Scotland's gender equality score for this indicator is `r domain_score[["wealth_net"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+[Scotland's Wealth and Assets Survey report](https://data.gov.scot/wealth/2020report.html#1_total_wealth) shows data by age, disability and marital status. This publication includes information on [the wealthiest and least wealthy households](https://data.gov.scot/wealth/2020report.html#25_who_are_the_wealthiest_and_least_wealthy_households). 
+
+Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]] %>% sub(" \\(£\\)", "", .)`
+
+The methodology used for [`r metadata[["source"]]`](`r metadata[["link"]]`) is based on the Office for National Statistics' methodology for the Wealth in Great Britain National Statistics publication series. Further detail on methodology can be found on ONS's webpages.
+
+The analysis in the Wealth and Assets Survey report is based on data from the Wealth and Assets Survey (WAS), which is a valuable source of information on the economic well-being of households in Great Britain. WAS is managed by the Office for National Statistics.
+
+The survey has a large sample size and almost complete coverage of Great Britain. The sample of private households in Scotland, however, excludes households north of the Caledonian Canal and the Scottish islands. While there are some estimated numbers of households in Scotland included, it should be noted that these numbers are for illustrative purposes only, and may not necessarily be representative of households north of the Caledonian Canal and on the Scottish islands.
+
+WAS is a sample survey and any numbers shown here are estimates only and could be slightly higher or lower if we interviewed a different sample of the population.
+
+**Financial wealth** (net financial wealth) is calculated as the sum of all financial assets (such as bank accounts, savings accounts, stocks and shares) minus all liabilities (such as overdrafts, loans, credit card debt, and arrears on household bills). These can be formal assets, such as savings accounts or loans from banks, or informal assets, such as money held at home, or borrowing from friends and family.
+
+Some financial wealth components (such as endowments attached to repayment of main property mortgage/loan) are held jointly by multiple householders. Following ONS methodology, these were split equally between the household reference person and their spouse/partner.
+
+The median is a measure of the average and is calculated by identifying the exact middle point in a set of observations. When the observations are ranked from lowest to highest, the median is the value in the exact middle of the observed values. It is the Office for National Statistics' (ONS) preferred measure of average earnings as it is less affected by a relatively small number of very high earners than the mean.
+
+It should be noted that this indicator is based on 'experimental official statistics'.

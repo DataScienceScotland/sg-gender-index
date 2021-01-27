@@ -1,0 +1,373 @@
+```{r, include = FALSE}
+for (script in list.files("scripts", full.names = TRUE)) {
+  source(script)
+}
+```
+
+# **Health Domain**  
+```{r}
+domain_score <- domain_data %>% filter(domain=="Health") %>% select(variable, score) %>% mutate(score = number(score)) %>% spread(variable, score)
+metadata <- data[["health"]] %>% filter(row_number() == 1)
+```
+
+### {.tabset .tabset-fade -}
+
+#### Key Findings {-}
+
+The domain of **health** within Scotland's Gender Equality Index measures gender equality in two health-related aspects: **health status** and **access to health services**. 
+
+**Access to health services** looks at the different patient experiences for women and men, treatment times and the percentage of women and men who report unmet medical and/or dental needs.
+
+**Health status** looks at the differences in healthy life expectancy of women and men along with a measure of health risk behaviours (such as smoking and drinking), life satisfaction and mental wellbeing.  
+
+In the 2020 Gender Equality Index, Scotland's score for the health domain was `r domain_score[["health"]]`.  This was a high score compared to the other domains and indicates strong gender equality for **health**.  There was little difference between the two sub-domains, with both health access (`r domain_score[["health_access"]]`) and health status (`r domain_score[["health_status"]]`) recording scores close to 100.
+
+A gender equality score of 100 represents full gender equality and a score of one represents no gender equality. The higher the score, the more gender equality there is.
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["health"]]
+```
+
+#### About the Health Domain {-} 
+
+The domain of health within Scotland's gender equality index measures gender equality in two health-related aspects: **health status** and **access to health services**. The expert working group felt it was important that these two areas were reflected in the index.   
+
+**Access to health services** looks at the different patient experiences for women and men, treatment times and the percentage of women and men who report unmet medical and/or dental needs.
+
+**Health status** looks at the differences in healthy life expectancy of women and men along with a measure of health risk behaviours (such as smoking and drinking), life satisfaction and mental wellbeing.
+
+It should be noted that Scotland's Gender Equality Index also has a separate satellite domain on **women-specific healthcare**. This domain is designed to measure and understand aspects of health data which are not directly comparable by gender.
+
+## **Access to Health Services Sub-Domain**
+```{r}
+ind_score <- data[["health_access"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["health_access"]] %>% filter(row_number() == 1)
+```
+
+The right to health is a fundamental human right. It means that everyone has the right to the highest attainable standard of physical and mental health.  For this to happen, services and systems that help us to live long healthy lives need to be accessible, available, appropriate and high quality.  These standards are set out in the [Triple AAAQ Framework](http://www.healthscotland.scot/health-inequalities/the-right-to-health/overview-of-the-right-to-health).
+
+The right to health is an inclusive right. This means that it is not just the health service that should meet these standards, but that all of the things that influence our health (including the social determinants of health) should be accessible, available, appropriate and high quality if we are to have a healthier Scotland. The persistence of health inequalities means that not everyone is enjoying their human right to the highest possible standard of health in Scotland.
+
+The indicators included in the access to health services sub-domain are **patient experience** and **unmet needs**. The 2020 gender equality score for this sub-domain is `r domain_score[["health_access"]]`.
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["health_access"]]
+```
+
+### Patient Experience {.tabset .tabset-fade -}
+```{r}
+var <- "patient_exp"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(0.1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(0.1)
+```
+
+General practice and primary care are at the heart of the Scotland's healthcare system and the [Scottish Government's](https://www.gov.scot/policies/primary-care-services/general-practitioners/) priority is improving access for patients. It should be noted that there are a lot of factors (such as deprivation, urban-rural classification, age etc.) that feed into patient experience, and these should generally be considered when interpreting results in this area.  
+
+Scotland's Gender Equality Index looks at the percentage of women and men who describe the overall care provided by their GP practice as "excellent" or "good". In `r metadata[["ref_period"]]` over four fifths of both women (`r women_pct`) and men (`r men_pct`) viewed the care they received in this way, leading to a high gender equality score of `r domain_score[["patient_exp"]]` for this indicator.
+
+
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in this data collection as indicated below. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+The [Health and Care Experience Survey](https://www.gov.scot/publications/health-and-care-experience-survey/) asks questions on ethnicity, religion, disability and sexual orientation. 
+
+[General practice - demographics data visualisation](https://beta.isdscotland.org/find-publications-and-data/health-services/primary-care/general-practice-demographics-data-visualisation/25-february-2020/) by Information Services Division shows a data visualisation of a range of GP practice demographics data, broken down at practice, HSCP, Board and Scotland level. The visualisation shows practice list sizes broken down by age, gender, and `r simd_tooltip`. It also highlights changes in practice populations between quarters, the number of patients registered in the last year and patients living in care homes.
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+The [Scottish Health and Care Experience Survey](https://www.gov.scot/publications/health-and-care-experience-survey/) is a postal survey which was sent to a random sample of people who are registered with a GP in Scotland. The survey has been run every two years since 2009 and forms part of the Scottish Care Experience Survey Programme, which is a suite of national surveys aiming to provide local and national information on the quality of health and care services from the perspective of those using them.
+
+Questionnaires were sent out asking about people's experiences during the previous 12 months. The survey asks about people's experiences of accessing and using their GP practice and other local healthcare services; receiving care, support and help with everyday living; and their caring responsibilities.
+
+The focus of this report is on the national results of the survey. Comparisons have been made with the previous iterations of this survey where this is possible. A copy of the questionnaire can be found [here](https://www.gov.scot/publications/health-and-care-experience-survey/) 
+
+Results for each GP practice, GP Cluster, Health and Social Care Partnership and NHS Board are available via an [online dashboard](https://beta.isdscotland.org/find-publications-and-data/health-services/primary-care/health-and-care-experience-survey/health-and-care-experience-survey-2020/)
+
+Quality of Care Experience is also an indicator within Scotland's National Performance Framework [NPF](https://nationalperformance.gov.scot/measuring-progress/national-indicator-performance)
+
+### Unmet Needs {.tabset .tabset-fade -}
+```{r}
+var <- "gp_access"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(0.1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(0.1, suffix = "%")
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+```
+
+General practice and primary care are at the heart of the Scotland's healthcare system and the [Scottish Government's](https://www.gov.scot/policies/primary-care-services/general-practitioners/) priority is improving access for patients. 
+
+Scotland's Gender Equality Index looks at the percentage of women and men who had not received any help from their GP but felt that they needed it. In `r metadata[["ref_period"]]` this applied to a very small proportion of both women (`r women_pct`) and men (`r men_pct`), leading to a high gender equality score of `r domain_score[["gp_access"]]` for this indicator.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in this data collection as indicated below. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+The [Health and Care Experience Survey](https://www.gov.scot/publications/health-and-care-experience-survey/) asks questions on ethnicity, religion, disability and sexual orientation. 
+
+[General practice - demographics data visualisation](https://beta.isdscotland.org/find-publications-and-data/health-services/primary-care/general-practice-demographics-data-visualisation/25-february-2020/) by Information Services Division shows a data visualisation of a range of GP practice demographics data, broken down at practice, HSCP, Board and Scotland level. The visualisation shows practice list sizes broken down by age, gender, and `r simd_tooltip`. It also highlights changes in practice populations between quarters, the number of patients registered in the last year and patients living in care homes.
+
+#### Methodology{-} 
+`r metadata[["calculation_notes"]]`
+
+The [Scottish Health and Care Experience Survey](https://www.gov.scot/publications/health-and-care-experience-survey/) is a postal survey which was sent to a random sample of people who are registered with a GP in Scotland. The survey has been run every two years since 2009 and forms part of the Scottish Care Experience Survey Programme, which is a suite of national surveys aiming to provide local and national information on the quality of health and care services from the perspective of those using them.
+
+Questionnaires were sent out asking about people's experiences during the previous 12 months. The survey asks about people's experiences of accessing and using their GP practice and other local healthcare services; receiving care, support and help with everyday living; and their caring responsibilities.
+
+The focus of this report is on the national results of the survey. Comparisons have been made with the previous iterations of this survey where this is possible. A copy of the questionnaire can be found [here](https://www.gov.scot/publications/health-and-care-experience-survey/) 
+
+Results for each GP practice, GP Cluster, Health and Social Care Partnership and NHS Board are available via an [online dashboard](https://beta.isdscotland.org/find-publications-and-data/health-services/primary-care/health-and-care-experience-survey/health-and-care-experience-survey-2020/)
+
+## **Health Status Sub-Domain**
+```{r}
+ind_score <- data[["health_status"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["health_status"]] %>% filter(row_number() == 1)
+```
+
+The **health status** sub-domain gives an indication of physical and mental health and wellbeing, along with behaviours that have an impact on these. It is aimed at identifying any health inequalities between women and men in Scotland and in `r metadata[["ref_period"]]` each of the four indicator scores were close to 100 indicating relative equality in the health status of women and men.   
+
+* The **health risks** score was `r domain_score[["health_risk"]]` 
+
+* The **healthy life expectancy** score was `r domain_score[["hle"]]` 
+
+* The **life satisfaction** score was `r domain_score[["life_sat"]]` 
+
+* The **mental wellbeing** score was `r domain_score[["mental_wellbeing"]]` 
+
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["health_status"]]
+```
+
+### Health Risks {.tabset .tabset-fade -}
+```{r}
+var <- "health_risk"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+The **health risks** indicator of Scotland's Gender Equality Index is based on the percentage of adults with two or more health risk behaviours as measured in the [Scottish Health Survey](https://www.gov.scot/collections/scottish-health-survey/).  These behaviours are:
+
+* Current smoker
+
+* Harmful drinking
+
+* Low physical activity
+
+* Obesity
+
+The proportion of women with two or more risk behaviours in `r metadata[["ref_period"]]` was `r women_pct` and the proportion of men was `r men_pct`, leading to a high gender equality score of `r domain_score[["health_risk"]]` for this indicator.  
+
+This indicator is also included in Scotland's National Performance Framework [NPF](https://nationalperformance.gov.scot/measuring-progress/national-indicator-performance). This indicator can be broken down by age, disability, gender and [Scottish Index of Multiple Deprivation](https://www.gov.scot/collections/scottish-index-of-multiple-deprivation-2020/). These breakdowns can be viewed on the [Equality Evidence Finder](http://www.equalityevidence.scot/).
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in this data collection as indicated below. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+The [Scottish Health Survey (SHeS)](https://www.gov.scot/collections/scottish-health-survey/) asks a number of equality questions that are common across household surveys in Scotland.  These cover age, ethnicity, religion, long-term conditions and sexual orientation.  
+
+The [SSCQ](https://www.gov.scot/publications/scottish-surveys-core-questions-2018-analytical-tables/) gathers survey responses from identical indicator questions in the Scottish Crime and Justice Survey, the Scottish Health Survey and the Scottish Household Survey into one output.   
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+This indicator measures the proportion of adults with two or more health risk behaviours. Health risk behaviours are classed as being a current smoker, harmful drinking, low physical activity and obesity.
+
+The data for this indicator is drawn from a section of the [Scottish Health Survey](https://www.gov.scot/collections/scottish-health-survey/).
+
+The four health risks included in this indicator are:
+
+* Current smoker
+
+* Drinking above the recommended weekly limit of 14 units per week
+
+* Failing to meet the physical activity recommendations of at least 150 minutes of moderately intensive physical activity or 75 minutes vigorous activity per week or an equivalent combination of both
+
+* Obesity (having a Body Mass Index of 30 or over)
+
+This indicator is also included in Scotland's National Performance Framework [(NPF)](https://nationalperformance.gov.scot/measuring-progress/national-indicator-performance).
+
+### Healthy Life Expectancy {.tabset .tabset-fade -}
+```{r}
+var <- "hle"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Healthy life expectancy is the average number of years that an individual is expected to live in a state of self-assessed "good" or "very good" health, based on current mortality rates and prevalence of "good" or "very good" health.
+
+
+In `r metadata[["ref_period"]]`, women spent `r women_pct` of their life in good health and men spent `r men_pct`, leading to a high gender equality score of `r domain_score[["hle"]]` for this indicator. The overall life expectancy for women in Scotland was higher in 2016-2018 (81.1 years for women vs 77 years for men) [(NRS)](https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/life-expectancy/life-expectancy-in-scottish-areas/2016-2018).
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in this data collection as indicated below. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+[NRS](https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/life-expectancy/life-expectancy-in-scottish-areas) publish life expectancy and healthy life expectancy estimates by age and `r simd_tooltip` for Scottish areas.
+
+```{r, out.width='100%'}
+var <- "hleSES"
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+[NRS](https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/life-expectancy/life-expectancy-in-scottish-areas) publish life expectancy and healthy life expectancy estimates for Scottish areas.
+
+[ScotPHO](https://www.scotpho.org.uk/population-dynamics/healthy-life-expectancy/key-points/) also present information in this area.  
+
+### Life Satisfaction {.tabset .tabset-fade -}
+```{r}
+var <- "life_sat"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Life satisfaction is measured in the [Scottish Health Survey](https://www.gov.scot/collections/scottish-health-survey/) by asking participants to rate, on a scale of 0 to 10, how satisfied they are with their life in general. On the scale, 0 represented "extremely dissatisfied" and 10 "extremely satisfied".  
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women rated their life satisfaction as 9+ compared to `r men_pct` of men, leading to a high gender equality score of `r domain_score[["life_sat"]]` for this indicator.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in this data collection as indicated below. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+The [Scottish Health Survey (SHeS)](https://www.gov.scot/collections/scottish-health-survey/) asks a number of equality questions that are common across household surveys in Scotland. These cover age, ethnicity, religion, long-term conditions and sexual orientation.  
+
+The [SSCQ](https://www.gov.scot/publications/scottish-surveys-core-questions-2018-analytical-tables/) gathers survey responses from identical indicator questions in the Scottish Crime and Justice Survey, the Scottish Health Survey and the Scottish Household Survey into one output.   
+
+#### Age{-}
+
+```{r, out.width='100%'}
+var <- "life_satA"
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Disability{-}
+
+```{r, out.width='100%'}
+var <- "life_satD"
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Income{-}
+
+```{r, out.width='100%'}
+var <- "life_satI"
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### SIMD{-}
+
+```{r, out.width='100%'}
+var <- "life_satSES"
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+Life satisfaction is measured in the [Scottish Health Survey (SHeS)](https://www.gov.scot/collections/scottish-health-survey/) by asking participants to rate, on a scale of 0 to 10, how satisfied they are with their life in general. On the scale, 0 represented "extremely dissatisfied"" and 10 "extremely satisfied". This measure has been used in numerous international surveys. There are no pre-defined cut-off points within the scale to distinguish between different levels of satisfaction. However, a summary measure was used in the SHeS analysis which identified three groups of interest based on the overall distribution of scores in the whole population: people with the highest levels of satisfaction (scores of 9 or 10), people with an average satisfaction level (score 8), and those with below average scores (0-7).
+
+### Mental Wellbeing {.tabset .tabset-fade -}
+```{r}
+var <- "mental_wellbeing"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+```
+
+This indicator measures the mean score for women and men on the Warwick-Edinburgh Mental Wellbeing Scale (WEMWBS), a common measure of mental wellbeing.
+
+In `r metadata[["ref_period"]]`, the average score for women on the WEMWBS was `r women_n` compared to `r men_n` of men, leading to a high gender equality score of `r domain_score[["mental_wellbeing"]]` for this indicator. 
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in this data collection as indicated below. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+The [Scottish Health Survey (SHeS)](https://www.gov.scot/collections/scottish-health-survey/) asks a number of equality questions that are common across household surveys in Scotland. These cover age, ethnicity, religion, long-term conditions and sexual orientation.  
+
+The [SSCQ](https://www.gov.scot/publications/scottish-surveys-core-questions-2018-analytical-tables/) gathers survey responses from identical indicator questions in the Scottish Crime and Justice Survey, the Scottish Health Survey and the Scottish Household Survey into one output.   
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+The source for this indicator is the [Scottish Health Survey (SHeS)](https://www.gov.scot/collections/scottish-health-survey/).
+
+This indicator can be broken down by age, gender, Scottish Index of Multiple Deprivation, disability and urban rural classification. These breakdowns can be viewed on the [Equality Evidence Finder](http://www.equalityevidence.scot/).
+
+WEMWBS is a scale of 14 positively worded items for assessing a population's mental wellbeing. Warwick and Edinburgh Universities developed WEMWBS in 2006 to support work to develop Scottish mental health indicators for adults.
+
+WEMWBS is suitable for adults aged 16 and above and also for use at a population level in teenagers aged 13 years and over in samples of over 100. A shortened version with seven items - the Short Warwick-Edinburgh Mental Well-being Scale (SWEMWBS) - is also available.
+
+More information can be found from [Public Health Scotland](http://www.healthscotland.scot/health-topics/mental-health-and-wellbeing/wemwbs#:~:text=The%20Warwick%2DEdinburgh%20Mental%20Well,mental%20health%20indicators%20for%20adults.).

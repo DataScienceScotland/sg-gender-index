@@ -1,0 +1,383 @@
+---
+output:
+  html_document: default
+  word_document: default
+---
+```{r, include = FALSE}
+for (script in list.files("scripts", full.names = TRUE)) {
+  source(script)
+}
+```
+
+# **Time Domain**  
+```{r}
+domain_score <- domain_data %>% filter(domain=="Time") %>% select(variable, score) %>% mutate(score = number(score)) %>% spread(variable, score)
+metadata <- data[["time_use"]] %>% filter(row_number() == 1)
+```
+
+### {.tabset .tabset-fade -}
+
+#### Key findings {-}
+
+The 'Time' domain of Scotland's Gender Equality index measures gender inequalities in the allocation of time spent on caring, household and leisure activities. Focusing on time use is important because it demonstrates substantive issues of gender equality and of men's and women's comparative life chances, including their capacity to work in the formal labour market, participate in their communities and be healthy.
+
+The time domain has two sub-domains - **'care'** and **'time'**. The 'care' sub-domain is made up of the following three indicators: care of adults; developmental childcare and non-developmental childcare. The 'time' sub-domain is made up of a further four indicators: household management; housework and cooking; social/leisure activities and volunteering. 
+
+It should be noted that much of the data for this domain comes from the [2020 Office for National Statistics (ONS) Online Time Use Survey (OTUS)](https://www.gov.scot/publications/time-use-scotland-2020-gender-analysis-ons-online-time-use-survey/) and was collected in 2020 during the COVID-19 lockdown and subsequent restrictions. These extraordinary circumstances are likely to have had implications for how time was used in Scotland in 2020. As a result, this context should be borne in mind when drawing conclusions about societal trends using the 2020 data. Any changes might be due to the restrictions which were placed on daily life in 2020, and wider trends cannot be assessed until there is post-pandemic time use data available.
+
+In `r metadata[["ref_period"]]`, Scotland's gender equality score for the time domain is `r domain_score[["time_use"]]`, however there is some variation in the gender equality scores for the two sub-domains, with 'time' being slightly less equal than 'care'. 
+
+The **'care'** sub-domain has a score of `r domain_score[["time_use_care"]]`
+
+The **'time'** sub-domain has a score of `r domain_score[["time_use_time"]]`
+
+A gender equality score of 100 represents full gender equality and a score of one represents no gender equality. The higher the score, the more gender equality there is. 
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["time_use"]]
+```
+
+#### About the Time Domain {-}
+
+The 'time' domain of Scotland's Gender Equality Index measures gender inequalities in allocation of time spent on caring, household and leisure activities. Focusing on time use is important because it demonstrates substantive issues of gender equality and of men's and women's comparative life chances, including their capacity to work in the formal labour market, participate in their communities and be healthy.
+
+Given the gender disparities in time use and the unequal distribution of unpaid work between women and men, data on time spent in paid and unpaid activities are an essential component of gender analysis. Gender equality in paid work is assessed in the 'Work' domain of this index.
+
+Time use can be accurately collected by using diary-derived time use information, and this is the method used by the [OTUS](https://www.gov.scot/publications/time-use-scotland-2020-gender-analysis-ons-online-time-use-survey/), the main source of data for this chapter. However, it should be noted that that the fieldwork for this survey took place during the UK’s national lockdown and subsequent periods of restrictions as a result of COVID-19. These restrictions are likely to have had an impact on how time was used in Scotland.
+
+Indeed, time use data at the UK level from [ONS](https://www.ons.gov.uk/economy/nationalaccounts/satelliteaccounts/bulletins/coronavirusandhowpeoplespenttheirtimeunderrestrictions/28marchto26april2020#glossary) has indicated that the gap in unpaid work (activities such as childcare, adult care, housework and volunteering) between men and women reduced slightly during lockdown (compared to 2014/15 time use data). However, [ONS](https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/conditionsanddiseases/articles/anewnormalhowpeoplespenttheirtimeafterthemarch2020coronaviruslockdown/2020-12-09) UK time use data collected from September to October indicated that, post-lockdown, there was a return to the  pre-lockdown gender gap in unpaid work. The impact COVID-19 has had on the gendered distribution of unpaid work within households in Scotland is something that will be explored in more detail in the near future (2021), and in the longer term (once there is a post-pandemic time use data set available).
+
+**'Care'** was selected as a sub-domain within Scotland's Gender Equality Index to describe the time men and women spend on unpaid care, taking into account traditional societal perceptions that women are more naturally caring than men, and that care work is a woman's responsibility.
+
+**'Time'** was also selected as a sub-domain within Scotland's Gender equality index and focuses on the time women and men spend undertaking other unpaid work - household management, housework and cooking, and volunteering- as well as their differences in social/leisure time. Measuring how women and men spend their time in their private lives provides a better understanding of women's economic and social contributions, and highlights gender inequalities.
+
+It was considered important to separate unpaid caring from other forms of unpaid work by allocating a separate sub-domain, set of indicators and gender equality scores to 'care'. This was because unpaid caring roles have traditionally fallen to women rather than men, and have particular implications for women in terms of equal access to all spheres of life.
+
+## **Care Sub-domain**
+```{r}
+ind_score <- data[["time_use_care"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["time_use_care"]] %>% filter(row_number() == 1)
+```
+
+Caring has long been a gendered issue. Rigid gender norms have contributed to the notion that men are 'breadwinners' and women are 'homemakers', meaning that women are often more likely to take on unpaid care work. Caring roles have significant ramiﬁcations for women’s access to employment, career development and progress, access to training and higher education, as well as on physical and mental health.
+
+Caring can be a positive and rewarding experience and can have a positive impact on wellbeing, but it can also be associated with poor psychological wellbeing and physical health (see [Carers UK](https://www.carersuk.org/images/CarersWeek2020/CW_2020_Research_Report_WEB.pdf)). 
+
+Survey data published for Carers Week 2020 by [Carers UK](https://www.carersuk.org/images/CarersWeek2020/CW_2020_Research_Report_WEB.pdf) suggests that there may now be up to 1.1 million unpaid carers in Scotland, of which 61% are women. The COVID-19 pandemic may have increased the number of people taking on caring roles in Scotland, with 16% of Scottish respondents to Carers UK's survey stating that they were already providing care before the pandemic, and a further 9% stating they have started caring since the coronavirus outbreak.
+
+In Scotland's Gender Equality Index, the indicators included in the time sub-domain of care are **care of adults**, **developmental childcare** and **non-developmental childcare**.
+
+Using the measures available, in `r metadata[["ref_period"]]`, Scotland's gender equality score for the care sub-domain is `r domain_score[["time_use_care"]]`.
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["time_use_care"]]
+```
+
+### Care of Adults {.tabset .tabset-fade -}
+```{r}
+var <- "adult_care"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value)  %>% comma(1, suffix = "%")
+```
+Data for this indicator is taken from the [`r metadata[["source"]]`](`r metadata[["link"]]`). Respondents aged 16+ were asked if they provide any regular help or care for any sick, disabled or frail person.
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women provided regular care to any sick, disabled or frail person, compared to  `r men_pct` of men. In `r metadata[["ref_period"]]`, Scotland's score on this indicator is `r domain_score[["adult_care"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+The [`r metadata[["source"]]`](`r metadata[["link"]]`) found that in 2017/18 women aged 45-54 were most likely to help or care for any sick, disabled or frail person (27%). This was followed by women aged 55-64 (24%).
+
+Women in the bottom two `r simd_tooltip` quintiles were more likely to be caring for any sick, disabled or frail person than woman in the top three `r simd_tooltip` quintiles. 20% of women in the bottom quintile and 21% in the 2nd quintile had these caring roles, compared to 16%, 15% and 16% of women in the 3rd to 5th quintiles respectively.
+
+Women with a limiting longstanding illness (disabled women) were more likely to provide care for any sick, disabled or frail person - with 21% of these women providing care compared to 16% of women without a longstanding illness (limiting or non limiting).
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+Data for this indicator is drawn from combined [`r metadata[["source"]]`](`r metadata[["link"]]`) data from 2017 and 2018. Combining data across years in this way allows for a more detailed analysis of subgroups in the sample and allows for analysis of questions with small sample sizes in one survey year. The sample size for this indicator was 8,506 people.
+
+Participants in the SHeS were asked whether they look after, or give any regular help or support to, family members, friends, neighbours or others because of a long-term physical condition, mental ill-health or disability; or problems related to old age. Caring which is done as part of any paid employment is not asked about.
+
+Samples in both 2017 and 2018 were drawn from the Postcode Address File (PAF). These addresses comprised four sample types: main (core) sample with biological measures (version A), main (core) sample without biological measures (Version B), child boost screening sample, and Health Board boost sample. The data for this indicator is drawn from the main sample - both versions A and B.
+
+### Developmental Childcare {.tabset .tabset-fade -}
+```{r}
+var <- "child_careDev"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women_n") %>% pull(value) %>% percent(1)
+men_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "men_n") %>% pull(value) %>% percent(1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+```
+
+Gender norms depicting women as homemakers and men as providers have meant that women have traditionally taken on more childcare roles. In addition, women are far more likely than men to be lone parents.
+
+Developmental childcare includes activities that influence physical, language, thought and emotional changes in children. When considering time spent on developmental childcare in 2020 it is important to note that wave one of fieldwork for the 2020 OTUS took place during the earlier stages of the COVID-19 pandemic, when schools and nurseries were closed for most children (except those whose parents were essential workers) and many parents and carers were required to home school their children - a form of developmental childcare.
+
+In `r metadata[["ref_period"]]`, women with children spent an average of `r women_n` minutes per day on developmental childcare, compared to men with children who spent `r men_n` minutes per day on these activities. In `r metadata[["ref_period"]]`, Scotland's score on this indicator is `r domain_score[["child_careDev"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Information on how gender intersected with other population characteristics in the 2020 OTUS will be available in 2021.
+
+Existing data on intersectionality can be found in the [2014/15 Time Use Survey ](https://www.gov.scot/publications/centre-time-use-research-time-use-survey-2014-15-results-scotland/pages/3/).
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+The indicator of developmental childcare is made up of both occasions where such childcare was a primary activity, that is when it was the only activity taking place, and time when developmental childcare was a secondary activity, for example looking after the child while they, or you, are doing another activity.
+
+The 2020 OTUS took place during two waves, the first running from 28 March to 26 April, during the COVID-19 lockdown, and the second from 5 September to 11 October, during the restrictions that followed the lockdown. Given this context, future comparisons with the 2020 OTUS must be carried out in the knowledge that any changes in time use patterns might be due to these extraordinary circumstances, rather than change in societal trends.
+
+This Scottish sample was made up of 556 people, and 917 diary days. 317 participants were women (a total of 520 diary days) and 239 were men (397 diary days). Data was weighted in order to correct for differences in sample size between men and women, and to ensure it reflects the profile of the Scottish population.
+
+The 2020 OTUS gathered information using pre-coded time use diaries - participants  recorded their activities at 10 minute intervals in time use diaries provided by the researchers. They were asked to provide completed diaries on two randomly allocated days which included, by design, one weekday and one weekend day. Diary entries were then recorded by the participants online where possible, or were contacted over the phone by interviewers who recorded diary information on participants’ behalf.
+
+Time is reported in average minutes per day. For the indicator of developmental childcare this average is calculated using only those members of the sample who have children in their household.
+
+It should be noted that this indicator is based on 'experimental official statistics'.  
+
+
+### Non-developmental childcare {.tabset .tabset-fade -}
+```{r}
+var <- "child_careNDev"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women_n") %>% pull(value) %>% percent(1)
+men_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "men_n") %>% pull(value) %>% percent(1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+```
+
+Non-developmental childcare includes activities such as feeding, washing, dressing or preparing meals for children.
+
+In `r metadata[["ref_period"]]` women with children spent an average of `r women_n` minutes per day on non-developmental childcare, compared to men with children who spent `r men_n` minutes per day on these activities. Scotland's score on this indicator is `r domain_score[["child_careNDev"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Information on how gender intersected with other population characteristics in the 2020 OTUS will be available in 2021.
+
+Existing data on intersectionality can be found in the [2014/15 Time Use Survey ](https://www.gov.scot/publications/centre-time-use-research-time-use-survey-2014-15-results-scotland/pages/3/).
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+The indicator of developmental childcare is made up of both occasions where such childcare was a primary activity, that is when it is the only activity taking place, and time when developmental childcare was a secondary activity, for example looking after the child while they, or you, are doing another activity.
+
+The 2020 OTUS took place during two waves, the first running from 28 March to 26 April, during the COVID-19 lockdown, and the second from 5 September to 11 October, during the restrictions that followed the lockdown. Given this context, future comparisons with the 2020 OTUS must be carried out in the knowledge that any changes in time use patterns might be due to these extraordinary circumstances, rather than change in societal trends.
+
+This Scottish sample was made up of 556 people, and 917 diary days. 317 participants were women (a total of 520 diary days) and 239 were men (397 diary days). Data was weighted in order to correct for differences in sample size between men and women, and to ensure it reflects the profile of the Scottish population.
+
+The 2020 OTUS gathered information using pre-coded time use diaries - participants recorded their activities at 10 minute intervals in time use diaries provided by the researchers. They were asked to provide completed diaries on two randomly allocated days which included, by design, one weekday and one weekend day. Diary entries were then recorded by the participants online where possible, or were contacted over the phone by interviewers who recorded diary information on participants’ behalf.
+
+Time is reported in average minutes per day. For the indicator of non-developmental childcare this average is calculated using only those members of the sample who have children in their household.
+
+It should be noted that this indicator is based on 'experimental official statistics'.
+
+## **Time Sub-domain**
+```{r}
+ind_score <- data[["time_use_time"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["time_use_time"]] %>% filter(row_number() == 1)
+```
+
+The time sub-domain measures the different ways men and women use their personal time. By measuring how women and men spend their time away from formal work, women's economic and social contributions can be better understood and gender inequalities highlighted.
+
+How a person spends their leisure time is also vital to their health and wellbeing. Appropriate leisure, social and physical activities all contribute to wellbeing, while an overburden of both paid and unpaid work can cause stress.
+
+In this sub-domain, three forms of unpaid work are considered: **household management**; **housework and cooking**, and **volunteering**, as well  as **social/leisure activities**.
+
+In `r metadata[["ref_period"]]`, Scotland's gender equality score for the time sub-domain is `r domain_score[["time_use_time"]]`. 
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["time_use_time"]]
+```
+
+### Household Management {.tabset .tabset-fade -}
+```{r}
+var <- "hhld_management"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women_n") %>% pull(value) %>% percent(1)
+men_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "men_n") %>% pull(value) %>% percent(1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+```
+
+Household management is a form of unpaid work which encompasses activities related to household administration - such as banking, errands, appointments and food and drink shopping.
+
+In `r metadata[["ref_period"]]`, there was no significant difference in time spent on household management between women and men. Women spent an average of `r women_n` minutes per day on these activities, compared to  `r men_n` minutes for men. In `r metadata[["ref_period"]]`, Scotland's score on this indicator was `r domain_score[["hhld_management"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Information on how gender intersected with other population characteristics in the 2020 OTUS will be available in 2021.
+
+Existing data on intersectionality can be found in the [2014/15 Time Use Survey ](https://www.gov.scot/publications/centre-time-use-research-time-use-survey-2014-15-results-scotland/pages/3/).
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+The 2020 OTUS took place during two waves, the first running from 28 March to 26 April, during the COVID-19 lockdown, and the second from 5 September to 11 October, during the restrictions that followed the lockdown. Given this context, future comparisons with the 2020 OTUS must be carried out in the knowledge that any changes in time use patterns might be due to these extraordinary circumstances, rather than change in societal trends.
+
+This Scottish sample was made up of 556 people, and 917 diary days. 317 participants were women (a total of 520 diary days) and 239 were men (397 diary days). Data was weighted in order to correct for differences in sample size between men and women, and to ensure it reflects the profile of the Scottish population.
+
+The 2020 OTUS gathered information using pre-coded time use diaries - participants in the time use survey recorded their activities at 10 minute intervals in time use diaries provided by the researchers. They were asked to provide completed diaries on two randomly allocated days which included, by design, one weekday and one weekend day. Diary entries were then recorded by the participants online where possible, or were contacted over the phone by interviewers who recorded diary information on participants’ behalf.
+
+Time is reported in average minutes per day. Average time use depends on two factors: the number of people participating in an activity on a given day and the amount of time spent participating in that activity. These factors are combined to give a figure for average time use for the population group. The total sample population is used to calculate the average time spent on household management.
+
+It should be noted that this indicator is based on 'experimental official statistics'.
+
+### Housework and Cooking {.tabset .tabset-fade -}
+```{r}
+var <- "housework"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women_n") %>% pull(value) %>% percent(1)
+men_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "men_n") %>% pull(value) %>% percent(1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+```
+
+The housework and cooking indicator includes activities that can be considered as domestic work, for example: making food and drinks, cooking or washing up; cleaning, hoovering, tidying house; washing up and ironing, washing or mending clothes.
+
+In `r metadata[["ref_period"]]`, women spent substantially more time on housework and cooking than men - an average of `r women_n` minutes per day, compared to  `r men_n` minutes for men. In `r metadata[["ref_period"]]`, Scotland's score on this indicator was `r domain_score[["housework"]]`, indicating considerable gender inequality.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Information on how gender intersected with other population characteristics in the 2020 OTUS will be available in 2021.
+
+Existing data on intersectionality can be found in the [2014/15 Time Use Survey ](https://www.gov.scot/publications/centre-time-use-research-time-use-survey-2014-15-results-scotland/pages/3/).
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+The 2020 OTUS took place during two waves, the first running from 28 March to 26 April, during the COVID-19 lockdown, and the second from 5 September to 11 October, during the restrictions that followed the lockdown. Given this context, future comparisons with the 2020 OTUS must be carried out in the knowledge that any changes in time use patterns might be due to these extraordinary circumstances, rather than change in societal trends.
+
+This Scottish sample was made up of 556 people, and 917 diary days. 317 participants were women (a total of 520 diary days) and 239 were men (397 diary days). Data was weighted in order to correct for differences in sample size between men and women, and to ensure it reflects the profile of the Scottish population.
+
+The 2020 OTUS gathered information using pre-coded time use diaries - participants recorded their activities at 10 minute intervals in time use diaries provided by the researchers. They were asked to provide completed diaries on two randomly allocated days which included, by design, one weekday and one weekend day. Diary entries were then recorded by the participants online where possible, or were contacted over the phone by interviewers who recorded diary information on participants’ behalf.
+
+Time is reported in average minutes per day. Average time use depends on two factors: the number of people participating in an activity on a given day and the amount of time spent participating in that activity. These factors are combined to give a figure for average time use for the population group. The total sample population is used to calculate the average time spent on housework and cooking.
+
+It should be noted that this indicator is based on 'experimental official statistics'.
+
+
+### Social/Leisure Activities {.tabset .tabset-fade -}
+```{r}
+var <- "leisure"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women_n") %>% pull(value) %>% percent(1)
+men_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "men_n") %>% pull(value) %>% percent(1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+```
+
+Social and leisure activities are important for maintaining physical and mental health. Participation in outdoor and physical activities predicts physical health, while home-centred and social activity participation can be good for mental health. 
+
+The indicator of social/leisure activities is made up of leisure activities which have a social element. Examples include: spending time with friends, family, neighbours and colleagues; telephoning, texting, emailing or writing letters to friends and family; playing team sports, and playing other sports and exercising, including hiking. This activity category also includes cultural activities: such as visits to the cinema, theatre, concerts, sporting events, museums, galleries and the library, and health and wellbeing activities including meditating, having a massage and spa or well-being treatments. It's worth noting that as a result of the COVID-19 lockdown and subsequent restrictions a number of these activities were not possible, particularly face-to-face socialising with members outside of a person's household (during lockdown) and cultural activities, such as attending the theatre, concerts and sporting events. This is therefore likely to have impacted on the data presented here.
+
+In `r metadata[["ref_period"]]`, women spent more time on social/leisure activities than men - an average of `r women_n` minutes per day, compared to  `r men_n` minutes for men. 
+
+In `r metadata[["ref_period"]]`, Scotland's score on this indicator is `r domain_score[["leisure"]]`. It should be noted that difference here is caused by the fact that women spent more time on social/leisure activities than men. However, it is not the case that men have less free-time than women overall, but rather that they spent more time on 'other activities'. These are activities which have less of a social element, such as watching TV or browsing the internet. See [OTUS 2020](https://www.gov.scot/publications/time-use-scotland-2020-gender-analysis-ons-online-time-use-survey/) for more details.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Information on how gender intersected with other population characteristics in the 2020 OTUS will be available in 2021.
+
+Existing data on intersectionality can be found in the [2014/15 Time Use Survey ](https://www.gov.scot/publications/centre-time-use-research-time-use-survey-2014-15-results-scotland/pages/3/).
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+The 2020 OTUS took place during two waves, the first running from 28 March to 26 April, during the COVID-19 lockdown, and the second from 5 September to 11 October, during the restrictions that followed the lockdown. Given this context, future comparisons with the 2020 OTUS must be carried out in the knowledge that any changes in time use patterns might be due to these extraordinary circumstances, rather than change in societal trends.
+
+This Scottish sample was made up of 556 people, and 917 diary days. 317 participants were women (a total of 520 diary days) and 239 were men (397 diary days). Data was weighted in order to correct for differences in sample size between men and women, and to ensure it reflects the profile of the Scottish population.
+
+The 2020 OTUS gathered information using pre-coded time use diaries - participants recorded their activities at 10 minute intervals in time use diaries provided by the researchers. They were asked to provide completed diaries on two randomly allocated days which included, by design, one weekday and one weekend day. Diary entries were then recorded by the participants online where possible, or were contacted over the phone by interviewers who recorded diary information on participants’ behalf.
+
+Time is reported in average minutes per day. Average time use depends on two factors: the number of people participating in an activity on a given day and the amount of time spent participating in that activity. These factors are combined to give a figure for average time use for the population group. The total sample population is used to calculate the average time spent on social/leisure activities.
+
+It should be noted that this indicator is based on 'experimental official statistics'.
+
+### Volunteering {.tabset .tabset-fade -}
+```{r}
+var <- "volunteer"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value)  %>% comma(1, suffix = "%")
+```
+Data for this indicator is drawn from the [Scottish Household Survey (SHS) 2019](https://www.gov.scot/publications/scottish-household-survey-2019-annual-report/). Respondents were asked if they had provided unpaid help to organisations or groups in the last 12 months. It should be noted that this data was collected in 2019, prior to the COVID-19 pandemic.
+
+In  `r metadata[["ref_period"]]`, volunteering was slightly more common amongst women than amongst men. `r women_pct` of women had provided unpaid help to organisations or groups in the last 12 months, compared to `r men_pct` of men. Scotland's score on this indicator is `r domain_score[["volunteer"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Women aged 35-44 were the group most likely to volunteer (36%), while women aged over 75 are the least likely to volunteer.
+
+People from higher-income households and less deprived areas are more likely to volunteer than those from lower-income households and more deprived areas. 35% of those living in households earning over £40,000 per year had volunteered in the previous 12 months, compared with 18% of people from households earning £6,001-£10,000. Similarly, 33% of adults living in the 20% least deprived areas had volunteered, compared with 16% of those living in the 20% most deprived areas.
+
+Volunteering is more common among those living in rural areas. 33% of those living in remote rural areas had volunteered, compared with 24% of those living in large urban areas. Volunteers living in remote rural or accessible rural areas were more likely to volunteer for local community or neighbourhood organisations/groups (40% and 32% respectively) than the average for all of Scotland (22%).
+
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+[SHS](https://www.gov.scot/publications/scottish-household-survey-2019-annual-report/) is a Scotland-wide face-to-face survey of a random sample of people in private residences. The SHS is voluntary and interviewer-administered in people’s homes. Computer Assisted Personal Interviewing (CAPI) is used to collect the survey data.
+
+10,580 households participated in the household section of the interview, and 9,780 adults participated in the random adult section of the interview.

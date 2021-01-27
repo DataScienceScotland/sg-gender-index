@@ -1,0 +1,660 @@
+```{r, include = FALSE}
+for (script in list.files("scripts", full.names = TRUE)) {
+  source(script, encoding = "UTF-8")
+}
+```
+
+# **Work Domain**  
+```{r}
+domain_score <- domain_data %>% filter(domain=="Work") %>% select(variable, score) %>% mutate(score = number(score)) %>% spread(variable, score)
+metadata <- data[["work"]] %>% filter(row_number() == 1)
+```
+
+### {.tabset .tabset-fade -}
+
+#### Key Findings {-}
+
+The domain of 'Work' measures the extent to which women and men have equal access to employment and good working conditions.  Fair Work can drive productivity, release untapped potential and inspire innovation - all of which add value to jobs and to business and in turn create stronger, more sustainable and more inclusive growth. [A Fairer Scotland for Women: Gender Pay Gap Action Plan](https://www.gov.scot/publications/fairer-scotland-women-gender-pay-gap-action-plan/) sets out a list of actions that will support women and girls to participate equally in the labour market and address the many drivers of the gender pay gap.
+
+The work domain of Scotland's new index is comprised of three sub-domains: **Participation**, **Quality** and **Segregation**.  
+
+In `r metadata[["ref_period"]]` the gender equality score for the work domain is `r domain_score[["work"]]` (where a score of 100 represents full equality). However, there was variation in the gender equality scores for the three sub-domains: 
+
+* The participation sub-domain has a score of `r domain_score[["work_participation"]]`
+
+* The quality sub-domain has a score of `r domain_score[["work_quality"]]`
+
+* The segregation sub-domain has a score of `r domain_score[["work_segregation"]]`
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html() %>% create_html()
+plots[["work"]]
+```
+
+#### About the Work Domain {-} 
+
+The domain of 'Work' measures the extent to which women and men can benefit from equal access to employment and good working conditions.  Fair Work can drive productivity, release untapped potential and inspire innovation - all of which add value to jobs and to business and in turn create stronger, more sustainable and inclusive growth.
+
+A gender equality score of 100 represents full gender equality and a score of one represents no gender equality. The higher the score, the more gender equality there is.
+
+[A Fairer Scotland for Women: Gender Pay Gap Action Plan](https://www.gov.scot/publications/fairer-scotland-women-gender-pay-gap-action-plan/) sets out a list of actions that will support women and girls to participate equally in the labour market and address the many drivers of the gender pay gap.
+
+Scotland's Fair Work Convention has been in place since April 2015 and acts as an independent advisory body to Scottish Ministers.  The Convention's vision is that, by 2025, people in Scotland will have a world-leading working life where fair work drives success, wellbeing and prosperity for individuals, businesses, organisations and society.
+
+**Participation in work** was selected as a sub-domain within Scotland's Gender Equality Index to measure women and men's access to employment, taking into account and reflecting that women are often constrained by traditional social roles as carers and mothers even as they have increasingly entered and remained in the labour market.  Work structures are designed in a way that are often inflexible and at odds with those caring roles, and can be a barrier to women's equal participation in work.
+
+**Segregation** is also a key sub-domain within Scotland's Gender Equality Index, and it describes both horizontal and vertical occupational segregation - where women and men work in different industries (for example, caring and retail for women and science, technology, engineering, and mathematics (STEM) for men), but also at different grades or levels of responsibility. Employers have a role to play in tackling occupational segregation and breaking down the barriers that girls and women face in the STEM sector and society as a whole. [Scotland's Gender Pay Gap Action Plan](https://www.gov.scot/publications/fairer-scotland-women-gender-pay-gap-action-plan/pages/3/) states that subject choice at school is a key determinant of career choice. Subject choice, which will be explored in more detail in the 'Knowledge' domain of Scotland's Gender Equality Index, is often skewed by gender with boys more likely to make subject choices which lead to a wider range of better paid jobs.
+
+The [One Scotland](https://onescotland.org/nacwg-news/fair-work-scottish-government/) website details a series of measures Scotland is taking on Fair Work. 
+
+Scottish Government has also set out actions to encourage [Women in STEM](https://www.gov.scot/policies/science-and-research/women-stem/).
+
+This index also covers vertical segregation, i.e. where women continue not to reach management and senior positions in organisations to the same extent as men. 
+
+**Quality** of work is also included within Scotland's gender equality index. Creating jobs that are fulfilling, secure and well-paid is a key component of the Scottish Government's Economic and Labour Market strategies. Beyond headline labour market indicators, the quality of work in our economy can be informed by sector trends, pay levels, opportunities for progression, levels of job satisfaction and other metrics. Quality of work can impact upon the inclusive growth outcomes of participation and people.  
+
+## **Participation Sub-domain** {.section1}
+```{r}
+ind_score <- data[["work_participation"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["work_participation"]] %>% filter(row_number() == 1)
+```
+
+Delivering fair work to a diverse and inclusive workforce is a key priority within the Scottish Government's Fair Work Action Plan. [Scotland's Fair Work Convention's](https://www.fairworkconvention.scot/) vision is that, by 2025, people in Scotland will have a world-leading working life where fair work drives success, wellbeing and prosperity for individuals, businesses, organisations and society.
+
+Women and men can bring different skills and knowledge to the workplace and diverse organisations can experience increased productivity and improved economic performance. The index's sub-domain of participation is designed to measure women's and men's access to employment.  
+
+It combines four indicators: 
+
+* Participation in full-time equivalent (FTE) employment 
+
+* Labour market 'inactivity' due to caring
+
+* Self-employment
+
+* Underemployment (hours) 
+
+In `r metadata[["ref_period"]]` the gender equality score for the work participation sub-domain is `r domain_score[["work_participation"]]`.  This was a relatively low score and far from full gender equality.
+
+This low score is driven by the **labour market 'inactivity' due to caring** indicator which shows a very low gender equality score of `r domain_score[["lm_inactive2"]]`, with caring roles impacting on far more women than men. The **self-employment** score is also fairly low, at `r domain_score[["self_employed"]]`, and the **participation in rates of full-time equivalent (FTE) employment** score is `r domain_score[["fte_emp"]]`. However, **underemployment (hours)** is equal between women and men with a score of `r domain_score[["under_emp_hrs"]]`.  
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["work_participation"]]
+```
+
+### Participation in Full-Time Equivalent (FTE) Employment {.tabset .tabset-fade -}
+```{r}
+var <- "fte_emp"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+The FTE employment rate indicator provides an insight into paid work participation by women and men and takes into account the higher incidence of part-time employment among women. It is obtained by comparing each worker's average number of hours worked with the average number of hours worked by a full-time worker. 
+
+In `r metadata[["ref_period"]]` the full-time equivalent employment rate for women was `r women_pct`, compared to `r men_pct` of men. Scotland's score on this indicator is `r domain_score[["fte_emp"]]`, revealing some inequality in this area, with women's participation in the labour market lower than that men's.  
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+This data is taken from the [Annual Population Survey (APS)](https://www.gov.scot/publications/regional-employment-patterns-scotland-statistics-annual-population-survey-2018/pages/2/), which highlights the key statistics for Scotland's labour market.  
+
+Breakdowns are available in this data collection by `r simd_tooltip`, age, disability and ethnicity. 
+
+The employment rate is the number of people in employment expressed as a percentage of the relevant population. This is different from the Full-Time Equivalent (FTE) employment rate which counts employed persons in a way that makes them comparable although they may work a different number of hours. 
+
+Key findings from the source publication on intersectionality include analysis of the employment rate by disability and ethnicity.
+
+**Ethnicity**
+
+The minority ethnic employment gap was much higher for women than men in 2018; for women the minority ethnic employment gap was 27 percentage points and for men it was 11 percentage points.
+
+Employment rates vary considerably for some groups of women, e.g. some groups of minority ethnic women, and disabled women have a lower employment rate.  Close the Gap have produced analysis of minority ethnic women's participation [here](https://www.closethegap.org.uk/content/resources/1557499847_Still-Not-Visible.pdf)
+
+**Disability**
+
+The gap between the employment rate for disabled and non-disabled people was lower for women (31 percentage points) than men (40 percentage points)
+
+Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+Full-Time Equivalent (FTE) employment is a measure that counts employed people in a way that makes them comparable although they may work a different number of hours.
+
+Respondents are asked their full-time/part-time status and usual hours worked as part of the APS questionnaire.
+
+In order to accommodate for the variation in full-time working hours, the average number of usual hours worked by respondents who worked full-time was calculated for each years' worth of data.
+
+In calculating FTE, respondents who stated they were full-time were given an FTE of 1 and all other respondents' FTE was calculated using the average number of full-time hours as described above.
+
+Data is taken from the Annual Population Survey [APS](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/methodologies/annualpopulationsurveyapsqmi)
+
+### Labour Market 'inactivity' Due to Caring {.tabset .tabset-fade -}
+```{r}
+var <- "lm_inactive2"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Women's access to, and participation in, paid work remains heavily constrained by their traditional social roles as carers and mothers even as they have increasingly entered and remained in the labour market.  The extent of women's unpaid work is a key influence on their capacity to work in the formal labour market, therefore the proportion of 16-64 year old women and men who are 'economically inactive' due to looking after family and home is included as an indicator in Scotland's Gender Equality Index.  
+
+In `r metadata[["ref_period"]]`, `r women_pct` of people aged 16-64 who were 'inactive' due to caring were women, and men made up the remaining `r men_pct`.  In `r metadata[["ref_period"]]`. Scotland's score on this indicator is `r domain_score[["lm_inactive2"]]`, which indicates that Scotland is a long way from full gender equality in this area.  
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Data is taken from the [`r metadata[["source"]]`](`r metadata[["link"]]`).
+
+Breakdowns are available in this data collection by age, ethnicity, disability, sexual orientation, religious denomination and `r simd_tooltip`. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-}
+This indicator compares the number of women and men who are economically inactive due to looking after home/family. Numbers were used in this calculation rather than percentages, as this indicator is looking at gender differences in who takes on childcare roles. The gender equality score was calculated by comparing the value for women with the mid-point of men and women. See the Methodology chapter for further details.
+
+'Economically inactive' people are not in employment, but do not satisfy all the criteria for unemployment. This group is comprised of: those who want a job but who have not been seeking work in the last four weeks; those who want a job and are seeking work but not available to start; and those who do not want a job. For example, students not working or seeking work and those in retirement are classed as economically inactive. It can be useful for some purposes to consider only those who are both economically inactive and not of state pension age.
+
+Data is taken from the [`r metadata[["source"]]`](`r metadata[["link"]]`).
+
+### Self-employment {.tabset .tabset-fade -}
+```{r}
+var <- "self_employed"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+A person is self-employed if they run their business for themselves and take responsibility for its success or failure.  Self-employed workers aren't paid through [Pay As You Earn (PAYE)](https://www.gov.uk/topic/business-tax/paye), and they don't have the employment rights and responsibilities of employees.  Someone can be both employed and self-employed at the same time, for example if they work for an employer during the day and run their own business in the evenings. 'Gig economy' workers, who are paid per short-term task (such as completing a delivery), have also traditionally been classified as self-employed for employment law purposes.    
+
+Some forms of self-employment can constitute an alternative to part-time work, whereas others can be associated with long working hours. A gender imbalance in self-employment can indicate an imbalance in access and participation in the labour market.  
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women in employment aged 16+ were self-employed compared to `r men_pct` of men. Scotland's score on this indicator is `r domain_score[["self_employed"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Data is taken from the [`r metadata[["source"]]`](`r metadata[["link"]]`)
+
+Breakdowns are available in this data collection by age, ethnicity, disability, sexual orientation, religious denomination and `r simd_tooltip`. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+Self-employment: The division between employees and self-employed is based on survey respondents' own assessment of their employment status.
+
+Data is taken from the [`r metadata[["source"]]`](`r metadata[["link"]]`).
+
+### Underemployment (Hours) {.tabset .tabset-fade -}
+```{r}
+var <- "under_emp_hrs"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Underemployment refers to people who are in work, but who would prefer to work more hours for the same rate of pay and provides a measure of underutilisation of labour. The [Annual Population Survey (APS)](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/methodologies/annualpopulationsurveyapsqmi) gathers information on hours-based underemployment. Specifically, hours-based underemployment covers those looking for: additional hours in their existing role (at the same rate of pay); an additional job (to supplement their existing job); or a different job with more hours. The data used for this indicator within Scotland's Gender Equality Index is taken from the APS.
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women in employment aged 16+ were underemployed compared to `r men_pct` of men. Scotland's score on this indicator is `r domain_score[["under_emp_hrs"]]` indicating that there is gender equality in this area. The high score is driven by the high proportion of women and men not being underemployed, and the relatively small percentage gap between women and men.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Data is taken from the [Annual Population Survey](https://www.gov.scot/publications/regional-employment-patterns-scotland-statistics-annual-population-survey-2018/pages/2/) which highlights the key statistics for Scotland's labour market.  
+
+Breakdowns are available in this data collection by age, ethnicity, disability and `r simd_tooltip`. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-} 
+`r metadata[["calculation_notes"]]`
+
+Underemployment refers to those who are in work but who would prefer to work more hours for the same rate of pay and provides a measure of underutilisation of labour.
+
+The [APS](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/methodologies/annualpopulationsurveyapsqmi) only collects information on hours based underemployment.
+
+## **Quality Sub-domain** {.section2}
+```{r}
+ind_score <- data[["work_quality"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["work_quality"]] %>% filter(row_number() == 1)
+```
+
+Creating jobs that are fulfilling, secure and well-paid is a key component of the Scottish Government's Economic and Labour Market strategies. Beyond headline labour market indicators, the quality of work in our economy can be informed by sector trends, pay levels, whether someone works full time or part time, opportunities for progression, levels of job satisfaction and other metrics. Quality of work can impact upon the inclusive growth outcomes of participation and people.  
+
+The International Labour Organization [(ILO)](https://www.ilo.org/global/lang--en/index.htm), which has set out labour standards and developed policies and programmes promoting decent work since 1919, suggests that decent work "delivers a fair income, security in the workplace and social protection for families, better prospects for personal development and social integration, freedom for people to express their concerns, organise and participate in the decisions that affect their lives and equality of opportunity and treatment for all women and men". The ILO has produced conventions and policy guidance on pay, working time, employment security, collective bargaining, discrimination, and health and safety at work.
+
+In Scotland's Gender Equality Index, the indicators included in the sub-domain of work quality are **access to flexible working** and **job security**.  
+
+In `r metadata[["ref_period"]]`, Scotland's score on this sub-domain is `r domain_score[["work_quality"]]`.
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["work_quality"]]
+```
+
+### Access to Flexible Working {.tabset .tabset-fade -}
+```{r}
+var <- "flexible_work"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Flexible working can be important for work life balance and can help increase quality of work and participation in the labour market. Flexible working is a way of working that suits an employee's needs, including those with caring roles.  Workers with caring roles are more likely to be women and a lack of flexible working opportunities can represent a more significant barrier to women than to men.    
+
+A [LFS](https://www.ons.gov.uk/surveys/informationforhouseholdsandindividuals/householdandindividualsurveys/labourforcesurvey) question asks about types of agreed work arrangement. The question in the survey includes flexible working hours, annualised hours contracts, term-time working, job sharing, nine-day fortnights, four-and-a-half-day weeks, zero hours contracts and on-call working.
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women in employment aged 16+ had access to flexible work compared to  `r men_pct` of men. Scotland's score on this indicator is `r domain_score[["flexible_work"]]`.  It should be noted that although this provides an indication of who has access to flexible work it doesn't show who needs it in order to participate in the labour market. 
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Data is taken from [`r metadata[["source"]]`](`r metadata[["link"]]`) which highlights the key statistics for Scotland's labour market.  
+
+Breakdowns are available in this data collection by age, ethnicity, disability and `r simd_tooltip`. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers 
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+Data is taken from the [`r metadata[["source"]]`](`r metadata[["link"]]`) which asked:
+
+"Some people have special working hours arrangements that vary daily or weekly. In your (main) job is your agreed working arrangement any of the following:
+
+* Flexible working hours
+
+* Annualised hours contract
+
+* Term-time working
+
+* Job sharing
+
+* Nine-day fortnight
+
+* Four-and-a-half-day week
+
+* Zero hours contract"
+
+If a respondent answered yes to any of the above options then the respondent was considered to be working flexibly.
+
+### Job Security {.tabset .tabset-fade -}
+```{r}
+var <- "job_sec"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Job security can help increase women and men's quality of life and improve their wellbeing. A lack of job security can be a barrier to home ownership, in particular.    
+
+Employment security is based on responses to questions asking about whether employees are employed on a permanent or temporary basis and, if they are employed on a temporary basis, then whether this is because they do not want permanent employment. Other measures related to secure employment, for example zero hours contracts, are not currently included on the [APS](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/methodologies/annualpopulationsurveyapsqmi). However, a question on zero hours contracts has been added to the APS from 2020 and, therefore, will be available in future versions of the publication.
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women in employment aged 18+ had secure jobs compared to `r men_pct` of men.  Since these proportions were close, Scotland's score on this indicator is close to 100, which points to almost full equality between women and men under this measure of job security. 
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Data is taken from the [`r metadata[["source"]]`](`r metadata[["link"]]`) which highlights the key statistics for Scotland's labour market.  
+
+Breakdowns are available in this data collection by age, ethnicity, disability and `r simd_tooltip`. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-} 
+`r metadata[["calculation_notes"]]`
+
+Secure employment is based on responses to questions asking about whether employees are employed on a permanent or temporary basis, and if they are employed on a temporary basis, then whether this is because they do not want permanent employment. Other measures related to secure employment, for example zero hours contracts are not currently included on the [APS](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/methodologies/annualpopulationsurveyapsqmi). However, a question on zero hours contracts has been added to the APS from 2020 and, therefore, will be available in future versions of the publication.
+
+The score is based on APS's current definition of secure employment, though there may be scope to review this in the future.
+
+## **Segregation Sub-domain** {.section3}
+```{r}
+ind_score <- data[["work_segregation"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["work_segregation"]] %>% filter(row_number() == 1)
+```
+
+Occupational segregation is the unequal concentration of men and women in different kinds of jobs (horizontal segregation) and at different levels (vertical segregation).  It is caused by factors including gender stereotyping, inflexible working patterns and undervaluation of roles and occupations usually considered 'women's work'.
+
+To help address this, the Scottish Government funds [Equate Scotland](https://equatescotland.org.uk/) and [Close the Gap](https://www.closethegap.org.uk/) along with [Flexibility Works](https://workingfamilies.org.uk/) where it plays an active role helping to promote the benefits of family-friendly, flexible working for employees and employers. Its aim is to make these ways of working the norm for employees, including men.
+
+In Scotland’s Gender Equality Index, the indicators included in the sub-domain of segregation are **Horizontal Segregation (Care)**, **Horizontal Segregation (STEM)** and **Vertical Segregation**.
+
+In `r metadata[["ref_period"]]`, Scotland's score on this sub-domain is `r domain_score[["work_segregation"]]`
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["work_segregation"]]
+```
+
+### Horizontal Segregation (Care) {.tabset .tabset-fade -}
+```{r}
+var <- "seg_care"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Occupational segregation describes where women and men do different types of work, with women and girls more often found in traditionally 'women's roles' such as caring and retail, and men more often in the higher paid professional sectors such as Science, Technology, Engineering and Maths (STEM). Employers have a role to play in tackling occupational segregation and breaking down the barriers that girls and women face in employment and society as a whole. 
+
+The Scottish Government is working with partners to address the under-representation of women in certain courses and careers, to ensure that Scotland's STEM sectors are diverse, equal and prosperous. More information can be found [here](https://www.gov.scot/policies/science-and-research/women-stem/). Scotland's Gender Equality Index uses two indicators of horizontal occupational segregation (Care and STEM).  Care will be defined using the UK Standard Industrial Classification of Economic Activities [(SIC)](https://www.ons.gov.uk/methodology/classificationsandstandards/ukstandardindustrialclassificationofeconomicactivities) for health and social care.
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women in employment aged 16+ were employed in an occupation within the health and social care industrial group compared to  `r men_pct` of men. Scotland's score on this indicator is `r domain_score[["seg_care"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Data is taken from the [`r metadata[["source"]]`](`r metadata[["link"]]`) which highlights the key statistics for Scotland's labour market.  
+
+Breakdowns are available in this data collection by age, ethnicity, disability and `r simd_tooltip`. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+The data is taken from the [`r metadata[["source"]]`](`r metadata[["link"]]`).  
+
+Those working in a Care Sector broad industrial group are defined as respondents who reported their industry as one of the following SIC2007 codes: 
+
+* 86.10/2 Medical nursing home activities
+
+* 87 Residential care activities
+
+* 88 Social work activities without accommodation
+
+Source: [Standard industrial classification of economic activities](https://www.ons.gov.uk/methodology/classificationsandstandards/ukstandardindustrialclassificationofeconomicactivities) (SIC).
+
+### Horizontal Segregation (STEM) {.tabset .tabset-fade -}
+```{r}
+var <- "seg_stem"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+In Scotland's Gender Equality Index, STEM is used as a further measure of horizontal occupational segregation. STEM stands for Science, Technology, Engineering and Mathematics and jobs in these fields tend to be professional and higher paid.  There is no one accepted definition of STEM in the labour market in use in Government. The main issue is that there are some labour market sectors that are very clearly STEM based e.g. engineering, and some that are not STEM based but include STEM related occupations in them e.g. an accountant in a business or a clinician working in health and social work.
+
+Women are under-represented in a range of STEM-related sectors. As well as impacting on individuals in terms of employment opportunities, income and career progression, employers are also affected. Social attitudes, both explicit and implicit, stereotype the roles women and men, girls and boys have in our society and can be set at an early stage. Segregation is also driven by perceptions and assumptions about what is 'women's work', and what is 'men's work'. These traditional gender associations and stereotypes are prevalent in industries and roles such as construction, engineering, etc. (dominated by men), whilst caring and secretarial roles are dominated by women.  Women in STEM careers have a high attrition rate, with the proportion of women decreasing the more senior roles become. There can also be segregation within STEM, in terms of differences in the roles of women and men.  
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women in employment aged 16+ were employed in STEM occupations compared to `r men_pct` of men. Scotland's score on this indicator is `r domain_score[["seg_stem"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Data is taken from the [Annual Population Survey](https://www.gov.scot/publications/regional-employment-patterns-scotland-statistics-annual-population-survey-2018/pages/2/) which highlights the key statistics for Scotland's labour market.  
+
+Breakdowns are available in this data collection by age, ethnicity, disability and `r simd_tooltip`. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+The data is taken from the [APS](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/methodologies/annualpopulationsurveyapsqmi). 
+
+Those working in STEM industries are defined as respondents who reported their industry as one of the following SIC2007 codes:
+
+* 02.4	Support services to forestry
+
+* 06.1	Extraction of crude petroleum
+
+* 06.2	Extraction of natural gas
+
+* 09.1	Support activities for petroleum and natural gas extraction
+
+* 12.0	Manufacture of tobacco products
+
+* 18.1	Printing and service activities related to printing
+
+* 18.2	Reproduction of recorded media
+
+* 19.2	Manufacture of refined petroleum products
+
+* 20.1	Manufacture of basic chemicals, fertilisers and nitrogen compounds, plastics and synthetic rubber in primary forms
+
+* 20.2	Manufacture of pesticides and other agrochemical products
+
+* 20.3	Manufacture of paints, varnishes and similar coatings, printing ink and mastics
+
+* 20.4	Manufacture of soap and detergents, cleaning and polishing preparations,
+perfumes and toilet preparations
+
+* 20.5	Manufacture of other chemical products
+
+* 20.6	Manufacture of man-made fibres
+
+* 21.1	Manufacture of basic pharmaceutical products
+
+* 21.2	Manufacture of pharmaceutical preparations
+
+* 24.5	Casting of metals
+
+* 25.4	Manufacture of weapons and ammunition
+
+* 25.6	Treatment and coating of metals; machining
+
+* 26.1	Manufacture of electronic components and boards
+
+* 26.2	Manufacture of computers and peripheral equipment
+
+* 26.3	Manufacture of communication equipment
+
+* 26.4	Manufacture of consumer electronics
+
+* 26.5	Manufacture of instruments and appliances for measuring, testing and navigation;
+watches and clocks
+
+* 26.6	Manufacture of irradiation, electromedical and electrotherapeutic equipment
+
+* 26.7	Manufacture of optical instruments and photographic equipment
+
+* 26.8	Manufacture of magnetic and optical media
+
+* 27.1	Manufacture of electric motors, generators, transformers and electricity
+distribution and control apparatus
+
+* 27.2	Manufacture of batteries and accumulators
+
+* 27.3	Manufacture of wiring and wiring devices
+
+* 27.4	Manufacture of electric lighting equipment
+
+* 27.5	Manufacture of domestic appliances
+
+* 27.9	Manufacture of other electrical equipment
+
+* 28.4	Manufacture of metal forming machinery and machine tools
+
+* 28.9	Manufacture of other special-purpose machinery
+
+* 30.1	Building of ships and boats
+
+* 30.2	Manufacture of railway locomotives and rolling stock
+
+* 30.3	Manufacture of air and spacecraft and related machinery
+
+* 30.4	Manufacture of military fighting vehicles
+
+* 32.9	Other manufacturing
+
+* 33.1	Repair of fabricated metal products, machinery and equipment
+
+* 33.2	Installation of industrial machinery and equipment
+
+* 35.1	Electric power generation, transmission and distribution
+
+* 35.2	Manufacture of gas; distribution of gaseous fuels through mains
+
+* 35.3	Steam and air conditioning supply
+
+* 36.0	Water collection, treatment and supply
+
+* 37.0	Sewerage
+
+* 38.1	Waste collection
+
+* 38.2	Waste treatment and disposal
+
+* 38.3	Materials recovery
+
+* 39.0	Remediation activities and other waste management services
+
+* 41.1	Development of building projects
+
+* 41.2	Construction of residential and non-residential buildings
+
+* 42.1	Construction of roads and railways
+
+* 42.2	Construction of utility projects
+
+* 42.9	Construction of other civil engineering projects
+
+* 46.1	Wholesale on a fee or contract basis
+
+* 46.7	Other specialised wholesale
+
+* 52.2	Support activities for transportation
+
+* 58.2	Software publishing
+
+* 61.1	Wired telecommunications activities
+
+* 61.2	Wireless telecommunications activities
+
+* 61.3	Satellite telecommunications activities
+
+* 61.9	Other telecommunications activities
+
+* 62.0	Computer programming, consultancy and related activities
+
+* 63.1	Data processing, hosting and related activities; web portals
+
+* 63.9	Other information service activities
+
+* 66.1	Activities auxiliary to financial services, except insurance and pension funding
+
+* 66.2	Activities auxiliary to insurance and pension funding
+
+* 70.2	Management consultancy activities
+
+* 71.1	Architectural and engineering activities and related technical consultancy
+
+* 71.2	Technical testing and analysis
+
+* 72.1	Research and experimental development on natural sciences and engineering
+
+* 74.9	Other professional, scientific and technical activities n.e.c.
+
+* 75.0	Veterinary activities
+
+* 84.1 Administration of the State and the economic and social policy of the community
+
+* 84.22	Defence Activities
+(within 84.2 Provision of services to the community as a whole)
+
+* 85.4	Higher education
+
+* 85.59	Other education nec
+(within 85.5 Other education)
+
+* 86.1	Hospital activities
+
+* 86.2	Medical and dental practice activities
+
+* 86.9	Other human health activities
+
+* 94.11	Activities of employer member organisations (within 94.1 Activities of business,
+employers and professional membership organisations)
+
+* 95.1	Repair of computers and communication equipment
+
+Source: [Scotland's STEM Strategy](https://www.gov.scot/publications/science-technology-engineering-mathematics-education-training-strategy-scotland/)
+
+### Vertical Segregation {.tabset .tabset-fade -}
+```{r}
+var <- "occ_group1"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+There is evidence that women continue not to reach management and senior positions in organisations to the same extent as men. There are two issues that are said to affect women's movement between junior and senior positions:  the 'glass ceiling' effect and the 'sticky floor' effect. 
+
+The 'glass ceiling' hypothesis is that there are specific barriers limiting women's participation in senior positions within organisations (therefore perpetuating vertical occupational segregation), and there is evidence that women do remain under-represented in the most senior positions.
+
+The 'sticky floor' hypothesis is that women and other minority groups are 'stuck' in low-skilled, low-paid jobs often without access to higher paid jobs due to limited availability of training or promotion prospects. This 'sticky floor' effect is thought to be particularly acute within part-time employment.  
+
+To measure vertical segregation Scotland's Gender Equality Index uses the percentage of workers in 'Major Occupational Classification Group 1: Managers and Senior Officials'. (SOC 2010)
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women in employment aged 16+ were employed in Major Occupational Classification Group 1: Managers and Senior Officials (SOC 2010) compared to `r men_pct` of men. Scotland's score on this indicator is `r domain_score[["occ_group1"]]`.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Data is taken from the [Annual Population Survey](https://www.gov.scot/publications/regional-employment-patterns-scotland-statistics-annual-population-survey-2018/pages/2/) which highlights the key statistics for Scotland's labour market.  
+
+Breakdowns are available in this data collection by age, ethnicity, disability and `r simd_tooltip`. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+Data is drawn from the [APS](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/methodologies/annualpopulationsurveyapsqmi).  
+
+[Standard Occupational Classification](https://www.ons.gov.uk/methodology/classificationsandstandards/standardoccupationalclassificationsoc/soc2020) for the UK
+
+[Tackling Occupational Segregation in Scotland](https://www2.gov.scot/resource/doc/236539/0064855.pdf)
+
+

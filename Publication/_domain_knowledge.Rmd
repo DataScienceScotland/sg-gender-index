@@ -1,0 +1,307 @@
+```{r, include = FALSE}
+for (script in list.files("scripts", full.names = TRUE)) {
+  source(script)
+}
+```
+
+# **Knowledge Domain**  
+```{r}
+domain_score <- domain_data %>% filter(domain=="Knowledge") %>% select(variable, score) %>% mutate(score = number(score)) %>% spread(variable, score)
+metadata <- data[["knowledge"]] %>% filter(row_number() == 1)
+```
+
+### {.tabset .tabset-fade -}
+
+#### Key Findings {-}
+
+The domain of **knowledge** within Scotland's Gender Equality Index is designed to measure gender equality in education and training. The two sub-domains, exploring the differences between men and women, are **educational attainment** and **subject segregation**.
+
+In the 2020 Gender Equality Index, Scotland's score for the **knowledge domain** was `r domain_score[["knowledge"]]`. There was, however, a difference between the two sub-domains, with attainment being much more gender equal (`r domain_score[["knowledge_attainment"]]`) than subject segregation (`r domain_score[["knowledge_subject_segregation"]]`).  
+
+In fact, women and girls generally outperformed men and boys when it came to educational attainment but this advantage did not translate into higher pay for women graduates. And subject segregation, using Science, Technology, Engineering and Mathematics (STEM) as an indicator, was still prevalent in Scotland's educational institutions.   
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["knowledge"]]
+```
+
+#### About the Knowledge Domain {-} 
+
+The [EIGE domain of knowledge](https://eige.europa.eu/gender-equality-index/2020/domain/knowledge) measures gender inequalities in educational attainment and subject segregation. It was agreed by the expert working group that these would also be broadly appropriate sub-domains for the knowledge domain within a Scotland index.  
+
+A gender equality score of 100 represents full gender equality and a score of one represents no gender equality. The higher the score, the more gender equality there is.
+
+The first sub-domain of **educational attainment** is measured by two indicators: a measure of secondary school education attainment, and a measure of university graduates.  In addition, it was also felt that it would be valuable to measure whether graduate pay for women and men is in line with their attainment and, therefore, this was also selected as a third indicator.
+
+The second sub-domain looks at gender **segregation** in secondary and university education by examining the percentage of women and men among students in STEM subjects. Reducing the gender gap in STEM education could help reduce skills gaps, increase women's employment, and reduce occupational segregation. Ultimately this could foster economic growth via both higher productivity and increased labour market activity. However, it is clear that qualifications alone will not achieve this. Rather, these qualifications have to translate into STEM jobs for women for there to be equality in the labour market.    
+
+Scotland has a long tradition of expertise, innovation and achievement in STEM, and it's an integral part of  future economic and social development. The Scottish Government published the [STEM Education and Training Strategy for Scotland](https://www.gov.scot/publications/stem-strategy-education-training-scotland-second-annual-report/) in 2017. This sets out a vision of Scotland as a STEM nation: with a highly-educated and skilled population equipped with the STEM skills, knowledge and capability required to adapt and thrive in the fast-paced, changing world and economy around us.  Increasing the participation of women in STEM subjects will have a strong positive impact on gross domestic product (GDP) and could help close the gender pay gap.  It was also thought valuable to consider segregation within Modern Apprenticeships and this was also included as an indicator.  
+
+Other areas considered by the expert working group were on gendered bullying in schools and in other educational institutions but suitable data is not yet available in these areas. 
+
+## **Attainment Sub-domain** {.section1}
+```{r}
+ind_score <- data[["knowledge_attainment"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["knowledge_attainment"]] %>% filter(row_number() == 1)
+```
+
+Levels of educational attainment and skills development can have a strong impact on a person's life chances.  Without basic skills and with a low level of qualification, adults are at a higher risk of unemployment, poverty and social exclusion.  The attainment sub-domain within the knowledge domain of Scotland's Gender Equality Index consists of three indicators: 
+
+* secondary education
+
+* higher education
+
+* the ratio of pay to attainment
+
+All three indicators produced scores of 90 or more, which indicates that attainment levels in Scotland between women (and girls) and men (and boys) were fairly equal.  
+
+Secondary attainment was measured as the percentage of girls and boys who attained one or more passes at SCQF level 6 (approximately Scottish Higher) – or better grades. The higher education indicator measured the percentage of women and men aged 25-64 with a higher education qualification. In `r metadata[["ref_period"]]`, both the secondary education and higher education indicators produced scores of 90 or above (`r domain_score[["attain_secondary"]]` and `r domain_score[["degree"]]` respectively) and in both of these indicators women and girls outperformed men and boys. With regard to equality, the goal should not be for women and girls to have lower levels of educational attainment to match men and boys, but rather that men and boys should catch up with women and girls in terms of secondary attainment.
+
+The indicator measuring ratio of pay to attainment was developed to show how well women and men's educational attainment translates into labour market outcomes. The pay of women graduates was lower than the pay of men.  
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["knowledge_attainment"]]
+```
+
+### Secondary Education {.tabset .tabset-fade -}
+```{r}
+var <- "attain_secondary"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%", scale = 1.000001)
+```
+
+Attainment at secondary school can be key to a person's life chances. Scottish Credit and Qualifications Framework [SCQF](https://scqf.org.uk/) qualifications can help facilitate access to further and higher education, Modern Apprenticeships and the labour market. 
+
+In `r metadata[["ref_period"]]` two thirds (`r women_pct`) of girl school leavers attained at least one pass at SCQF level 6 or better compared to just over half (`r men_pct`) of boys.  This produced a secondary education attainment score of `r domain_score[["attain_secondary"]]`, indicating that gender equality of secondary attainment is fairly high.    
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in this data collection as indicated below. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+[Summary Statistics for Attainment and Initial Leaver Destinations](https://www.gov.scot/publications/summary-statistics-attainment-initial-leaver-destinations-no-2-2020-edition/) presents data by `r simd_tooltip`, pupil ethnicity, and ASN (Additional Support Needs)
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]] %>% gsub("women", "girls", .) %>% gsub("men", "boys", .)`
+
+Data is taken from [`r metadata[["source"]]`](`r metadata[["link"]]`).
+
+The Scottish Credit and Qualifications Framework (SCQF) is used as the basis for reporting attainment. The SCQF is Scotland's national qualifications framework.  The SCQF has 12 levels which, in ascending order, indicate the difficulty of a particular qualification. With reference to a set of 'level descriptors' the SCQF allows broad comparisons to be made between qualifications.  It also allows learners, employers and the public in general, to understand the range of skills and learning that should be achieved at each level.   
+
+Scotland's Gender Index uses SCQF level 6 as the indicator for secondary attainment.  Level 6 covers Highers (grades A-C), Skills for Work Higher and Advanced Higher (grade D). Highers are generally taken in S5/S6 and Advanced Highers are generally taken in S6.  Highers, sometimes along with Advanced Highers, are the Scottish qualifications required for entry into Higher Education.  For Highers, grade A-C is considered a pass. A school leaver is defined as a young person of school leaving age who left school during or at the end of the school year. School leavers from 2018/19 are the fourth cohort to have experienced the Curriculum for Excellence (CfE) throughout the senior phase of their school education. 
+
+### Higher Education {.tabset .tabset-fade -}
+```{r}
+var <- "degree"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Higher education qualifications are important for their recognition by employers and academics. At university, students get the opportunity to develop skills, knowledge, critical thinking and connections to enhance their careers. A degree can lead to increased access to jobs and higher earning potential.  
+
+Scotland's Gender Equality Index looks at the percentage of women and men aged 25-64 with a higher education qualification. In `r metadata[["ref_period"]]` just over half (`r women_pct`) of women workers were graduates, compared to just over two fifths (`r men_pct`) of men.  This produced a higher education score of `r domain_score[["degree"]]`, indicating that gender equality in higher education qualifications is relatively high.    
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in this data collection as indicated below. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+Data is taken from the [`r metadata[["source"]]`](`r metadata[["link"]]`) which highlights the key statistics for Scotland's labour market. Breakdowns are available in this data collection by age, ethnicity, disability and `r simd_tooltip`. 
+
+#### Methodology{-} 
+`r metadata[["calculation_notes"]]`
+
+Data is taken from the [`r metadata[["source"]]`](`r metadata[["link"]]`) which highlights the key statistics for Scotland's labour market.  Reliable and up-to-date headline information is presented for key indicators including; employment, equality characteristics of those in employment, underemployment, inactivity and youth participation in the labour market.
+
+### Ratio of Pay to Attainment {.tabset .tabset-fade -}
+```{r}
+var <- "attain_pay"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, prefix = "£") %>% utf_encoding()
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, prefix = "£") %>% utf_encoding()
+```
+
+Women consistently outperform men in terms of attainment throughout school and higher education, however this does not translate into higher average earning in the labour market. This indicator, the ratio of graduate pay to attainment, was chosen to reflect this in Scotland's Gender Equality Index.
+
+This indicator uses the newly developed [Graduate Outcomes (LEO) data](https://www.gov.scot/publications/graduate-outcomes-leo-subject-by-provider-2017-18-scotland-tables/), which shows the progress of higher education leavers into the labour market.  The LEO links education records to tax and benefits data to show if graduates were employed and how much they were paid.  
+
+This data source shows the earnings of women to be lower than the earnings of men five years after graduation. Among graduates in `r metadata[["ref_period"]]` women earned on average `r women_n` whereas men earned `r men_n`.  This produced a ratio of pay to attainment score of `r domain_score[["attain_pay"]]`.  
+
+Some of these differences will be due to the differences in part-time working by gender (among other factors such as occupational segregation), however the LEO is currently unable to distinguish between those working full and part-time and this should be borne in mind when looking at the data.  
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in this data collection as indicated below. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+[Graduate Outcomes (LEO): Subject by Provider, 2017 to 2018](https://www.gov.scot/publications/graduate-outcomes-leo-subject-by-provider-2017-18-scotland-tables/)
+breaks data down by disability and `r simd_tooltip`.  The former by gender is available in the published tables, and the latter by gender may be available on request.   
+
+The UK level report [Graduate outcomes (LEO): outcomes](https://www.gov.uk/government/statistics/graduate-outcomes-leo-outcomes-in-2016-to-2017) also presents data by ethnicity.
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+Data was taken from tables produced using Scottish LEO data published by the Department for Education in their statistical release: [Graduate Outcomes (LEO): Subject by Provider, 2017 to 2018](https://www.gov.scot/publications/graduate-outcomes-leo-subject-by-provider-2017-18-scotland-tables/)
+
+
+## **Subject Segregation Sub-domain** {.section2}
+```{r}
+ind_score <- data[["knowledge_subject_segregation"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["knowledge_subject_segregation"]] %>% filter(row_number() == 1)
+```
+
+Skills in STEM are the key drivers for growth and innovation in twenty-first century Scotland.  To maximise the benefit Scotland can derive from these opportunities, the country aspires to grow and develop its STEM expertise.  [Scotland's STEM Strategy](https://www.gov.scot/policies/science-and-research/stem-education-training/) sets out aspirations to make sure that its approach to STEM is inclusive and there is equality of access and opportunity to study STEM and pursue STEM jobs and careers.    
+
+Subject segregation in both education and employment exacerbates gender inequality and, therefore, is included as a key sub-domain within Scotland's Gender Equality Index. The proportion of women and men with qualifications and careers in STEM will measure this key aspect of gender equality. 
+
+In `r metadata[["ref_period"]]`, the sub-domain of subject segregation score is `r domain_score[["knowledge_subject_segregation"]]`. However there was a large difference between the  indicators, with secondary and university education scoring around 90, while gender segregation within Modern Apprenticeships scored a highly unequal `r domain_score[["ma"]]`.
+
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["knowledge_subject_segregation"]]
+```
+
+### Modern Apprenticeships {.tabset .tabset-fade -}
+```{r}
+var <- "ma"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+women_rate <- gi_data %>% filter(variable == "ma_rate") %>% filter(ref_period == max(ref_period)) %>% 
+  pull(women) %>% comma(1, suffix = "%") # % of leavers in STEM areas having completed their modern apprenticeship [non-index variable]
+men_rate <- gi_data %>% filter(variable == "ma_rate") %>% filter(ref_period == max(ref_period)) %>% 
+  pull(men) %>% comma(1, suffix = "%") # % of leavers in STEM areas having completed their modern apprenticeship [non-index variable]
+```
+
+[Scotland's Modern Apprenticeship (MA) programme](https://www.skillsdevelopmentscotland.co.uk/what-we-do/apprenticeships/modern-apprenticeships/) provides individuals with the opportunity to secure industry-recognised qualifications while earning a wage. It offers people aged 16 and over the opportunity of paid employment, combined with training at different levels. A Modern Apprentice could be a new team member or an existing employee seeking to increase their capability. Participants build valuable work experience and gain an accredited qualification that is recognised by industry. [Graduate Apprenticeships | Skills Development Scotland](https://www.skillsdevelopmentscotland.co.uk/what-we-do/apprenticeships/graduate-apprenticeships/) provide work-based learning opportunities up to Master's degree level for new and existing employees. They have been created in partnership with industry and the further and higher education sector. The apprenticeships combine academic knowledge with skills development to enable participants to become more effective and productive in the workplace. [Foundation Apprenticeships](https://www.apprenticeships.scot/become-an-apprentice/foundation-apprenticeships/) allow young people to develop skills to support a future journey into a Modern or Graduate Apprenticeship and these apprenticeships provide a route into the world of work.  
+
+Participation rates in STEM subjects provide an indicator of gender segregation within Modern Apprenticeships. The score for the Modern Apprenticeships subject segregation indicator was `r domain_score[["ma"]]`, which represents relatively unequal participation in these subjects for women and men.  Only `r women_n` women Modern Apprentices **completed** a STEM Modern Apprenticeship in `r metadata[["ref_period"]]`, compared to `r men_n` men.  This indicator focuses on Modern Apprenticeships only and it should be noted that subjects within the other types of apprenticeships may have a different gender balance. 
+
+[Skills Development Scotland (SDS)](https://www.skillsdevelopmentscotland.co.uk/publications-statistics/statistics/modern-apprenticeships/?page=1&statisticCategoryId=4&order=date-desc), Scotland's national skill body, is working with its partners to promote gender equality across National Training Programmes.  The SDS Board is responsible for facilitating employer leadership of apprenticeships through the Scottish Apprenticeship Advisory Board (SAAB). A [Gender Commission](https://www.skillsdevelopmentscotland.co.uk/what-we-do/apprenticeships/the-scottish-apprenticeship-advisory-board/gender-commission/) was also set up in response to findings by the Scottish Apprenticeship Advisory Board (SAAB) Group Board, which looked at current trends within apprenticeships and identified a need to provide visible, industry leadership by setting up a commission to address gender imbalance. The work compliments existing activity on gender segregation in the workplace, although it will be the first of its kind to do so specifically through the lens of apprenticeships and work-based learning in Scotland.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in this data collection as indicated below. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+[SDS](https://www.skillsdevelopmentscotland.co.uk/media/47247/modern-apprenticeship-statistics-quarter-2-2020-21.pdf) provides modern apprenticeship data by age, ethnicity and disability.  
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+Modern Apprenticeships provide a way for businesses to train employees to industry-recognised and agreed standards. The data is compiled by Skills Development Scotland.  The [Modern Apprenticeship Official Statistics](https://www.skillsdevelopmentscotland.co.uk/publications-statistics/statistics/modern-apprenticeships/?page=1&statisticCategoryId=4&order=date-desc) include a main report as well as supplementary tables giving breakdowns by age, framework, local authority, redundancies and various combinations of these.
+
+### Secondary Education {.tabset .tabset-fade -}
+```{r}
+var <- "stem_secondary"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Participation rates in STEM subjects within Scotland's schools provide an indicator of gender subject segregation in early life stages. A gender imbalance in school STEM qualifications can continue through university education or modern apprenticeships and into the labour market.  Lower rates of women qualifying with STEM subjects can have a negative impact on GDP and widen the gender pay gap.
+
+However, in `r metadata[["ref_period"]]`, `r women_pct` of girl school leavers had a STEM qualification at SCQF level 6 (Scottish Higher) or better compared to `r men_pct` of boys.  This translated to a secondary education segregation sub-domain  score of `r domain_score[["stem_secondary"]]`.  
+
+[Scotland's STEM Strategy](https://www.gov.scot/policies/science-and-research/stem-education-training/) aspires to ensure children, young people and adults are encouraged to develop an interest in, and enthusiasm for, STEM that is reinforced throughout their lives. It sets out practical steps to address these goals.  
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in this data collection as indicated below. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+[Scotland's STEM Strategy](https://www.gov.scot/policies/science-and-research/stem-education-training/) sets out the need to tackle the gender imbalances and other inequities that exist across STEM education and training, including in relation to race, disability, deprivation and geography. These inequalities are unfair and undermine inclusive economic growth in Scotland.
+
+[Summary Statistics for Attainment and Initial Leaver Destinations](https://www.gov.scot/publications/summary-statistics-attainment-initial-leaver-destinations-no-2-2020-edition/) presents data by `r simd_tooltip`, pupil ethnicity, and ASN (Additional Support Needs)   
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+[Summary Statistics for Attainment and Initial Leaver Destinations](https://www.gov.scot/publications/summary-statistics-attainment-initial-leaver-destinations-no-2-2020-edition/) provides information on the educational attainment and initial destinations of 2018/19 school leavers from publicly funded schools in Scotland.
+
+### University Education {.tabset .tabset-fade -}
+```{r}
+var <- "stem_degree"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_pct <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% percent(1)
+men_pct <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% percent(1)
+women_n <- data[[var]] %>% filter(gender == "women_n") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men_n") %>% pull(value) %>% comma(1)
+
+var2 <- "stem_degree_subject"
+women_sub_pct <- all_data[[var2]] %>% filter(ref_period == max(ref_period), gender == "women") %>% select(breakdown,value) %>% mutate(value = value %>% percent(0.1)) %>% spread(breakdown, value)
+men_sub_pct <- all_data[[var2]] %>% filter(ref_period == max(ref_period), gender == "men") %>% select(breakdown,value) %>% mutate(value = value %>% percent(0.1)) %>% spread(breakdown, value)
+women_sub_n <- all_data[[var2]] %>% filter(ref_period == max(ref_period), gender == "women_n") %>% select(breakdown,value) %>% mutate(value = value %>% comma(1)) %>% spread(breakdown, value)
+men_sub_n <- all_data[[var2]] %>% filter(ref_period == max(ref_period), gender == "men_n") %>% select(breakdown,value) %>% mutate(value = value %>% comma(1)) %>% spread(breakdown, value)
+```
+
+A gender imbalance in graduates with STEM qualifications is likely to lead to job segregation within the labour market.  Lower rates of women graduates in STEM subjects can have a negative impact on GDP and widen the gender pay gap.
+
+In `r metadata[["ref_period"]]`, `r women_pct` of women graduates attained a degree classification in a STEM subject compared to `r men_pct` of men.  This translated to a score of `r domain_score[["stem_degree"]]` for the university education subject segregation indicator, which represents a gender imbalance in STEM graduates.  
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### STEM Subjects {-}
+
+```{r, out.width='100%'}
+all_data[[var2]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var2]]
+all_data[[var2]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Breakdowns are available in this data collection as indicated below. Intersectional data may be available from Scottish Government analysts via ad hoc requests. Some intersectional data, however, may not be able to be disclosed due to small numbers.
+
+[Higher Education Student Data Scotland](https://www.hesa.ac.uk/data-and-analysis/students) collects the personal characteristics of students including their age, disability and ethnicity.  
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+The source for this data is [Higher Education Student Data Scotland](https://www.hesa.ac.uk/data-and-analysis/students) 

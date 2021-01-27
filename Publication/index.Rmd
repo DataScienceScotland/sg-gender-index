@@ -1,0 +1,18 @@
+---
+title: "Scotland's Gender Index"
+subtitle: "Publications"
+---
+
+<script>
+  $(document).ready(function(){
+    $head = $('#header');
+    $head.prepend('<a href=\"https://www.gov.scot\"><img src=\"sglogo.png\" style=\"float: right; height: 38px;\"  alt=\"Scottish Government logo\"/></a>')
+  });
+</script>
+
+***
+
+### [**Gender Index**](2020report.html)
+
+...
+

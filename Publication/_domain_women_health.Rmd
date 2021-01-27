@@ -1,0 +1,418 @@
+---
+output:
+html_document: default
+---
+```{r, include = FALSE}
+for (script in list.files("scripts", full.names = TRUE)) {
+  source(script)
+}
+```
+
+# **Women-Specific Healthcare Domain**
+
+```{r}
+
+metadata <- data[["women_specific_healthcare"]] %>% filter(row_number() == 1)
+
+```
+
+### {.tabset .tabset-fade -}
+
+#### Key Findings {-}
+
+The domain of **women-specific healthcare** is designed to measure and understand aspects of health data which are not directly comparable by gender. Unlike other domains, this satellite domain does not provide a score based on equality between men and women, but rather analyses specific areas of health data specific to women only. Hence, the figures are not included in the calculation of the main index.  
+
+This chapter shows some heath challenges that are either unique to, or experienced by women. Regardless, this domain should be considered alongside other domains as it is connected with enduring inequalities in the fields of work, health, money, power, knowledge, violence against women and time.
+
+
+The sub-domains within the women specific health domain are: **Termination of Pregnancy**, **IVF waiting times**, **Contraception**, and **Maternal Health**.
+
+Key findings are as follows:
+
+* In 2019, 13 terminations of pregnancy were performed per 1,000 women aged 15-44 in Scotland, half of which were to women in their twenties. There was a strong association between deprivation and termination rates.
+
+* As a result of the COVID-19 (Coronavirus) pandemic, no new IVF treatment was started after 17 March 2020. In May, permission to restart services was granted and IVF Centres began a stepped restart of services. This has impacted waiting times in the months to September 2020.
+
+* 54 per 1,000 women aged 15-49 in Scotland used long lasting reversible contraception (LARC) in 2019/20. LARC includes the contraceptive implant, intrauterine device (IUD) and intrauterine system (IUS). 
+
+* Younger women, and women from more deprived areas were more likely to smoke during pregnancy. Older women (in terms of childbearing age) and women who live in more deprived areas were more likely to be overweight or obese at their antenatal booking. Fewer women rated their mental and physical health positively during and following pregnancy than before pregnancy.
+
+#### About the Women Specific Health Domain {-}
+
+The World Health Organisation [(WHO)](https://www.who.int/teams/sexual-and-reproductive-health-and-research) defines reproductive health as a "state of physical, mental, and social well-being in all matters relating to the reproductive system. It addresses the reproductive processes, functions and system at all stages of life and implies that people are able to have a satisfying and safe sex life, and that they have the capability to reproduce and the freedom to decide if, when, and how often to do so." 
+
+The management of reproductive health is an important element of the majority of women's lives. Women-specific health is measured in a number of ways which aim to capture the spectrum of reproductive experiences lived by women. This analysis does not cover all aspects of reproductive health but rather highlights some of the main areas for which we have sufficient data, and as guided by our expert working group. 
+
+This domain shows that some unique heath challenges are experienced by women in different ways. The main objective of this section is to highlight health experiences which are less comparable by gender, but key to understanding gender equality. 
+
+Unlike other domains, this satellite domain does not provide a score based on equality between men and women, but rather analyses areas of health data specific to women only. Regardless, this domain should be considered alongside other domains as it is connected with enduring inequalities in the fields of work, health, money, power, knowledge, time and violence against women. The sub-domains within the women specific health domain are: **termination of pregnancy**, **IVF waiting times**, **contraception**, and **maternal health**.
+
+For this domain we make use of public health data: as reported by medical professionals and, in the case of the maternal health, provided by women themselves. 
+
+## **Termination of Pregnancy Sub-domain** 
+
+In 2019, of the seven statutory grounds for termination, the vast majority (13,365; 98%) were carried out under Ground C; because "the pregnancy has not exceeded its 24th week and that the continuance of the pregnancy would involve risk, greater than if the pregnancy were terminated, of injury to the physical or mental health of the pregnant woman." 
+
+In recent years there have been amendments to legislation regarding the provision of terminations of pregnancy in Scotland, allowing misoprostol (the second drug used in a medical termination) to be taken at home. Almost half of medical terminations in 2019 involved self-administration of misoprostol in the home setting. 
+
+In 2019, the second highest number of terminations was recorded since the new regulations were introduced: 13,583, or 13 per 1,000 women aged 15-44 (more detail on change over time is available in the [source publication](https://beta.isdscotland.org/find-publications-and-data/population-health/sexual-health/termination-of-pregnancy-statistics/)). 
+
+Half of all terminations were to women in their twenties in 2019, and every three in 10 terminations are now in women aged 20-24.
+
+The charts below show termination rates by `r simd_tooltip` quintile and by age. 
+
+### {.tabset .tabset-fade -}
+```{r}
+var <- "termination_age"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+term_under <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "<16")%>% pull(value) %>% comma(1, suffix = " terminations")
+term_sixteen <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "16-19")%>% pull(value) %>% comma(1, suffix = " terminations")
+term_twenty <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "20-24")%>% pull(value) %>% comma(1, suffix = " terminations")
+term_twentyfive <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "25-29")%>% pull(value) %>% comma(1, suffix = " terminations")
+term_thirty <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "30-34")%>% pull(value) %>% comma(1, suffix = " terminations")
+term_thirtyfive <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "35-39")%>% pull(value) %>% comma(1, suffix = " terminations")
+term_forty <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "40+")%>% pull(value) %>% comma(1, suffix = " terminations")
+```
+
+#### Chart - Age{-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+The highest number of terminations in `r metadata[["ref_period"]]` were seen for the 20-24 age group (`r term_twenty`). This was followed by 25-29 year olds (`r term_twentyfive`), and then 30-34 year olds (`r term_thirty`). A lower number of number of terminations were seen for the oldest and youngest age groups: forty+ (`r term_forty`), and 16 and under (`r term_under`). 
+
+```{r}
+var <- "termination_deprivation"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+term_1 <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "1 - most deprived")%>% pull(value) %>% comma(1, suffix = " terminations")
+term_2 <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "2")%>% pull(value) %>% comma(1, suffix = " terminations")
+term_3 <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "3")%>% pull(value) %>% comma(1, suffix = " terminations")
+term_4 <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "4")%>% pull(value) %>% comma(1, suffix = " terminations")
+term_5 <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "5 - least deprived")%>% pull(value) %>% comma(1, suffix = " terminations")
+```
+
+#### Chart - Deprivation {-}
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+The number of terminations was lower in the least deprived areas. In the most deprived quintile there were `r term_1` in `r metadata[["ref_period"]]`, and in the least deprived quintile there were `r term_5`.
+
+Further analysis according to deprivation is available in the source publication.
+
+#### Methodology{-}
+
+An abortion can be induced (therapeutic) or spontaneous (miscarriage). An induced abortion can be performed either medically (using approved drugs) or surgically. This data reports on induced (therapeutic) abortions only. Induced abortions are referred to as terminations of pregnancy to avoid confusion with spontaneous abortions (miscarriages).
+
+There is a legal requirement to notify the Chief Medical Officer (CMO) of all terminations carried out in Scotland. Public Health Scotland (PHS) is responsible for the collation of data derived from notifications of abortions on behalf of the CMO in Scotland.
+
+PHS provides an annual update on Termination of Pregnancy Statistics. This data is derived from the Notifications of Abortion to the Chief Medical Officer for Scotland (CMO) under the Abortion (Scotland) Regulations 1991. Information is provided by age, gestation, method of termination, NHS Board of residence and treatment, deprivation area, previous termination and ground(s) for termination.
+
+There are seven statutory grounds for termination of pregnancy (Grounds A to G) and at least one must be recorded on every notification form. Occasionally, notifications may record more than one statutory ground resulting in the numbers and percentages of grounds exceeding the total number of terminations. 
+
+As in previous years, the vast majority of terminations (13,365; 98%) were carried out under Ground C (because "the pregnancy has not exceeded its 24th week and that the continuance of the pregnancy would involve risk, greater than if the pregnancy were terminated, of injury to the physical or mental health of the pregnant woman.")
+
+This data is generally considered to be of a high quality, although occasional omissions and administrative errors in submitting notification forms can occur, and may lead to some underreporting. 
+
+2019 data is provisional.
+
+Further information on data quality is available [here](https://beta.isdscotland.org/find-publications-and-data/population-health/sexual-health/termination-of-pregnancy-statistics/)
+
+## **IVF Waiting Times Sub-domain** 
+
+In vitro fertilisation (IVF) is an effective method of assisted reproductive technology used to treat infertility
+
+The Scottish Government requires NHS Scotland to measure the length of time people wait for treatment. The target is that 90% of eligible patients will begin IVF treatment within 12 months. The 90% standard continues to be met since it was first measured in March 2015.
+
+As a result of the COVID-19 (Coronavirus) pandemic, Scottish IVF Centres collectively agreed not to start any new treatment after 17 March 2020. In May, permission to restart services was granted by the Human Fertility and Embryology Authority (HFEA). IVF Centres began a stepped restart in line with the framework for restarting fertility services. This has impacted waiting times in the months to September 2020, as shown in the below chart.
+
+### {.tabset .tabset-fade -}
+```{r}
+var <- "IVF_time"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+waiting <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Waiting")%>% pull(value) %>% comma(1, suffix = " women")
+referrals <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Referrals")%>% pull(value) %>% comma(1, suffix = " women")
+seen <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Seen")%>% pull(value) %>% comma(1, suffix = " women")
+```
+
+
+#### Chart {-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+At 30 September 2020, 785 eligible patients were waiting for an IVF screening appointment, compared to 609 patients at 30 September 2019. 
+
+This chart shows a drop in referrals and patients who have been seen from March 2020, and a corresponding rise in the number of eligible patients waiting for screening. However, we see the beginning of a rise towards more typical rates for referrals in June 2020 and for patients who have been seen in August 2020. There is a slight drop in the number of women waiting in September 2020, although the number of patients waiting remains higher than the previous year.
+
+Due to the initial pausing of services and reduction in referrals, the distribution of patients in respect of how long those still waiting to be screened had waited had changed quite considerably: further details on waiting times are available in the source publication.
+
+
+#### Intersectionality{-}
+
+IVF data is collected and presented at IVF Centre and NHS Board level. A more detailed breakdown by equality characteristics is not available.
+
+Data requests can be made at to [Public Health Scotland](https://beta.isdscotland.org/find-publications-and-data/healthcare-resources/waiting-times/ivf-waiting-times-in-scotland/).
+
+#### Methodology{-}
+
+IVF is an effective method of assisted reproductive technology used to treat infertility. This includes intra-cytoplasmic sperm injection (ICSI) for male infertility. 
+
+Where [PHS](https://beta.isdscotland.org/find-publications-and-data/healthcare-resources/waiting-times/ivf-waiting-times-in-scotland/) refers to IVF, this includes IVF and ICSI. One full cycle of IVF includes ovulation induction, egg retrieval, fertilisation, transfer of fresh embryos, followed by freezing of suitable embryos and subsequent replacement of these provided the couple still fulfill the access criteria.
+
+The Scottish Government requires NHS Scotland to measure the length of time people wait for treatment. The target is that 90% of eligible patients will begin IVF treatment within 12 months.  This is measured by the percentage of patients who were screened at an IVF Centre within 12 months of referral from a secondary care/acute consultant. The Scottish Government set this target from 31 March 2015 and it is now a Local Delivery Plan (LDP) standard.
+
+[Public Health Scotland](https://beta.isdscotland.org/find-publications-and-data/healthcare-resources/waiting-times/ivf-waiting-times-in-scotland/) reports on how long eligible patients waited from referral to screening appointment for in vitro fertilisation (IVF) treatment by the NHS in Scotland.
+
+[IVF Waiting Times in Scotland](https://beta.isdscotland.org/find-publications-and-data/healthcare-resources/waiting-times/ivf-waiting-times-in-scotland/)
+
+## **Contraception Sub-domain** 
+
+*Long-acting reversible contraception (LARC)*
+
+In typical use, 'long acting' methods of contraception, e.g. the contraceptive implant, intrauterine system (IUS), and the intrauterine device (IUD), have a lower failure rate than alternative reversible methods, such as the contraceptive pill or condoms. 
+
+Key findings from the source publication include the following:
+
+* Prescribing of LARC generally remained stable in recent years at around 52 per 1,000 women but increased slightly to 54 per 1,000 women in 2019/20, which is the highest rate in the reported period (reporting from 2013/14).
+
+* The most common method of LARC was the contraceptive implant: prescribing rates for this method were 26 per 1,000 women compared to 21 per 1,000 for the IUS and nearly 7 per 1,000 for the IUD. Both the IUS and IUD have also shown a steady increase in rates in recent years.
+
+
+* There is variation between which method is prescribed by age. Women under the age of 35 were more likely to be prescribed the contraceptive implant while women aged 35 and over were more likely to be prescribed the IUS.
+
+The below charts show the combined rates of long acting reversible contraception by age and by deprivation rate, per 1000 women aged 15-49.
+
+### {.tabset .tabset-fade -}
+
+#### Chart - Age{-}
+```{r}
+var <- "contraception_age"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+contraception_under <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "<20")%>% pull(value) %>% comma(1, suffix = " per 1,000 women")
+contraception_twenty <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "20-24")%>% pull(value) %>% comma(1, suffix = " per 1,000 women")
+contraception_twentyfive <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "25-29")%>% pull(value) %>% comma(1, suffix = " per 1,000 women")
+contraception_thirty <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "30-34")%>% pull(value) %>% comma(1, suffix = " per 1,000 women")
+contraception_thirtyfive <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "35-39")%>% pull(value) %>% comma(1, suffix = " per 1,000 women")
+contraception_forty <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "40-44")%>% pull(value) %>% comma(1, suffix = " per 1,000 women")
+contraception_fortyfive <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "45+")%>% pull(value) %>% comma(1, suffix = " per 1,000 women")
+```
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+Younger age groups have higher rates of LARC than older groups. The age group with the highest rates of LARC are the 20-24 year old group, at `r contraception_twenty`. The lowest rates are seen in the 40-44 year old age group, at `r contraception_forty`.
+
+
+#### Chart - Deprivation {-}
+```{r}
+var <- "contraception_deprivation"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+contraception_1 <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "1 - most deprived")%>% pull(value) %>% comma(1, suffix = " per 1,000 women")
+contraception_2 <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "2")%>% pull(value) %>% comma(1, suffix = " per 1,000 women")
+contraception_3 <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "3")%>% pull(value) %>% comma(1, suffix = " per 1,000 women")
+contraception_4 <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "4")%>% pull(value) %>% comma(1, suffix = " per 1,000 women")
+contraception_5 <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "5 - least deprived")%>% pull(value) %>% comma(1, suffix = " per 1,000 women")
+```
+
+```{r, out.width='100%'}
+data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+This chart shows that in `r metadata[["ref_period"]]` the rates of LARC were higher in the most deprived areas than in the least deprived areas: `r contraception_1`, and `r contraception_5` respectively. 
+
+#### Methodology{-}
+
+Public Health Scotland reports on the prescribing rate of long acting reversible contraception (LARC) to women of reproductive age (15-49) in primary care and sexual health settings. 
+
+This data on contraception includes the contraceptive implant, IUD and IUS. Contraceptive injections are also reported on in the source publication (at around 23 per 1000 women of reproductive age) but are presented separately. As multiple contraceptive injections are required per year it is difficult with the current information to determine person level data.
+
+[Source](https://beta.isdscotland.org/find-publications-and-data/population-health/sexual-health/long-acting-reversible-contraception-larc-key-clinical-indicator-kci/)
+
+## **Maternal Health Sub-domain**
+
+The Maternal Health Sub-Domain reports on health risks for pregnant women along with self-assessed physical health before, during and after pregnancy. 
+
+### {.tabset .tabset-fade -}
+```{r}
+var <- "maternal_smoke"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+smokecurrent <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Current") %>% pull(value) %>% comma(1, suffix = "%")
+smokeformer <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Former") %>% pull(value) %>% comma(1, suffix = "%")
+smokenever <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Never") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+**Maternal Smoking**
+
+Fewer women now smoke in pregnancy, continuing a downward trend. Wider policies to control tobacco use, e.g. banning smoking in public places, are likely to have had an impact on the number of women smoking both before and during pregnancy. 
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html() %>% strong()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+In 2019 around one in seven (`r smokecurrent`) expectant women were current smokers at the time of their antenatal booking appointment, the lowest since reporting began. For comparison, around one in three (31%) expectant women were current smokers in 1997/98.
+
+In `r metadata[["ref_period"]]` a further one in eight women (`r smokeformer`) were former smokers at the time of their appointment, whilst almost three out of four women (`r smokenever`) had never smoked.
+
+#### Intersectionality{-}
+
+**Age** 
+
+Whilst the level of smoking amongst women has fallen steadily across all age groups, women aged under 25 years are approximately three times more likely to be a current smoker at their booking than women aged 35 and over.
+
+The high percentage of smokers among the under-20s (33%) is particularly notable, compared to 27% in the 20-24 age group. This may be partly due to teenage pregnancies being more common in disadvantaged areas where smoking rates are highest.
+
+**SIMD**
+
+SIMD is the Scottish Government's official measure of area-based multiple deprivation.
+
+There is a strong association between the deprivation category recorded for mothers and their recorded smoking status. Women who live in the most deprived areas are eight times more likely to be a current smoker than women from the least deprived areas
+
+In 2018/19, a higher percentage of women were recorded as smoking during pregnancy in more deprived areas: 27% in the most deprived `r simd_tooltip` quintile compared with 3% in the least deprived quintile.
+
+#### Methodology{-}
+
+Smoking during pregnancy can cause serious health problems for both mother and baby. These include: complications during labour and an increased risk of miscarriage, premature birth, stillbirth, low birthweight and sudden unexpected death in infancy. Given the maternal and foetal risks associated with smoking during pregnancy, pregnant women are strongly advised not to smoke. Known risk factors for smoking during pregnancy include young maternal age and lower socioeconomic status.
+
+Information on smoking behaviour in pregnancy is collected as part of Public Health Scotland's SMR02 data scheme. The information presented here refers to smoking history recorded when a woman attends her first antenatal booking appointment. Concerns have been raised about the completeness and quality of the SMR02 data, particularly in relation to the number / percentage of pregnant women whose smoking status is recorded as "not known". Some of these women may, in fact, be smokers. As such, the percentage recorded as current smokers may underestimate the true smoking prevalence among pregnant women. Care should, therefore, be taken when interpreting this data.
+
+[Statistics on maternal smoking](https://www.isdscotland.org/Health-Topics/Maternity-and-Births/Publications/2019-11-26/2019-11-26-Births-Report.pdf) in Scotland are available on the Maternity and Births section of the Public Health Scotland website. 
+
+The 2016 version of `r simd_tooltip` is used when discussing deprivation.
+
+### {.tabset .tabset-fade -}
+```{r}
+var <- "maternal_BMI"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+matunder <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Underweight") %>% pull(value) %>% comma(1, suffix = "%")
+mathealthy <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Healthy") %>% pull(value) %>% comma(1, suffix = "%", scale = 1.000001)
+matoverweight <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Overweight") %>% pull(value) %>% comma(1, suffix = "%")
+matobese <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Obese") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+**Maternal Body Mass Index (BMI)**
+
+Monitoring the BMI of expectant mothers is important because obesity in pregnancy is associated with an increased risk of a number of serious adverse outcomes, including miscarriage. There is also a higher caesarean section rate and lower breastfeeding rate in this group of women compared to those with a healthy BMI. There is even evidence to suggest that obesity may be a risk factor for maternal death. Increasing maternal age and deprivation are both known to be risk factors for a higher maternal BMI.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html() %>% strong()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+In Scotland in `r metadata[["ref_period"]]`, of those women delivering who had a known BMI: `r matunder` were underweight at the time of booking; `r mathealthy` were a healthy weight; `r matoverweight` were overweight and; `r matobese` were obese. This high level of maternal obesity has implications for maternity and neonatal service provision.
+
+#### Intersectionality{-}
+
+**Age**
+
+In line with other countries, the risk of having too high a BMI varied by maternal age in Scotland in 2018/19, with older women tending to be more overweight. The proportion of women who were overweight or obese ranged from 39% in women under 20 years old to 61% in women who were aged 40 and over. There has been a gradual increase in the proportion of overweight and obese women in all the age groups in the past five years. 
+
+**SIMD**
+
+In 2018/19 the relationship between maternal BMI and deprivation continued to be seen in Scotland. The proportion of women who were overweight or obese at the time of their antenatal booking ranged from 43% in the least deprived areas to 57% in the most deprived areas. The proportion of women (and men) who were overweight or obese has generally increased in recent years. This increase has been steeper in women from the most deprived areas. Proportions in the least deprived areas have been broadly static over the last five years whilst proportions in the most deprived areas have been increasing gradually. Therefore, we have seen a widening of the deprivation gap in relation to maternal BMI over time.
+
+#### Methodology{-}
+
+*BMI rates*
+
+* Below 18.5 - Underweight 
+
+* Between 18.5 and 24.9 - Healthy
+
+* Between 25 and 29.9 - Overweight 
+
+* 30 or more - Obese
+
+Mother's height and weight have been mandatory data items on SMR02 since April 2011 and are recorded at the antenatal booking appointment. Where a height or weight was not available or either value was considered to be an outlier, the BMI was categorised as "unknown".
+
+The outliers are: 
+
+* Weight less than or equal to 35kg or greater than or equal to 250kg. 
+
+* Height less than 1m or greater than or equal to 2.2m. 
+
+Data quality for maternal BMI in Scotland has been generally good until recent years. Recording improved markedly from 2013/14 onward as the proportion of those women recorded with an unknown BMI dropped, however there has been a sharp increase in the numbers of "unknown" in 2017/18 and 2018/19. This is primarily due to incomplete recording taking place at NHS Tayside. There remains variability across NHS boards in Scotland in terms of data completeness for maternal BMI.
+
+[Source](https://www.isdscotland.org/Health-Topics/Maternity-and-Births/Publications/2019-11-26/2019-11-26-Births-Report.pdf)
+
+### {.tabset .tabset-fade -}
+```{r}
+var <- "positive_physical"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+physbefore_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Before pregnancy") %>% pull(value) %>% comma(1, suffix = "%")
+physduring_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "During pregnancy") %>% pull(value) %>% comma(1, suffix = "%")
+physnow_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Now") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+**Maternity Care Survey** 
+
+The [Maternity Care Survey](https://www.gov.scot/publications/maternity-care-survey-2018-national-results/) was a postal survey which was sent to a random sample of women who had a baby in February or March 2018. The survey asked about women's experiences of maternity services, from antenatal care through to postnatal care at home. For our purposes we look in more detail at women's self-assessed health: both physical and mental. Women were asked to rate their health before, during and after pregnancy using one of the following categories: "very poor", "poor", "fair", "good", or "excellent". The charts below show the proportion of women who rated their heath positively ("excellent" or "good").
+
+As well as Physical and Mental Health, the [Maternity Care Survey](https://www.gov.scot/publications/maternity-care-survey-2018-national-results/) reports findings on Midwife-led Units, Neonatal Care, Feeding, and Postnatal Care at Home and in the Community.
+
+#### Chart - Physical Health {-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html() %>% strong()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+In `r metadata[["ref_period"]]`, `r physbefore_pct` per cent of women rated their physical health as  "excellent" or "good" before pregnancy. This decreased to `r physduring_pct` per cent when asked about their physical health during pregnancy. Thinking about their physical health during pregnancy, `r physnow_pct` per cent of women responded "excellent" or "good". 
+
+```{r}
+var <- "positive_mental"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+mentbefore_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Before pregnancy") %>% pull(value) %>% comma(1, suffix = "%")
+mentduring_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "During pregnancy") %>% pull(value) %>% comma(1, suffix = "%")
+mentnow_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Now") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+#### Chart - Mental Health {-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html() %>% strong()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+A similar pattern was seen in responses about emotional / mental health. However the decrease during pregnancy was smaller, only dropping to `r mentduring_pct` per cent from `r mentbefore_pct` per cent before pregnancy. Thinking about their emotional / mental health during pregnancy, `r mentnow_pct` per cent of women said that it was "excellent" or "good".
+
+#### Intersectionality{-}
+
+No publications have been released on intersectionality using this data. Further, limited data is collected on equalities as the Maternity Care Survey has a relatively small sample size and there are too few responses to many of the equalities questions asked. 
+
+Ad-hoc analyses can be requested from this [mailbox](patientexperience@gov.scot).
+
+#### Methodology{-}
+
+The [Maternity Care Survey](https://www.gov.scot/publications/maternity-care-survey-2018-national-results/) was a postal survey which was sent to a random sample of women who had a baby in February or March 2018. This was the third iteration of the survey, following on from the first run in 2013 and the second run in 2015. The survey asked about women's experiences of maternity services, from antenatal care through to postnatal care at home.
+
+The survey programme supports the three quality ambitions of the 2020 Vision - Safe, Effective, Person-centred - by providing a basis for the measurement of quality as experienced by service users across Scotland. In particular the surveys support the person-centred quality ambition which is focused on ensuring that care is responsive to people's individual preferences, needs and values. 
+
+Just over 2,000 women who gave birth in Scotland in February or March 2018 responded to the 2018 Maternity Care Survey. 
+
+Women eligible to be sampled for the survey were those who gave birth in Scotland in February or March 2018 and were aged 17 or over at that date. In total, 5,064 surveys were sent to eligible respondents and 2,049 were returned completed, giving an overall response rate of 40%.
+
+The figures used in this domain are unweighted. 
+
+More information about the survey design, response rates and methodology can be found in the [Technical Report](www.gov.scot/ISBN/9781787816381).

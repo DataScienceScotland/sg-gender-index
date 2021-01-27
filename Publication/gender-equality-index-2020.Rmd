@@ -1,0 +1,50 @@
+---
+title: "Scotland's Gender Equality Index 2020"
+date: "Published on 18 December 2020"
+output:
+  html_document: 
+    number_sections: yes
+    secnumdepth: 2
+    self_contained: no
+    toc: yes
+    toc_depth: 2
+    toc_float:
+      collapsed: yes
+      smooth_scroll: no
+subtitle: Official Statistics
+always_allow_html: yes
+---
+
+```{r setup, include = FALSE}
+for (script in list.files("scripts", full.names = TRUE)) {
+  source(script)
+}
+
+```
+
+```{r child = "_introduction.Rmd"}
+```
+```{r child = "_domain_work.Rmd"}
+```
+```{r child = "_domain_money.Rmd"}
+```
+
+```{r child = "_domain_time.Rmd"}
+```
+```{r child = "_domain_knowledge.Rmd"}
+```
+```{r child = "_domain_power.Rmd"}
+```
+```{r child = "_domain_health.Rmd"}
+```
+```{r child = "_domain_women_health.Rmd"}
+```
+```{r child = "_domain_justice.Rmd"}
+```
+```{r child = "_methodology.Rmd"}
+```
+```{r child = "_official_statistics.Rmd"}
+```
+
+
+

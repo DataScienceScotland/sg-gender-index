@@ -1,0 +1,353 @@
+---
+output:
+  html_document: default
+  word_document: default
+---
+```{r, include = FALSE}
+for (script in list.files("scripts", full.names = TRUE)) {
+  source(script)
+}
+```
+
+# **Power Domain**
+```{r}
+domain_score <- domain_data %>% filter(domain=="Power") %>% select(variable, score) %>% mutate(score = number(score)) %>% spread(variable, score)
+metadata <- data[["power"]] %>% filter(row_number() == 1)
+```
+### {.tabset .tabset-fade -}
+
+#### Key Findings {-}
+
+Scotland's Gender Equality Index domain of **Power** is designed to measure gender equality in decision-making positions across political, economic and social spheres. 
+
+"The domain of power focuses on the representation of women and men in decision making positions, as there is a general consensus that greater gender balance in positions of power will have a positive effect on gender equality."  (European Institute for Gender Equality)
+
+Scotland's 'Power' domain represents influence and decision making in large institutions rather than at an individual or household level, which is covered by other domains within the Index.    
+
+In `r metadata[["ref_period"]]`, Scotland's gender equality score for the power domain was `r domain_score[["power"]]`. There was a large variation in the gender equality scores for the three sub-domains. The **political** sub-domain had the highest score at `r domain_score[["power_political"]]`, with gender equality relatively high for ministerial influence. The **economic** and **social** sub-domain scores were much lower, with both scoring `r domain_score[["power_social"]]`.
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["power"]]
+```
+
+#### About the Power Domain {-}
+
+The [EIGE](https://eige.europa.eu/gender-equality-index/2020/EL) domain of power is designed to measure gender equality in decision-making positions across the political, economic and social spheres.  
+
+A gender equality score of 100 represents full gender equality and a score of one represents no gender equality. The higher the score, the more gender equality there is.
+
+The EIGE index was the starting point for the discussion around the development of Scotland's power domain, and it was agreed by the expert working group that the three sub-domains of **political**, **economic** and **social** power broadly provided a sound structure for Scotland's domain. It was thought that the results should be primarily driven by who makes the decisions, rather than perceptions of who has power. Power was the lowest scoring domain in the EIGE index in 2020, despite improvements since 2005.  
+
+It was also agreed by the working group that Scotland's 'power' domain should be about influence and decision making in large institutions rather than at an individual or household level (household level decision making is already covered in other domains).  
+
+The set of indicators were discussed, agreed and finalised by the working group and are presented in the main body of this report.  It should be noted, however, that unlike the other domains, there is a lack of 'official' data sources which are able to inform the chosen power indicators.
+
+The main source for many of the indicators is Engender's [Sex and Power in Scotland 2020](https://www.engender.org.uk/content/publications/Engenders-Sex-and-Power-2020.pdf) research paper - the information presented in this paper was researched in September and October 2019. The paper identifies and sets out the limitations of the data that it includes:  
+
+"The list of organisations and positions identified in this report is not comprehensive, but is indicative of the current gendered balance of power and decision-making in Scotland.  As ever, Scottish-level data is sometimes missing or difficult to find, and not all occupational categories included can be compared like-for-like in terms of organisational scale.  The influence and reach of cultural production organisations, for instance, is sizeable and cannot be easily measured.  Sample sizes are often small, but still indicate patterns within respective fields.  We reference sources and the methodology used to define occupational categories in relevant sections throughout the report."
+
+## **Economic Sub-domain** {.section1}
+```{r}
+ind_score <- data[["power_economic"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["power_economic"]] %>% filter(row_number() == 1)
+```
+
+The economic sub-domain provides a measure for gender equality in decision-making positions across important economic spheres and looks at the gender balance of the heads of **public bodies** and **large private-sector companies**. 
+
+In `r metadata[["ref_period"]]`, Scotland's gender equality score for the economic sub-domain was `r domain_score[["power_economic"]]`. However, there was a large disparity in the scores between the two indicators.   
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["power_economic"]]
+```
+
+
+### Large Private-Sector Companies {.tabset .tabset-fade -}
+```{r}
+var <- "private_sector"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+women_pct <- data[[var]] %>% mutate(pct = value / sum(value)) %>% filter(gender == "women") %>% pull(pct) %>% percent(1)
+```
+
+The number of Chief Executive Officers (CEOs) in Scotland's 50 largest companies was chosen as an indicator to provide a measure of gender equality within business and the private sector. There is a clear-cut business case for women's leadership and it is widely recognised that greater diversity across management and company boards improves organisational performance and access to resources.
+
+However, progress towards women's leadership within the private sector in Scotland has been extremely slow. In `r metadata[["ref_period"]]`, the vast majority of CEOs of Scotland's 50 largest companies were men with only `r women_pct` having female Chief Executives (`r women_n` women compared with `r men_n` men). Scotland's gender equality score on this indicator is `r domain_score[["private_sector"]]`, demonstrating considerable inequality.  
+
+In addition, [Small Business Survey Scotland: 2018](https://www.gov.scot/publications/small-business-survey-scotland-2018/2018) shows that only around one in seven small to medium-sized enterprise (SME) employers were controlled by a woman, or led by a management team with a majority of women. 
+
+There are a number of possible reasons for these low gender equality scores including: male-dominated working cultures, onerous working models for senior staff, a lack of flexible working opportunities and quality part-time work, and pregnancy and maternity discrimination, which can all be barriers to women's career progression.
+
+#### Chart {-}
+
+```{r, out.width='100%'}
+data[["private_sector"]] %>% pull(title_text) %>% first() %>% create_html()
+plots[["private_sector"]]
+data[["private_sector"]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Methodology {-}
+`r metadata[["calculation_notes"]] %>% gsub("cEOs", "CEOs", .)`
+
+The main source for many of the indicators is Engender's [Sex and Power in Scotland 2020](https://www.engender.org.uk/content/publications/Engenders-Sex-and-Power-2020.pdf) research paper - the information presented in this paper was researched in September and October 2019. The paper identifies and sets out the limitations of the data that it includes:  
+
+"The list of organisations and positions identified in this report is not comprehensive, but is indicative of the current gendered balance of power and decision-making in Scotland.  As ever, Scottish-level data is sometimes missing or difficult to find, and not all occupational categories included can be compared like for like in terms of organisational scale.  The influence and reach of cultural production organisations, for instance, is sizeable and cannot be easily measured.  Sample sizes are often small, but still indicate patterns within respective fields. We reference sources and the methodology used to define occupational categories in relevant sections throughout the report."
+
+It should be noted that these are not 'Official Statistics'.  
+
+### Public Bodies  {.tabset .tabset-fade -}
+```{r}
+var <- "public_body"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+women_pct <- data[[var]] %>% mutate(pct = value / sum(value)) %>% filter(gender == "women") %>% pull(pct) %>% percent(1)
+```
+
+Scotland's public bodies carry out a range of operational, advisory, regulatory and specialist functions, with varying degrees of independence and funding from central government. These governance bodies set policy, deliver services, administer justice, and safeguard rights across a huge range of areas that impact the lives of men and women. The areas covered include social care, education, training, law enforcement, recourse to justice, housing, the environment, the arts, taxation, pensions and enterprise.  It was, therefore, important to have a measure of gender equality in this key sector included in Scotland's Gender Equality Index.
+
+In `r metadata[["ref_period"]]`, the vast majority of the heads of Scotland's public boards were men with only `r women_pct` headed by women (`r women_n` women compared with `r men_n` men). Scotland's score on this indicator is `r domain_score[["public_body"]]`.  
+
+It should be noted that in 2019, the Scottish Parliament passed the Gender Representation on Public Boards (Scotland) Bill which sets the quota for women on public boards at 50% in order to redress the overrepresentation of men in strategic positions on public bodies.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+data[["public_body"]] %>% pull(title_text) %>% first() %>% create_html()
+plots[["public_body"]]
+data[["public_body"]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Methodology{-}
+`r metadata[["calculation_notes"]]`
+
+The main source for many of the indicators is Engender's [Sex and Power in Scotland 2020](https://www.engender.org.uk/content/publications/Engenders-Sex-and-Power-2020.pdf) research paper - the information presented in this paper was researched in September and October 2019.  The paper identifies and sets out the limitations of the data that it includes:  
+
+"The list of organisations and positions identified in this report is not comprehensive, but is indicative of the current gendered balance of power and decision-making in Scotland.  As ever, Scottish-level data is sometimes missing or difficult to find, and not all occupational categories included can be compared like for like in terms of organisational scale.  The influence and reach of cultural production organisations, for instance, is sizeable and cannot be easily measured.  Sample sizes are often small, but still indicate patterns within respective fields. We reference sources and the methodology used to define occupational categories in relevant sections throughout the report."
+
+It should be noted that these are not 'Official Statistics'.
+
+## **Political Sub-domain** {.section2}
+```{r}
+ind_score <- data[["power_political"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["power_political"]] %>% filter(row_number() == 1)
+```
+
+The sub-domain of Political Power examines the representation of women and men across national and local political institutions in Scotland, including the Scottish Parliament and local councils. The indicators included here are **council leaders**, **Ministers**, and **Members of the Scottish Parliament** (MSPs).
+
+In `r metadata[["ref_period"]]`, Scotland's gender equality score for the political sub-domain was `r domain_score[["power_political"]]`. Using these measures there was more gender equality in politics in Scotland at national than local level.  
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["power_political"]]
+```
+
+### Council Leaders {.tabset .tabset-fade -}
+```{r}
+var <- "council_leader"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+women_pct <- data[[var]] %>% mutate(pct = value / sum(value)) %>% filter(gender == "women") %>% pull(pct) %>% percent(1)
+```
+
+It was important to include an indicator on local politics, as local political leaders make key decisions about vital services which impact on the lives of everyone in the community, including across education, public transport, leisure facilities, and social care.  
+
+In `r metadata[["ref_period"]]`, the majority of council leaders were men, with only `r women_pct` of Scotland's councils headed by women (`r women_n` women compared with `r men_n` men). Scotland's gender equality score on this indicator is `r domain_score[["council_leader"]]`. 
+
+In addition to the council leaders, a larger number of local councillors play an important role in supporting people in their ward through case work, advocating for their residents in disputes, offering advice, and representing their views in various spheres. It is important that these roles are also gender balanced, not only so that decisions take into account a range of perspectives, but also so that women are comfortable approaching leaders in sensitive areas such as healthcare and domestic violence.   
+
+Experience of leading a local council can also act as a springboard to standing for Holyrood or Westminster elections and low representation of women at this level can impact on women's representation at higher levels of government.
+
+
+#### Chart {-}
+
+```{r, out.width='100%'}
+data[["council_leader"]] %>% pull(title_text) %>% first() %>% create_html()
+plots[["council_leader"]]
+data[["council_leader"]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Methodology {-}
+`r metadata[["calculation_notes"]]`
+
+The main source for many of the indicators is Engender's [Sex and Power in Scotland 2020](https://www.engender.org.uk/content/publications/Engenders-Sex-and-Power-2020.pdf) research paper - the information presented in this paper was researched in September and October 2019. The paper identifies and sets out the limitations of the data that it includes:  
+
+"The list of organisations and positions identified in this report is not comprehensive, but is indicative of the current gendered balance of power and decision-making in Scotland.  As ever, Scottish-level data is sometimes missing or difficult to find, and not all occupational categories included can be compared like for like in terms of organisational scale.  The influence and reach of cultural production organisations, for instance, is sizeable and cannot be easily measured.  Sample sizes are often small, but still indicate patterns within respective fields. We reference sources and the methodology used to define occupational categories in relevant sections throughout the report."
+
+It should be noted that these are not 'Official Statistics'.
+
+### Ministers {.tabset .tabset-fade -}
+```{r}
+var <- "ministers"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+women_pct <- data[[var]] %>% mutate(pct = value / sum(value)) %>% filter(gender == "women") %>% pull(pct) %>% percent(1)
+```
+
+Scotland has continued to deliver gender balanced cabinets in line with a commitment made by the First Minister after her election in 2014. This indicator looks at the gender balance of Cabinet Secretaries and Ministers weighted by amount of ministerial influence. In `r metadata[["ref_period"]]`, the women's proportion of weighted ministerial influence was `r women_pct` (`r women_n` for women compared with `r men_n` for men). As a result, Scotland's gender equality score on this indicator is `r domain_score[["ministers"]]`.
+
+This gender balance is not matched, however, within Special Advisers where around two thirds of those advising and assisting Ministers are men. While Special Advisers are not elected positions, their role is at the heart of government strategy and decision-making.
+
+
+#### Chart {-}
+
+```{r, out.width='100%'}
+data[["ministers"]] %>% pull(title_text) %>% first() %>% create_html()
+plots[["ministers"]]
+data[["ministers"]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Methodology {-}
+`r metadata[["calculation_notes"]]`
+
+Data taken from the Scottish Government website - [Cabinet and ministers](https://web.archive.org/web/20180104021225/https://beta.gov.scot/about/who-runs-government/cabinet-and-ministers/)
+
+Special Advisers are not included within the indicator. Ministerial influence was weighted by: 4 - First Minister; 3 - Deputy First Minister & Cabinet Secretary for Finance; 2 - Other Cabinet Secretaries; 1 - Ministers (including Lord Advocate and Solicitor General). Data for the Ministers indicator relates to the Scottish Cabinet and Ministers as of the day of the `r metadata[["ref_period"]]` Scottish Budget.
+
+It should be noted that these are not 'Official Statistics'.
+
+### MSPs {.tabset .tabset-fade -}
+```{r}
+var <- "msps"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+women_pct <- data[[var]] %>% mutate(pct = value / sum(value)) %>% filter(gender == "women") %>% pull(pct) %>% percent(1)
+```
+
+In 2019, women made up just `r women_pct` of Scotland's MSPs, which would place Scotland 30th in global rankings. Scotland's gender equality score on this indicator is `r domain_score[["msps"]]`.
+
+However, political parties within Scotland have made concerted efforts to redress the overrepresentation of men among their elected representatives, with all but one of the major parties adopting some form of gender-balancing mechanisms. The success of these practices will be seen with the results of the 2021 Holyrood election.
+
+The introduction of quotas for MSPs was a key recommendation in the first report of the First Minister's Advisory Council on Women and Girls in 2018.  Outwith legislative powers, the Parliament has shown commitment to increasing women's representation within its structures, which is reflected in the increase of female Committee conveners and the gender balance of the Corporate Body. It should be noted, however, that the membership of the Corporate Body changes on a frequent basis.
+
+#### Chart {-}
+
+```{r, out.width='100%'}
+data[["msps"]] %>% pull(title_text) %>% first() %>% create_html()
+plots[["msps"]]
+data[["msps"]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Methodology {-}
+`r metadata[["calculation_notes"]]`
+
+Data taken from the [Scottish Parliament Information Centre SPICE](https://scottishparliamentinformationcentre.org/)
+
+It should be noted that these are not 'Official Statistics'.
+
+## **Social Sub-domain** {.section3}
+```{r}
+ind_score <- data[["power_social"]] %>% select(indicator, score) %>% mutate(score = number(score)) %>% spread(indicator, score)
+metadata <- data[["power_social"]] %>% filter(row_number() == 1)
+```
+
+The Social sub-domain represents decision-making in important and influential spheres in Scottish life, including the judiciary, media and sport. The indicators included here are **senior police officers and judges**, **media** and **sports**. Scotland's gender equality score for the social sub-domain is `r domain_score[["power_social"]]`. There was variation across the indicators, with more gender equality in the judiciary than in media and sport.   
+
+```{r, out.width='100%'}
+metadata[["chart_title"]] %>% create_html()
+plots[["power_social"]]
+```
+
+### Senior Police Officers and Judges {.tabset .tabset-fade -}
+```{r}
+var <- "police_judges"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+women_pct <- data[[var]] %>% mutate(pct = value / sum(value)) %>% filter(gender == "women") %>% pull(pct) %>% percent(1)
+```
+
+Gender diversity across judiciary and police forces help to increase women's access to justice, and to tackle violence against women. In `r metadata[["ref_period"]]`, `r women_pct` of Scotland's senior police officers and judges were women (`r women_n` women compared with `r men_n` men), producing a gender equality score of `r domain_score[["police_judges"]]`.
+
+In addition to these statistics, Scotland's most senior judicial office holders, Senators of the College of Justice, sit in the supreme civil court (the Court of Session) and the supreme criminal court (the High Court of Justiciary). At present only around a quarter of these judges are women and the proportion is lower at temporary judge level. 
+
+Meanwhile, sheriffs rule the majority of criminal and civil law court cases in Scotland, and over three quarters are men.  Only two of Scotland's senior police officers are women, and over two thirds of all police officer posts are currently held by men.
+
+#### Chart {-}
+
+```{r, out.width='100%'}
+data[["police_judges"]] %>% pull(title_text) %>% first() %>% create_html()
+plots[["police_judges"]]
+data[["police_judges"]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Methodology {-}
+`r metadata[["calculation_notes"]]`
+
+Data was taken from [Police Scotland Equality and Diversity Statistics](https://www.scotland.police.uk/about-us/equality-and-diversity/) 
+
+It should be noted that these are not 'Official Statistics'.
+
+### Media {.tabset .tabset-fade -}
+```{r}
+var <- "media"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+women_pct <- data[[var]] %>% mutate(pct = value / sum(value)) %>% filter(gender == "women") %>% pull(pct) %>% percent(1)
+```
+Gender imbalance across media outlets can have a negative impact on gender equality and the stereotyping of women.  The indicator chosen to represent power and decision-making in the media is the gender balance across Scotland's newspaper editors and in `r metadata[["ref_period"]]`, `r women_pct` were women (`r women_n` women compared with `r men_n` men). Scotland's score on this indicator is `r domain_score[["media"]]`.
+
+This gender imbalance is repeated in both political editing and national broadcasters.  In 2020 women are still more likely to be working as freelance journalists while men are in salaried and named posts, and there is a lack of gender balance across all media platforms.  
+
+In 2015, [UK-wide analysis](http://whomakesthenews.org/gmmp/gmmp-reports/gmmp-2015-reports) of spokespeople in print and broadcast news sources showed that 85% of academics (including teachers), 87% of business people, 88% of media and creative industry professionals and 97% of spokespeople related to sport were men.  Women were more likely than men to be described in terms of their family status, and over three times as likely to be described as victims than men. Sexualised imagery of women and girls across media platforms reinforces sexist attitudes, shapes how women are valued, and can have negative impacts on body image, self-worth and health. Women standing for political office are routinely subjected to sexism in the mainstream media, and the absence of quality reporting on gender issues sustains low awareness of women's inequality.
+
+Analysis of Brexit coverage in Scotland, undertaken on behalf of Gender Equal Media Scotland, revealed that, in a key week for Brexit negotiations, only 28% of the 'experts' and 33% of the general public that appeared in the news were women.
+
+#### Chart {-}
+
+```{r, out.width='100%'}
+data[["media"]] %>% pull(title_text) %>% first() %>% create_html()
+plots[["media"]]
+data[["media"]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Methodology {-}
+`r metadata[["calculation_notes"]]`
+
+The main source for many of the indicators is Engender's [Sex and Power in Scotland 2020](https://www.engender.org.uk/content/publications/Engenders-Sex-and-Power-2020.pdf) research paper - the information presented in this paper was researched in September and October 2019. The paper identifies and sets out the limitations of the data that it includes:  
+
+"The list of organisations and positions identified in this report is not comprehensive, but is indicative of the current gendered balance of power and decision-making in Scotland.  As ever, Scottish-level data is sometimes missing or difficult to find, and not all occupational categories included can be compared like for like in terms of organisational scale.  The influence and reach of cultural production organisations, for instance, is sizeable and cannot be easily measured.  Sample sizes are often small, but still indicate patterns within respective fields. We reference sources and the methodology used to define occupational categories in relevant sections throughout the report."
+
+The [Who Makes the News](http://whomakesthenews.org/gmmp/gmmp-reports/gmmp-2015-reports) survey was last conducted in February 2020 by volunteers around the world. Details of the research instruments can be obtained from the project. 
+
+It should be noted that these are not 'Official Statistics'.
+
+### Sports {.tabset .tabset-fade -}
+```{r}
+var <- "sports_body"
+metadata <- data[[var]] %>% filter(row_number() == 1)
+women_n <- data[[var]] %>% filter(gender == "women") %>% pull(value) %>% comma(1)
+men_n <- data[[var]] %>% filter(gender == "men") %>% pull(value) %>% comma(1)
+women_pct <- data[[var]] %>% mutate(pct = value / sum(value)) %>% filter(gender == "women") %>% pull(pct) %>% percent(1)
+```
+
+Gender imbalance in leaders in Scotland's national governing sporting bodies can have a negative impact on gender equality within sport, including on participation rates for women and girls.  The indicator chosen to represent power and decision making within sport is the proportion of Chief Executive Officers (CEOs) of Scottish Governing bodies of sport who are women.  In `r metadata[["ref_period"]]`, only `r women_pct` of CEO positions across Scotland's national governing bodies were held by women (`r women_n` women compared with `r men_n` men), producing a gender equality score of `r domain_score[["sports_body"]]`.
+
+There is also a large gender pay gap within elite sports, men are the vast majority of qualified sports coaches across the UK; and even at community level investment in girls' sport is hugely unequal.  This represents a cycle of inequality that disincentivises women's participation and employment in sports sectors.  Girls withdraw from sport at a faster rate than boys, and teenage girls and women are significantly less likely to participate in recreational sport.
+
+In turn, this can have a negative impact on women's health and wellbeing. Many gendered barriers feed into this reality; male-dominated sporting cultures, sexual harassment and abuse in sports venues, lack of appropriate facilities, negative or limited experiences of PE, and related self-esteem and body issues result in girls and women dropping out of sport.  A recent report by the [Scottish Women and Girls in Sport Advisory Board](https://www.gov.scot/groups/women-and-girls-sport-advisory-board/) found that 22% of articles on women's sport included perceived sexualised content. Systemic transphobia and racism in sport also have particular implications for transgender and minority ethnic women, and a lack of opportunities limits participation for disabled women and girls.
+
+Scotland's qualification for the 2019 Women's World Cup led to a focus on football, and there has been some recent improvement in this field - BBC Alba broadcast all Scottish Women's National Team (SWNT) matches, Celtic and Rangers FC Women are moving towards professional status, and the Scottish FA report a doubling of girls playing football since 2013.
+
+#### Chart {-}
+
+```{r, out.width='100%'}
+data[["sports_body"]] %>% pull(title_text) %>% first() %>% create_html()
+plots[["sports_body"]]
+data[["sports_body"]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Methodology {-}
+`r metadata[["calculation_notes"]] %>% gsub("chief", "Chief", .)`
+
+The main source for many of the indicators is Engender's [Sex and Power in Scotland 2020](https://www.engender.org.uk/content/publications/Engenders-Sex-and-Power-2020.pdf) research paper - the information presented in this paper was researched in September and October 2019. The paper identifies and sets out the limitations of the data that it includes:  
+
+"The list of organisations and positions identified in this report is not comprehensive, but is indicative of the current gendered balance of power and decision-making in Scotland.  As ever, Scottish-level data is sometimes missing or difficult to find, and not all occupational categories included can be compared like for like in terms of organisational scale.  The influence and reach of cultural production organisations, for instance, is sizeable and cannot be easily measured. Sample sizes are often small, but still indicate patterns within respective fields. We reference sources and the methodology used to define occupational categories in relevant sections throughout the report."
+
+It should be noted that these are not 'Official Statistics'.

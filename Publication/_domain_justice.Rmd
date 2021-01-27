@@ -1,0 +1,464 @@
+---
+output:
+  html_document: default
+  word_document: default
+---
+```{r, include = FALSE}
+for (script in list.files("scripts", full.names = TRUE)) {
+  source(script)
+}
+```
+
+# **Violence against Women Domain**  
+```{r}
+metadata <- data[["vaw"]] %>% filter(row_number() == 1)
+```
+
+### {.tabset .tabset-fade -}
+
+#### Key findings {-}
+
+The domain of **violence against women** is designed to measure the level of violence against women in Scottish society. Similar to the EIGE (European Institute for Gender Equality) Gender Equality Index, the violence against women domain exists here as a satellite domain and does not contribute to the overall Index score. Here, the focus is on the eradication of violence against women rather than its equivalence to men. Nevertheless, violence against women must be considered alongside other domains as it reflects enduring inequalities in the fields of work, health, money, power, knowledge and time.
+
+The sub-domains within the violence against women domain are **partner abuse**, **sexual harassment and victimisation**, **disclosure**, **femicide** and **safety**.
+
+What is evident from this domain is that while Scotland is taking important steps to eradicating violence against women through the [Equally Safe](https://www.gov.scot/publications/equally-safe-scotlands-strategy-prevent-eradicate-violence-against-women-girls/) strategy adopted in 2014, violence continues to occur. The violence that is taking place is also having lasting effects on women, both psychologically and physically. Estimates about the extent of violence occurring may be hampered by low disclosure rates, especially to criminal justice professionals/police. Importantly, feelings of safety have increased over the last 10 years, with more women feeling safe walking alone in their local area after dark. Nonetheless, the number of women who feel safe remains low in comparison to men.
+
+#### About the Violence against Women Domain {-}
+
+The satellite domain of violence against women within Scotland's Gender Equality Index is designed to measure the levels of violence against women in Scottish society. Unlike other domains (except women-specific health), this satellite domain does not provide a score based on equality between men and women, but rather it presents women's experiences of violence. The main objective is to eliminate violence against women in Scotland, not to reduce gaps between the violence experienced by men and women.
+
+The Scottish Government adopts a broad definition of violence against women and girls which ties in with the [United Nations Declaration on the Elimination of Violence Against Women](https://www.ohchr.org/EN/ProfessionalInterest/Pages/ViolenceAgainstWomen.aspx). Violence against women and girls refers to a range of actions that harm, or cause suffering and indignity to women and children, including:
+
+* Physical, sexual and psychological violence in the family, general community or institutions. This includes domestic abuse, rape, incest and child sexual abuse
+
+* Sexual harassment and intimidation at work and in public
+
+* Commercial sexual exploitation including prostitution, pornography and trafficking
+
+* So called 'honour based' violence, including dowry-related violence, female genital mutilation, forced and child marriages and 'honour' crimes
+
+The Scottish Government takes a gendered analysis of violence against women, recognising that it is:
+
+* Caused by the fact that men and women are not equal, and in turn 
+
+* Causes inequality between women and men
+
+The elimination of violence against women is, therefore, vital to achieving gender equality in Scotland. To this end, the Scottish Government introduced the Equally Safe strategy in 2014, which aims to prevent and eradicate violence against women and girls by producing a framework for change across four overarching priorities:
+
+* Scottish society embraces equality and mutual respect, and rejects all forms of violence against women and girls
+
+* Women and girls thrive as equal citizens: socially, culturally, economically and politically
+
+* Interventions are early and effective, preventing violence and maximising the safety and wellbeing of women, children and young people
+
+* Men desist from all forms of violence against women and girls and perpetrators of such violence receive a robust and effective response
+
+Equally Safe recognises the importance of intersectionality and focuses on the fact that along with their gender, women and girls have other protected characteristics that increases their level of risk of experiencing violence and abuse. Drivers for this are often the continuing prejudice and structural barriers in society which cause inequality. These protected characteristics include: age, disability, gender reassignment, marriage and civil partnership, pregnancy and maternity, race, religion and belief and sexual orientation.
+
+The first sub-domain is **partner abuse**, which is measured by two indicators: the incidence of partner abuse, both psychological and physical, and the severity of this abuse. 
+
+The second sub-domain is **sexual harassment and victimisation**, which is measured by the incidence of harassment and stalking, as well as the incidence of serious sexual assault.
+
+The third sub-domain is **disclosure**, which is measured by two indicators: the disclosure of forced sexual intercourse and the disclosure of partner abuse.
+
+The fourth sub-domain is **femicide** and is measured using data on the rate of femicide using homicide statistics.
+
+The final sub-domain is **safety**, and this is measured by women's perceptions of their safety when walking alone at night.
+
+
+## **Partner Abuse Sub-domain**
+
+Partner abuse, or domestic abuse as it is commonly known, is defined as any form of physical, non-physical or sexual abuse, which takes place within the context of a close relationship, committed either in the home or elsewhere. This relationship will be between partners (married, co-habiting or otherwise) or ex-partners. The term 'partner abuse' has been used in Scotland's Gender Equality Index in order to maintain consistency with the Scottish Crime and Justice Survey (SCJS), the main data source for this satellite domain.
+
+In this context, partner abuse can be considered as falling into two categories – psychological and physical. Psychological abuse is commonly known as coercive control, and was made illegal by the [Domestic Abuse (Scotland) Act 2018](https://www.legislation.gov.uk/asp/2018/5/contents/enacted). Coercive control is a pattern of degrading treatment over time -it can include humiliation, intimidation and other forms of emotional and psychological abuse -that is used to harm, punish or frighten a partner/ex-partner.
+
+Partner abuse is a prevalent form of violence against women, with the [World Health Organisation (WHO)](https://apps.who.int/iris/bitstream/handle/10665/112325/WHO_RHR_14.11_eng.pdf) estimating that worldwide almost a third (30%) of women who have been in a relationship have experienced some form of physical and/or sexual violence by their intimate partner in their lifetime.
+
+The partner abuse sub-domain within the violence against women domain of Scotland's Gender Equality Index consists of two indicators: the **incidence of partner abuse**, and the **severity** of this abuse. The incidence of partner abuse is measured as the percentage of women who had experienced partner abuse (psychological or physical) in the previous 12 months, and severity was measured using data on the percentage of women who have experienced at least one type of psychological and/or physical effect as a result of partner abuse in the last 12 months. These measures are both respondents' self-reported views of incidents.
+
+### Incidence of Partner Abuse {.tabset .tabset-fade -}
+```{r}
+var <- "partner_abuse"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+metadata_prev <- all_data[[var]] %>% filter(ref_period == max(ref_period[ref_period != max(ref_period)])) %>% filter(row_number() == 1)
+women_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women") %>% pull(value) %>% comma(0.1, suffix = "%")
+women_pct_0405 <- all_data[[var]] %>% filter(ref_period == "2004/05", gender == "women") %>% pull(value) %>% comma(0.1, suffix = "%")
+women_pct_prev <- all_data[[var]] %>% filter(ref_period == max(ref_period[ref_period != max(ref_period)]), gender == "women") %>% pull(value) %>% comma(0.1, suffix = "%")
+```
+
+The below chart shows the level of partner abuse in Scotland in `r metadata[["ref_period"]]`, and change over time. In `r metadata[["ref_period"]]` the percentage of women who had experienced partner abuse (psychological or physical) in the previous 12 months was `r women_pct`. In 2008/09 4.2% of women had experienced partner abuse in the previous 12 months, while in `r metadata_prev[["ref_period"]]` the percentage was 3.4%.
+
+It should be noted that these statistics may underestimate the incidence of partner abuse as some women may not feel comfortable disclosing that they have experienced partner abuse. These issues are covered in more detail in the disclosure sub-domain.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Equally Safe recognises that in some minority ethnic communities traditional gender roles can be stronger and cultural practices involving violence, such as forced marriage, more prevalent. In addition, disabled women and girls are more at risk of exploitation and coercion and may be being cared for by an abuser. Older women may be either caring for, or being cared for by, their abuser. 
+
+Equally Safe recognises that lesbian, bisexual and transgender women experience violence and abuse which targets their sexual orientation, gender identity or both; homophobia, biphobia and transphobia can drive (or be used as components of) abuse by perpetrators. 
+
+Equally Safe recognises that young women disproportionately experience intimate partner violence in relation to young men, and report much greater negative impacts as a result. Evidence from the data source indicates that younger women (aged 16-24) are more likely than any women of any other age  to have experienced partner abuse (9.9% compared to 3.6% of all women).
+
+#### Methodology{-}
+
+Data for this indicator comes from the SCJS. Specifically it is drawn from the self-completion element of the survey. The sample size for this element was 4,888 (89% of respondents to the main survey) in 2017/18, and 5,153 (92% of respondents to the main survey) in 2016/17.
+
+The questionnaire is completed by respondents on the interviewer's tablet PC (Computer Assisted Self-completion Interviewing -CASI). This ensures confidentiality when answering sensitive questions or those on illicit behaviour.
+
+Data completed within the self-completion element of the SCJS in 2016/17 and 2017/18 has been collated to increase the sample size, and is published biennially. The 2017/18 [SCJS](https://www.gov.scot/publications/scottish-crime-justice-survey-2017-18-main-findings/pages/13/) publication contains combined 2016/17 and 2017/18 self-completion data.
+
+The definition of partner abuse is not introduced at the start of the SCJS and the terms 'partner abuse' or 'domestic abuse' are not used in the survey until the final question of the section. Rather, respondents are asked to identify which, if any, of a list of psychological and physical abusive behaviours they have experienced since the age of 16, and in the 12 months prior to interview.
+
+It is worth noting that the partner abuse questions of the self-completion section of the SCJS do not ask whether offenders were in Scotland or not, therefore potentially some incidents which were perpetrated, or occurred, outwith Scotland (including online) may be included in the data. 
+
+SCJS is the most comprehensive survey of public experiences and perceptions of crime in Scotland. For further details see the latest [Scottish Crime and Justice Survey publication](https://www.gov.scot/collections/scottish-crime-and-justice-survey/#latestfindings).
+
+
+### Severity {.tabset .tabset-fade -}
+```{r}
+var <- "partner_abuse_impact"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+metadata_prev <- all_data[[var]] %>% filter(ref_period == max(ref_period[ref_period != max(ref_period)])) %>% filter(row_number() == 1)
+physical_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), .type == "Physical") %>% pull(value) %>% comma(1, suffix = "%")
+psych_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), .type == "Psychological") %>% pull(value) %>% comma(1, suffix = "%")
+physical_pct_prev <- all_data[[var]] %>% filter(ref_period == max(ref_period[ref_period != max(ref_period)]), .type == "Physical") %>% pull(value) %>% comma(1, suffix = "%")
+psych_pct_prev <- all_data[[var]] %>% filter(ref_period == max(ref_period[ref_period != max(ref_period)]), .type == "Psychological") %>% pull(value) %>% comma(1, suffix = "%")
+```
+
+Alongside the level of partner abuse in Scotland, it is important to also measure the severity of that abuse. Severity measures the effects of partner abuse, both psychologically (mental health) and physically (physical, sexual and reproductive health). These effects can impact on a woman's ability to take part in other domains discussed in Scotland's Gender Index, for example work.
+
+In `r metadata[["ref_period"]]`, `r psych_pct` of women experiencing partner abuse had at least one **psychological** effect as a result of the most recent (or only) incident of psychological or physical abuse partner abuse in the previous 12 months. In comparison in `r metadata_prev[["ref_period"]]` the figure was `r psych_pct_prev`.
+
+In `r metadata[["ref_period"]]`, `r physical_pct` of women experienced at least one type of **physical** effect as a result of the most recent incident of psychological or physical partner abuse in the previous 12 months. In `r metadata_prev[["ref_period"]]` the percentage was `r physical_pct_prev`.
+
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Equally Safe recognises that in some minority ethnic communities traditional gender roles can be stronger and cultural practices involving violence, such as forced marriage, more prevalent. In addition, disabled women and girls are more at risk of exploitation and coercion and may be being cared for by an abuser. Older women may be either caring for, or being cared for by, their abuser. 
+
+Equally Safe recognises that lesbian, bisexual and transgender women experience violence and abuse which targets their sexual orientation, gender identity or both; homophobia, biphobia and transphobia can drive (or be used as components of) abuse by perpetrators. 
+
+Equally Safe recognises that young women disproportionately experience intimate partner violence in relation to young men, and report much greater negative impacts as a result.
+
+#### Methodology{-}
+
+Data for this indicator comes from the SCJS. Specifically it is drawn from the self-completion element of the survey. The sample size for this element was 4,888 (89% of respondents to the main survey) in 2017/18, and 5,153 (92% of respondents to the main survey) in 2016/17.
+
+The questionnaire is completed by respondents on the interviewer's tablet PC (Computer Assisted Self-completion Interviewing -CASI). This ensures confidentiality when answering sensitive questions or those on illicit behaviour.
+
+Data completed within the self-completion element of the SCJS in 2016/17 and 2017/18 has been collated to increase the sample size, and is published biennially. The 2017/18 [SCJS](https://www.gov.scot/publications/scottish-crime-justice-survey-2017-18-main-findings/pages/13/) publication contains combined 2016/17 and 2017/18 self-completion data.
+
+In order to measure the impact of partner abuse, respondents who reported experiencing at least one incident of partner abuse in the 12 months prior to interview were asked if they had experienced a range of effects, both psychological and physical, as a result of the most recent (or only) incident of abuse.
+
+It is worth noting that the partner abuse questions of the self-completion section of the SCJS do not ask whether offenders were in Scotland or not, therefore potentially some incidents which were perpetrated, or occurred, outwith Scotland (including online) may be included in the data.
+
+When assessing change over time, it should be noted that the lack of statistically significant change between 2014/15 and 2016-17 is to be expected as a result of the small sample size involved in the self-completion element of the SCJS.
+
+
+## **Sexual Harassment and Victimisation Sub-domain**
+
+Sexual harassment and victimisation can take place in any sphere of life: in the workplace, in the home or in wider society. The Equality Act 2010 defines sexual harassment as unwelcome sexual behaviour which compromises your dignity and makes you feel offended, humiliated, intimidated or threatened. Sexual harassment may be verbal, non-verbal or physical.
+
+### **Sexual Harassment and Victimisation** {.tabset .tabset-fade -}
+```{r}
+var <- "sexual_victimization"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+assault_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), .type == "More serious sexual assault") %>% pull(value) %>% comma(0.1, suffix = "%")
+harrass_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), .type == "Sexual harassment") %>% pull(value) %>% comma(0.1, suffix = "%")
+```
+
+Respondents of the [SCJS](https://www.gov.scot/collections/scottish-crime-and-justice-survey/) were asked about their experiences of stalking and harassment in the 12 months prior to interview, including victim-offender relationships and reporting to the police.
+
+In `r metadata[["ref_period"]]`, `r harrass_pct` of women had experienced stalking or harassment in the past 12 months by any perpetrator. `r assault_pct` of women had experienced more serious sexual assault in the previous 12 months.
+
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Equally Safe recognises that in some minority ethnic communities traditional gender roles can be stronger and cultural practices involving violence, such as forced marriage, more prevalent. In addition, disabled women and girls are more at risk of exploitation and coercion and may be being cared for by an abuser. Older women may be either caring for, or being cared for by, their abuser. 
+
+Equally Safe recognises that lesbian, bisexual and transgender women experience violence and abuse which targets their sexual orientation, gender identity or both; homophobia, biphobia and transphobia can drive (or be used as components of) abuse by perpetrators. 
+
+Equally Safe recognises that young women disproportionately experience intimate partner violence in relation to young men, and report much greater negative impacts as a result.
+
+Data from SCJS demonstrates that experiences of at least one form of stalking and harassment in the last 12 months were higher among people aged 16-24 (19.0%), than any other age group. Within this age group experiences of stalking and harassment were higher among women aged 16-24 (26.9%), compared to men of the same age (12.1%).
+
+
+#### Methodology{-}
+
+Data for this indicator comes from the Scottish Crime and Justice Survey [SCJS](https://www.gov.scot/collections/scottish-crime-and-justice-survey/). Specifically it is drawn from the self-completion element of the survey. The sample size for this element was 4,888 (89% of respondents to the main survey) in 2017/18, and 5,153 (92% of respondents to the main survey) in 2016/17.
+
+The questionnaire is completed by respondents on the interviewer's tablet PC (Computer Assisted Self-completion Interviewing -CASI). This ensures confidentiality when answering sensitive questions or those on illicit behaviour.
+
+Data collected within the self-completion element of the SCJS in 2016/17 and 2017/18 has been collated to increase the sample size, and is published biennially. The 2017/18 [SCJS](https://www.gov.scot/publications/scottish-crime-justice-survey-2017-18-main-findings/pages/13/) publication contains combined 2016/17 and 2017/18 self-completion data.
+
+It is worth noting that the stalking and harassment questions of the self-completion section do not ask whether offenders were in Scotland or not, therefore potentially some incidents which were perpetrated, or occurred, outwith Scotland (including online) may be included in the data. 
+
+The stalking and harassment self-completion module of the SCJS asks respondents if they have experienced one or more of the following types of incidents:
+
+* Being sent unwanted letters or cards on a number of occasions
+
+* Being sent unwanted emails or text messages or posts on social media sites on a number of occasions
+
+* Receiving a number of unwanted phone calls
+
+* Having someone waiting outside their home or workplace on more than one occasion
+
+* Being followed around on more than one occasion
+
+* Having intimate pictures of them shared without their consent, for example by text, on a website, or on a social media site on more than one occasion each of which can be viewed as a form of stalking and harassment.
+
+The data does not show whether respondents themselves viewed their experiences as stalking or harassment; some respondents may also have included incidents which would not be classed as stalking and harassment, for example, potentially, receiving cold-calling sales phone calls.
+
+More serious sexual assault is categorised in SCJS as:
+
+* Forcing someone to have sexual intercourse when they did not want to
+
+* Attempting to force someone to have sexual intercourse when they did
+not want to
+
+* Forcing someone to take part in other sexual activity when they did not
+want to
+
+* Attempting to force someone to take part in other sexual activity when they did not want to
+
+
+## **Disclosure Sub-domain**
+
+The sub-domain of disclosure focuses on whether, and to whom, women who have experienced violence disclose their experiences. Violence against women, including forced sexual intercourse and partner abuse, continue to be underreported meaning that official figures are likely to merely be the tip of the iceberg. While the overall goal in Scottish society is to eradicate violence against women, understanding who women do (or do not) tell is vital to improving the support provided while it still continues. 
+
+### Disclosure: Forced Sexual Intercourse {.tabset .tabset-fade -}
+```{r}
+var <- "sexual_assault_disclosure"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+disc_ind <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Individual")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_health <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Health")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_support <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Support Services")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_social <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Social Services")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_justice <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Criminal justice")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_mhealth <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Mental health")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_other <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Other")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_none <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "None of these")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_unknown <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Don't Know")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_refused <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Don't wish to answer")%>% pull(value) %>% comma(0.1, suffix = "%")
+```
+
+The below chart demonstrates that women who have experienced forced sexual intercourse are far more likely to tell an individual (`r disc_ind`), than a support service (`r disc_support`), a health professional (`r disc_health`) or a mental health professional (`r disc_mhealth`), social services (`r disc_social`), or 'other' (`r disc_other`).
+ 
+Importantly, only `r disc_justice` of women said they had told criminal justice professionals. This reinforces the fact that judiciary/police figures relating to forced sexual intercourse are likely to significantly underestimate the rates of forced sexual intercourse in Scotland. In addition, two fifths (`r disc_none`) of women who had experienced forced sexual intercourse in the past 12 months had told none of the listed services or people.
+
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Equally Safe recognises that in some minority ethnic communities traditional gender roles can be stronger and cultural practices involving violence, such as forced marriage, more prevalent. In addition, disabled women and girls are more at risk of exploitation and coercion and may be being cared for by an abuser. Older women may be either caring for, or being cared for by, their abuser. 
+
+Equally Safe recognises that lesbian, bisexual and transgender women experience violence and abuse which targets their sexual orientation, gender identity or both; homophobia, biphobia and transphobia can drive (or be used as components of) abuse by perpetrators. 
+
+Equally Safe recognises that young women disproportionately experience intimate partner violence in relation to young men, and report much greater negative impacts as a result.
+
+
+#### Methodology{-}
+
+Data for this indicator comes from the [`r metadata[["source"]]`](`r metadata[["link"]]`). Specifically it is drawn from the self-completion element of the survey. The sample size for this element was 4,888 (89% of respondents to the main survey) in 2017/18, and 5,153 (92% of respondents to the main survey) in 2016/17.
+
+The questionnaire is completed by respondents on the interviewer's tablet PC (Computer Assisted Self-completion Interviewing -CASI). This ensures confidentiality when answering sensitive questions or those on illicit behaviour.
+
+Data completed within the self-completion element of the SCJS in 2016/17 and 2017/18 has been collated to increase the sample size, and is published biennially. The 2017/18 [SCJS](https://www.gov.scot/publications/scottish-crime-justice-survey-2017-18-main-findings/pages/13/) publication contains combined 2016/17 and 2017/18 self-completion data.
+
+The sample for this indicator is made up of 155 women who had experienced forced sexual intercourse since age 16. They were asked about their most recent experience (in the last 12 months).
+
+The groupings for this indicator are as follows:
+
+* Individual: friends or relative; neighbours; someone at work
+
+* Support services: Women's Aid group; victim support services; Scottish Domestic Abuse helpline; Rape Crisis helpline
+
+* Health: health professional
+
+* Mental health: counsellor/therapist
+
+* Criminal justice: legal professional
+
+* Social services: social services
+
+* Other: any other helpline; websites; someone else
+
+
+### Disclosure: Partner Abuse {.tabset .tabset-fade -}
+```{r}
+var <- "partner_abuse_disclosure"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+disc_ind <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Individual")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_health <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Health")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_support <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Support Services")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_social <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Social Services")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_justice <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Criminal justice")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_mhealth <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Mental health")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_other <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Other")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_none <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "None of these")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_unknown <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Don't Know")%>% pull(value) %>% comma(0.1, suffix = "%")
+disc_refused <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women", breakdown == "Don't wish to answer")%>% pull(value) %>% comma(0.1, suffix = "%")
+```
+
+Women who had experienced partner abuse in the previous 12 months were more likely to tell an individual (`r disc_ind`) than a health professional (`r disc_health`), a support service (`r disc_support`), a mental health professional (`r disc_mhealth`), social services (`r disc_social`), or 'other' (`r disc_other`).
+
+One tenth (`r disc_justice`) of women who had experienced partner abuse in the previous 12 months had told criminal justice professionals. This is compared to 1% for women who had experienced forced sexual intercourse in the previous 12 months, indicating that women who had experienced partner abuse are more likely than women who had experienced forced sexual intercourse to tell a criminal justice professional. A quarter (`r disc_none`) of women who had experienced partner abuse in the previous 12 months had told none of the listed people or services. This is compared to 40% of women who had experienced forced sexual intercourse and indicates that women who have experienced partner abuse are more likely to disclose this information than those women who have experienced forced sexual intercourse.
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Equally Safe recognises that in some minority ethnic communities traditional gender roles can be stronger and cultural practices involving violence, such as forced marriage, more prevalent. In addition, disabled women and girls are more at risk of exploitation and coercion and may be being cared for by an abuser. Older women may be either caring for, or being cared for by, their abuser. 
+
+Equally Safe recognises that lesbian, bisexual and transgender women experience violence and abuse which targets their sexual orientation, gender identity or both; homophobia, biphobia and transphobia can drive (or be used as components of) abuse by perpetrators. 
+
+Equally Safe recognises that young women disproportionately experience intimate partner violence in relation to young men, and report much greater negative impacts as a result.
+
+#### Methodology{-} 
+
+Data for this indicator comes from the Scottish Crime and Justice Survey (SCJS). Specifically it is drawn from the self-completion element of the survey. The sample size for this element was 4,888 (89% of respondents to the main survey) in 2017/18, and 5,153 (92% of respondents to the main survey) in 2016/17.
+
+The questionnaire is completed by respondents on the interviewer's tablet PC (Computer Assisted Self-completion Interviewing -CASI). This ensures confidentiality when answering sensitive questions or those on illicit behaviour.
+
+Data completed within the self-completion element of the SCJS in 2016/17 and 2017/18 has been collated to increase the sample size, and is published biennially. The 2017/18 [SCJS](https://www.gov.scot/publications/scottish-crime-justice-survey-2017-18-main-findings/pages/13/) publication contains combined 2016/17 and 2017/18 self-completion data.
+
+The sample for this indicator is made up of 115 women who had experienced at least one type of partner abuse (psychological or physical) in the last 12 months.
+
+The groupings for this indicator are as follows:
+
+* Individual: friends; relatives; neighbours; someone at work
+
+* Health: doctor; health visitor or nurse; midwife
+
+* Mental Health: counsellor/therapist; mental health/addiction service
+
+* Support services: Women's Aid group; Victim Support Scotland; Scottish Domestic Abuse helpline; Rape Crisis helpline; Men's Advice Line
+
+* Social services: social services, housing department, benefit agency
+
+* Criminal justice: police; legal professional
+
+* Other: any other helpline; other group or organisation; someone else
+
+## **Femicide Sub-domain**
+
+Femicide refers to the intentional murder of women because they are women. Measuring the extent of femicide is inherently difficult and relies on the existence of data deriving from detailed and reliable records that identify characteristics of the victim and the perpetrator, the relationship between the two, and their environment, motivations and patterns of behaviour, among other factors.
+
+A large proportion of femicide involves women in violent relationships, and is committed by current or former partners according to [WHO](https://apps.who.int/iris/bitstream/handle/10665/77421/WHO_RHR_12.38_eng.pdf?sequence=1). Such incidences can be captured partially through national administrative data on intentional homicide of women by an intimate partner or by family members. In this case the working group has concluded that it is appropriate to use administrative data that measures the number of women who were victims of homicides carried out by a partner/ex-partner. This is considered an adequate proxy, but it is worth noting that there is potential for this data to include cases where the motive is different (i.e. murder not specifically because of a woman's gender) and that there is also potential for this data to exclude cases of femicide which are committed by persons other than partners and ex-partners.
+
+When considering rates of femicide in Scotland, it is worth consulting the [EIGE Gender Equality Index](https://eige.europa.eu/gender-equality-index/2019/violence), which treats Scotland separately from England and Wales with regard to this indicator and ranks Scotland as having the 7th lowest rate of femicide out of the 17 EU member states considered (as of 2016).
+
+### Femicide  {.tabset .tabset-fade -}
+```{r}
+var <- "femicide"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+metadata_prev <- all_data[[var]] %>% filter(ref_period == max(ref_period[ref_period != max(ref_period)])) %>% filter(row_number() == 1)
+women_n_prev <- all_data[[var]] %>% filter(ref_period == max(ref_period[ref_period != max(ref_period)]), gender == "women") %>% pull(value) %>% comma(1)
+women_n <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women") %>% pull(value) %>% comma(1)
+```
+
+The chart below demonstrates that in the 10 years from 2009-10 to `r metadata[["ref_period"]]` 74 women were victims of homicides carried out by a partner/ex-partner. Numbers have been relatively stable with a high of 12 homicides in 2010-11 and lows of 4 homicides in each of 2015-16 and 2016-17. With `r women_n` women being the victims of homicides carried out by a partner/ex-partner in `r metadata[["ref_period"]]`, this figure is higher than the mean number for the past 10 years (7.4).
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+all_data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+Equally Safe recognises that in some minority ethnic communities traditional gender roles can be stronger and cultural practices involving violence, such as forced marriage, more prevalent. In addition, disabled women and girls are more at risk of exploitation and coercion and may be being cared for by an abuser. Older women may be either caring for, or being cared for by, their abuser. 
+
+Equally Safe recognises that lesbian, bisexual and transgender women experience violence and abuse which targets their sexual orientation, gender identity or both; homophobia, biphobia and transphobia can drive (or be used as components of) abuse by perpetrators. 
+
+Equally Safe recognises that young women disproportionately experience intimate partner violence in relation to young men, and report much greater negative impacts as a result.
+
+#### Methodology{-}
+
+The data for this indicator comes from the Homicide in Scotland 2018-2019 statistical bulletin. These statistics are based on a snapshot of Police Scotland's homicide database at an agreed date.
+
+The [Homicide in Scotland statistical bulletin](https://www.gov.scot/publications/homicide-scotland-2018-19/) forms part of a series of bulletins produced by the Scottish Government on the criminal justice system.
+
+## **Safety Sub-domain** 
+
+This sub-domain measures women's perceptions of safety in their local area. It utilises the SCJS, where respondents were asked how safe they felt when walking alone in their local area after dark. In this sub-domain, unlike the others in this domain, the goal is to achieve gender parity between men and women; specifically, that 100% of both genders will feel completely safe in their local areas.
+
+### Safety {.tabset .tabset-fade -}
+```{r}
+var <- "safe_night"
+metadata <- all_data[[var]] %>% filter(ref_period == max(ref_period)) %>% filter(row_number() == 1)
+metadata_prev <- all_data[[var]] %>% filter(ref_period == max(ref_period[ref_period != max(ref_period)])) %>% filter(row_number() == 1)
+women_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct <- all_data[[var]] %>% filter(ref_period == max(ref_period), gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+women_pct_prev <- all_data[[var]] %>% filter(ref_period == max(ref_period[ref_period != max(ref_period)]), gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_pct_prev <- all_data[[var]] %>% filter(ref_period == max(ref_period[ref_period != max(ref_period)]), gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+women_0809 <- all_data[[var]] %>% filter(ref_period == "2008/09", gender == "women") %>% pull(value) %>% comma(1, suffix = "%")
+men_0809 <- all_data[[var]] %>% filter(ref_period == "2008/09", gender == "men") %>% pull(value) %>% comma(1, suffix = "%")
+
+```
+
+This sub-domain measures women's perceptions of safety and fears about crime in their local area. It utilises the [`r metadata[["source"]]`](`r metadata[["link"]]`), where respondents were asked how safe they felt when walking alone in their local area after dark.
+
+Women have consistently felt less safe than men over the last 10 years, and in `r metadata[["ref_period"]]`, two thirds (`r women_pct`) of women stated that they felt safe walking alone in their local area after dark compared to almost nine tenths (`r men_pct`) of men. Nonetheless, over the last 10 years the trend for both sexes has been to feel more safe over time  -`r women_0809` of women and `r men_0809` of men felt safe walking alone in the local area after dark in 2008/09, a change of 11 and 10 percentage points respectively. 
+
+
+#### Chart{-}
+
+```{r, out.width='100%'}
+all_data[[var]] %>% pull(title_text) %>% first() %>% create_html()
+plots[[var]]
+data[[var]] %>% pull(source_text) %>% first() %>% create_html()
+```
+
+#### Intersectionality{-}
+
+SCJS 2017/18 found that those living in the 15% most deprived areas of Scotland, older adults, and victims of crime were less likely to report feeling safe in 2017/18 than comparator groups.
+
+#### Methodology{-}
+
+Data for this indicator is drawn from the interviewer-led section of the [`r metadata[["source"]]`](`r metadata[["link"]]`), as opposed to the self-completion section. This element was completed using Computer-Assisted Personal Interviewing (CAPI). Rather than combining the 2016/17 and 2017/18 SCJS data this indicator focuses solely on the 2017/18 [SCJS](https://www.gov.scot/publications/scottish-crime-justice-survey-2017-18-main-findings/pages/13/) data. The sample size for the 2017/18 survey was 5,537.
+
+
+
+
+
+
